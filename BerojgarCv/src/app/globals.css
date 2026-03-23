@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+:root {
+  --dhaka-crimson:  #C0392B;
+  --dhaka-deep:     #7D1E15;
+  --dhaka-gold:     #D4870C;
+  --dhaka-amber:    #E8A020;
+  --dhaka-saffron:  #C96A12;
+
+  --ground-ink:     #0E0B07;
+  --ground-deep:    #181208;
+  --ground-mid:     #221A0F;
+  --ground-lift:    #2E2214;
+  --ground-rim:     #3D2E1A;
+
+  --text-bright:    #F5EFE6;
+  --text-body:      #C4B49A;
+  --text-muted:     #8A7560;
+  --text-ghost:     #4D3E2E;
+
+  --success:        #3D8A4A;
+  --warning:        #C47C1A;
+  --error:          #B53A2A;
+
+  --shadow-card:    0 2px 16px rgba(14,11,7,0.6), 0 1px 3px rgba(14,11,7,0.4);
+  --shadow-modal:   0 24px 80px rgba(14,11,7,0.8), 0 4px 20px rgba(192,57,43,0.1);
+  --shadow-glow:    0 0 32px rgba(192,57,43,0.25);
+
+  --r-sm:   4px;
+  --r-md:   8px;
+  --r-lg:   14px;
+  --r-pill: 999px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--ground-ink);
+  color: var(--text-body);
+  font-family: var(--font-jakarta), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+/* Focus ring override — never the blue browser default */
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(212, 135, 12, 0.12);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ground-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ground-rim);
+  border-radius: var(--r-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-ghost);
+}
+
+/* Selection */
+::selection {
+  background: rgba(192, 57, 43, 0.3);
+  color: var(--text-bright);
+}
+
+/* Anchor reset */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Button reset */
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  color: inherit;
+}
+
+/* Input reset */
+input,
+textarea,
+select {
+  font-family: inherit;
+  color: inherit;
+}
