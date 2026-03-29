@@ -39,7 +39,7 @@ export function TagInput({ tags, onChange, placeholder = 'Type skill + Enter', c
 
   return (
     <div className={cn(
-      "flex flex-wrap gap-2 p-2 border border-slate-200 rounded-lg bg-white focus-within:ring-2 focus-within:ring-amber-500/20 focus-within:border-amber-500 transition-all",
+      "flex flex-wrap gap-2 p-2 border border-slate-200 rounded-lg bg-white focus-within:ring-2 focus-within:ring-[rgba(192,57,43,0.15)] focus-within:border-[rgba(192,57,43,0.30)] transition-all",
       className
     )}>
       <AnimatePresence>
@@ -49,12 +49,12 @@ export function TagInput({ tags, onChange, placeholder = 'Type skill + Enter', c
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            className="flex items-center gap-1 px-3 py-1 bg-amber-50 border border-amber-100 text-amber-900 rounded-full text-sm font-medium"
+            className="flex items-center gap-1 px-3 py-1 bg-[rgba(192,57,43,0.15)] border border-[rgba(192,57,43,0.30)] text-slate-800 rounded-full text-sm font-medium"
           >
             {tag}
             <button
               onClick={() => removeTag(tag)}
-              className="p-0.5 hover:bg-amber-200/50 rounded-full transition-colors"
+              className="p-0.5 hover:bg-[rgba(192,57,43,0.2)] rounded-full transition-colors"
             >
               <X size={14} />
             </button>

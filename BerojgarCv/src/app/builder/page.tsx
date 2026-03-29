@@ -4,7 +4,7 @@ import BuilderLayout from '@/components/builder/BuilderLayout'
 
 // Mock feature flag read since we don't have LaunchDarkly yet
 const getFeatureFlags = () => {
-  return { pdfEnabled: false, aiEnabled: false }
+  return { pdfEnabled: true, aiEnabled: true }
 }
 
 export default async function BuilderPage(props: { searchParams: Promise<{ template?: string }> }) {

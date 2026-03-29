@@ -5,9 +5,10 @@ import { UserButton } from '@clerk/nextjs'
 import { DhakaLogo } from '@/components/dhaka'
 import { DhakaBorder } from '@/components/dhaka'
 import { ATSBadge } from '../ui/ATSBadge'
-import { Palette, Link2, Download } from 'lucide-react'
+import { Palette, Link2, Download, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { TemplateSwitcherModal } from '../ui/TemplateSwitcherModal'
+import { useToast } from '../ui/Toast'
 
 const TEMPLATE_NAMES: Record<string, string> = {
   t1: 'Dhaka Heritage',
@@ -20,8 +21,37 @@ const TEMPLATE_NAMES: Record<string, string> = {
 }
 
 export function BuilderToolbar() {
-  const { templateId, atsScore, isSaving } = useCVStore()
+  const { cvData, templateId, atsScore, isSaving, cvId } = useCVStore()
   const [showSwitcher, setShowSwitcher] = useState(false)
+  const [pdfLoading, setPdfLoading] = useState(false)
+  const toast = useToast()
+
+  async function handleDownload() {
+    setPdfLoading(true)
+    try {
+      const res = await fetch('/api/pdf/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cvData, templateId }),
+      })
+      if (!res.ok) throw new Error(await res.text())
+      
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      const nameStr = cvData.personal.fullName.replace(/\s+/g, '-').toLowerCase() || 'download'
+      a.download = `berojgar-cv-${nameStr}.pdf`
+      a.click()
+      URL.revokeObjectURL(url)
+      
+      toast.success('PDF downloaded successfully.')
+    } catch (err) {
+      toast.error('PDF generation failed. Please try again.')
+    } finally {
+      setPdfLoading(false)
+    }
+  }
 
   return (
     <>
@@ -67,11 +97,12 @@ export function BuilderToolbar() {
               <span className="hidden lg:inline">Share</span>
             </button>
             <button 
-              className="flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-[var(--dhaka-crimson)] hover:bg-[var(--dhaka-crimson-hover)] text-white rounded-lg transition-colors cursor-not-allowed opacity-50 shadow-sm"
-              title="Coming in Phase 3"
+              onClick={handleDownload}
+              disabled={pdfLoading}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-[var(--dhaka-crimson)] hover:bg-[var(--dhaka-crimson-hover)] text-white rounded-lg transition-colors shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              <Download size={16} />
-              <span className="hidden sm:inline">Download PDF</span>
+              {pdfLoading ? <Loader2 size={16} className="animate-spin" /> : <Download size={16} />}
+              <span className="hidden sm:inline">{pdfLoading ? 'Generating...' : 'Download PDF'}</span>
             </button>
           </div>
 

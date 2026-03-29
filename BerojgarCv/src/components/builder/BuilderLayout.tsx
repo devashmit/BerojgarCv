@@ -5,6 +5,7 @@ import { BuilderToolbar } from './BuilderToolbar'
 import { FormPanel } from './FormPanel'
 import { PreviewPanel } from './PreviewPanel'
 
+import { useUser } from '@clerk/nextjs'
 import { useCVStore } from '@/store/cvStore'
 
 export default function BuilderLayout({ 
@@ -16,13 +17,36 @@ export default function BuilderLayout({
 }) {
   const [isMobile, setIsMobile] = useState(false)
   const [mobileTab, setMobileTab] = useState<'edit' | 'preview'>('edit')
-  const { setTemplate } = useCVStore()
+  const { setTemplate, isDirty, saveToDB } = useCVStore()
+  const { isSignedIn } = useUser()
 
+  // Set template on load
   useEffect(() => {
     if (initialTemplateId) {
       setTemplate(initialTemplateId)
     }
   }, [initialTemplateId, setTemplate])
+
+  // Auto-save: 5 seconds after last edit, only if signed in
+  useEffect(() => {
+    if (!isDirty || !isSignedIn) return
+    const timer = setTimeout(() => {
+      saveToDB()
+    }, 5000)
+    return () => clearTimeout(timer)
+  }, [isDirty, isSignedIn, saveToDB])
+
+  // Warn on close if unsaved changes exist
+  useEffect(() => {
+    const handler = (e: BeforeUnloadEvent) => {
+      if (isDirty) {
+        e.preventDefault()
+        e.returnValue = ''
+      }
+    }
+    window.addEventListener('beforeunload', handler)
+    return () => window.removeEventListener('beforeunload', handler)
+  }, [isDirty])
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768)

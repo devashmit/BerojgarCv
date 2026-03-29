@@ -4,6 +4,12 @@ import { useCVStore } from '@/store/cvStore'
 import { SectionTabs } from './SectionTabs'
 import { motion, AnimatePresence } from 'framer-motion'
 import { PersonalForm } from './forms/PersonalForm'
+import { EducationForm } from './forms/EducationForm'
+import { ExperienceForm } from './forms/ExperienceForm'
+import { SkillsForm } from './forms/SkillsForm'
+import { LanguagesForm } from './forms/LanguagesForm'
+import { CertificationsForm } from './forms/CertificationsForm'
+import { ReferencesForm } from './forms/ReferencesForm'
 
 export function FormPanel() {
   const { activeSection } = useCVStore()
@@ -27,11 +33,12 @@ export function FormPanel() {
           >
             <div className="w-full">
               {activeSection === 'personal' && <PersonalForm />}
-              {activeSection !== 'personal' && (
-                <div style={{ padding: 24, color: "var(--text-muted)", fontFamily: "var(--font-jakarta)" }}>
-                  {sectionName} form — coming in Phase 3
-                </div>
-              )}
+              {activeSection === 'education' && <EducationForm />}
+              {activeSection === 'experience' && <ExperienceForm />}
+              {activeSection === 'skills' && <SkillsForm />}
+              {activeSection === 'languages' && <LanguagesForm />}
+              {activeSection === 'certifications' && <CertificationsForm />}
+              {activeSection === 'references' && <ReferencesForm />}
             </div>
           </motion.div>
         </AnimatePresence>

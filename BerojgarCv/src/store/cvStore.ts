@@ -42,6 +42,7 @@ interface CVStore {
   removeLanguage: (index: number) => void
 
   addCertification: (cert: string) => void
+  updateCertification: (index: number, value: string) => void
   removeCertification: (index: number) => void
 
   addReference: () => void
@@ -205,6 +206,13 @@ export const useCVStore = create<CVStore>()(
       recalc(state)
     }),
 
+    updateCertification: (index, value) => set(state => {
+      if (index >= 0 && index < state.cvData.certifications.length) {
+        state.cvData.certifications[index] = value
+        recalc(state)
+      }
+    }),
+
     removeCertification: (index) => set(state => {
       state.cvData.certifications.splice(index, 1)
       recalc(state)
@@ -240,20 +248,12 @@ export const useCVStore = create<CVStore>()(
     // DB stubs — wired to API routes in Phase 4
     saveToDB: async () => {
       set(state => { state.isSaving = true })
-      const { cvData, templateId, cvId } = get()
       try {
-        const res = await fetch('/api/cv/save', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            cvData, templateId, cvId,
-            title: cvData.personal.fullName || 'My CV',
-          }),
-        })
-        const data = await res.json()
+        // Phase 3 Stub: delay 1s to show saving state, then console log
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        console.log('[Phase 3] Auto-save stub called. DB persistence coming in Phase 4.')
+        
         set(state => {
-          state.cvId = data.cvId
-          state.shareId = data.shareId
           state.isDirty = false
           state.isSaving = false
         })
