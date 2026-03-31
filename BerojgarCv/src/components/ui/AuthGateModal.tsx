@@ -42,7 +42,7 @@ export function AuthGateModal({ isOpen, onClose }: AuthGateModalProps) {
               left: '50%',
               transform: 'translate(-50%, -50%)',
               zIndex: 201,
-              width: '100%',
+              width: 'calc(100% - 32px)',
               maxWidth: '400px',
             }}
           >

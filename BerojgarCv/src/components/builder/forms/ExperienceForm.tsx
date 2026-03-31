@@ -77,7 +77,7 @@ export function ExperienceForm() {
           </button>
 
           <div className="pl-6 pt-2 space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Job Title</label>
                 <input 
@@ -98,7 +98,7 @@ export function ExperienceForm() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Location</label>
                 <input 
@@ -108,8 +108,8 @@ export function ExperienceForm() {
                   className="w-full px-3 py-2 bg-white border border-slate-200 rounded text-sm focus:border-amber-500 outline-none transition-colors"
                 />
               </div>
-              <div className="flex gap-4 items-end">
-                <div className="space-y-1.5 flex-1">
+              <div className="flex flex-col sm:flex-row gap-4 sm:items-end">
+                <div className="space-y-1.5 w-full sm:flex-1">
                   <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Start Date</label>
                   <input 
                     value={exp.startDate}
@@ -118,7 +118,7 @@ export function ExperienceForm() {
                     className="w-full px-3 py-2 bg-white border border-slate-200 rounded text-sm font-mono focus:border-amber-500 outline-none transition-colors"
                   />
                 </div>
-                <div className="space-y-1.5 flex-1">
+                <div className="space-y-1.5 w-full sm:flex-1">
                   <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex justify-between">
                     End Date
                   </label>
