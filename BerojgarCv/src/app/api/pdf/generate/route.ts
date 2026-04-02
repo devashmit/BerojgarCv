@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 import { renderToBuffer } from '@react-pdf/renderer'
 import { getPDFComponent } from '@/components/cv-pdf'
+import { prisma } from '@/lib/prisma'
 import React from 'react'
 
 // PDF generation must run in Node.js environment
@@ -16,11 +17,28 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json()
-    const { cvData, templateId } = body
+    const { cvId } = body
 
-    if (!cvData || !templateId) {
-      return NextResponse.json({ error: 'cvData and templateId are required' }, { status: 400 })
+    if (!cvId) {
+      return NextResponse.json({ error: 'cvId is required' }, { status: 400 })
     }
+
+    // 1. Fetch CV and verify ownership
+    const cv = await prisma.cV.findUnique({
+      where: { id: cvId },
+      include: { user: true }
+    })
+
+    if (!cv) {
+      return NextResponse.json({ error: 'CV not found' }, { status: 404 })
+    }
+
+    if (cv.user.clerkId !== userId) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    }
+
+    const cvData = cv.data as any
+    const templateId = cv.templateId
 
     // 2. Start timer
     const start = Date.now()
@@ -34,11 +52,10 @@ export async function POST(req: Request) {
     const buffer = await renderToBuffer(element)
     const durationMs = Date.now() - start
 
-    // 5. Log to PDFLog model (Prisma placeholder for Phase 4)
-    console.log(`[PDFLog] userId: ${userId}, templateId: ${templateId}, success: true, durationMs: ${durationMs}`)
-    // await prisma.pDFLog.create({
-    //   data: { userId, templateId, success: true, durationMs }
-    // })
+    // 5. Log to PDFLog model
+    await prisma.pDFLog.create({
+      data: { userId, templateId, success: true, durationMs }
+    })
 
     // 6. Return binary response
     const name = (cvData.personal.fullName || 'download').replace(/\s+/g, '-').toLowerCase()
@@ -54,11 +71,11 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error('PDF generation error:', error)
     
-    // Log failure (Prisma placeholder)
-    // const { userId } = await auth()
-    // await prisma.pDFLog.create({
-    //   data: { userId: userId || 'anonymous', templateId: 'unknown', success: false, errorMsg: error instanceof Error ? error.message : 'Unknown' }
-    // })
+    // Log failure
+    const sesh = await auth()
+    await prisma.pDFLog.create({
+      data: { userId: sesh.userId || 'anonymous', templateId: 'unknown', success: false, errorMsg: error instanceof Error ? error.message : 'Unknown' }
+    })
 
     return NextResponse.json({ error: 'PDF generation failed' }, { status: 500 })
   }

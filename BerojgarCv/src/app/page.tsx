@@ -1,3 +1,4 @@
+import { Metadata } from 'next'
 import { Nav } from '@/components/landing/Nav'
 import { Hero } from '@/components/landing/Hero'
 import { LiveBuilderDemo } from '@/components/landing/LiveBuilderDemo'
@@ -7,6 +8,12 @@ import { HowItWorks } from '@/components/landing/HowItWorks'
 import { CTASection } from '@/components/landing/CTASection'
 import { Footer } from '@/components/landing/Footer'
 import { DhakaBorder } from '@/components/dhaka'
+
+export const metadata: Metadata = {
+  title: "बेरोजगार CV — Nepal's #1 CV Builder",
+  description: "Build a professional CV in 10 minutes with ATS-friendly templates and AI improvement.",
+  keywords: ["बेरोजगार CV", "berojgar cv", "nepal cv builder", "nepali resume builder", "rirekisho builder"],
+}
 
 export default function LandingPage() {
   return (

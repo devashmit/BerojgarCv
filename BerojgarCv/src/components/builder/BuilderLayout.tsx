@@ -10,15 +10,24 @@ import { useCVStore } from '@/store/cvStore'
 
 export default function BuilderLayout({ 
   pdfEnabled, 
-  initialTemplateId 
+  initialTemplateId,
+  cvId
 }: { 
   pdfEnabled: boolean,
-  initialTemplateId?: string
+  initialTemplateId?: string,
+  cvId?: string
 }) {
   const [isMobile, setIsMobile] = useState(false)
   const [mobileTab, setMobileTab] = useState<'edit' | 'preview'>('edit')
-  const { setTemplate, isDirty, saveToDB } = useCVStore()
+  const { setTemplate, isDirty, saveToDB, loadFromDB } = useCVStore()
   const { isSignedIn } = useUser()
+
+  // Load CV from DB if cvId is provided
+  useEffect(() => {
+    if (cvId) {
+      loadFromDB(cvId)
+    }
+  }, [cvId, loadFromDB])
 
   // Set template on load
   useEffect(() => {

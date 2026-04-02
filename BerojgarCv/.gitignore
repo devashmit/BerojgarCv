@@ -67,13 +67,22 @@ id_ed25519.pub
 *.secret
 
 # -----------------------------------------------
-# LOGS (may contain request data / stack traces)
+# LOGS & TEMP OUTPUT FILES
 # -----------------------------------------------
 *.log
 lint_output.txt
+validate_out.txt
 npm-debug.log
 yarn-debug.log
 yarn-error.log
+
+# -----------------------------------------------
+# BACKUP / TEMP FILES
+# -----------------------------------------------
+*.bak
+*.tmp
+*.orig
+*.backup
 
 # -----------------------------------------------
 # OS / EDITOR ARTIFACTS

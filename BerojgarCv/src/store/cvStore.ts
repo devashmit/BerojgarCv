@@ -248,21 +248,32 @@ export const useCVStore = create<CVStore>()(
     // DB stubs — wired to API routes in Phase 4
     saveToDB: async () => {
       set(state => { state.isSaving = true })
+      const { cvData, templateId, cvId } = get()
       try {
-        // Phase 3 Stub: delay 1s to show saving state, then console log
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        console.log('[Phase 3] Auto-save stub called. DB persistence coming in Phase 4.')
-        
+        const res = await fetch('/api/cv/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            cvData,
+            templateId,
+            cvId,
+            title: (cvData.personal as any).fullName || 'My CV',
+          }),
+        })
+        const data = await res.json()
         set(state => {
+          state.cvId = data.cvId
+          state.shareId = data.shareId
           state.isDirty = false
           state.isSaving = false
         })
       } catch {
         set(state => { state.isSaving = false })
+        // Toast shown by the component that triggered saveToDB
       }
     },
 
-    loadFromDB: async (cvId) => {
+    loadFromDB: async (cvId: string) => {
       const res = await fetch(`/api/cv/${cvId}`)
       const data = await res.json()
       set(state => {

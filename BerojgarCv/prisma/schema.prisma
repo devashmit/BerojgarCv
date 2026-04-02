@@ -20,7 +20,11 @@ model User {
   cvs           CV[]
 }
 
-enum Plan { FREE PRO TEAM }
+enum Plan {
+  FREE
+  PRO
+  TEAM
+}
 
 model CV {
   id         String   @id @default(cuid())

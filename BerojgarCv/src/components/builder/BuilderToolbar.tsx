@@ -21,18 +21,31 @@ const TEMPLATE_NAMES: Record<string, string> = {
 }
 
 export function BuilderToolbar() {
-  const { cvData, templateId, atsScore, isSaving, cvId } = useCVStore()
+  const { cvData, templateId, atsScore, isSaving, cvId, shareId, saveToDB } = useCVStore()
   const [showSwitcher, setShowSwitcher] = useState(false)
   const [pdfLoading, setPdfLoading] = useState(false)
+  const [shareLoading, setShareLoading] = useState(false)
   const toast = useToast()
 
   async function handleDownload() {
+    let currentId = cvId
+    if (!currentId) {
+      toast.info('Saving your CV before download...')
+      await saveToDB()
+      currentId = useCVStore.getState().cvId
+    }
+
+    if (!currentId) {
+      toast.error('Could not save CV. Please try again.')
+      return
+    }
+
     setPdfLoading(true)
     try {
       const res = await fetch('/api/pdf/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cvData, templateId }),
+        body: JSON.stringify({ cvId: currentId }),
       })
       if (!res.ok) throw new Error(await res.text())
       
@@ -40,7 +53,7 @@ export function BuilderToolbar() {
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      const nameStr = cvData.personal.fullName.replace(/\s+/g, '-').toLowerCase() || 'download'
+      const nameStr = (cvData.personal.fullName || 'download').replace(/\s+/g, '-').toLowerCase()
       a.download = `berojgar-cv-${nameStr}.pdf`
       a.click()
       URL.revokeObjectURL(url)
@@ -50,6 +63,30 @@ export function BuilderToolbar() {
       toast.error('PDF generation failed. Please try again.')
     } finally {
       setPdfLoading(false)
+    }
+  }
+
+  async function handleShare() {
+    let currentShareId = shareId
+    if (!currentShareId) {
+      setShareLoading(true)
+      toast.info('Generating share link...')
+      await saveToDB()
+      currentShareId = useCVStore.getState().shareId
+      setShareLoading(false)
+    }
+
+    if (!currentShareId) {
+      toast.error('Could not generate share link. Please try again.')
+      return
+    }
+
+    const url = `${window.location.origin}/preview/${currentShareId}`
+    try {
+      await navigator.clipboard.writeText(url)
+      toast.success('Link copied! Anyone with this link can view your CV.')
+    } catch {
+      toast.error('Could not copy link. Please manually copy: ' + url)
     }
   }
 
@@ -90,11 +127,12 @@ export function BuilderToolbar() {
               <span className="hidden lg:inline">Templates</span>
             </button>
             <button 
-              className="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors cursor-not-allowed opacity-50"
-              title="Coming in Phase 4"
+              onClick={handleShare}
+              disabled={shareLoading}
+              className="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-50"
             >
-              <Link2 size={16} />
-              <span className="hidden lg:inline">Share</span>
+              {shareLoading ? <Loader2 size={16} className="animate-spin" /> : <Link2 size={16} />}
+              <span className="hidden lg:inline">{shareLoading ? 'Generating...' : 'Share'}</span>
             </button>
             <button 
               onClick={handleDownload}
