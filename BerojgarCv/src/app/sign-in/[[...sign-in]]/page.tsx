@@ -40,6 +40,11 @@ export default function SignInPage() {
       >
         <DhakaBorder height={8} />
         <SignIn
+          routing="path"
+          path="/sign-in"
+          signUpUrl="/sign-up"
+          afterSignInUrl="/dashboard"
+          afterSignUpUrl="/dashboard"
           appearance={{
             elements: {
               rootBox: { width: '100%' },
