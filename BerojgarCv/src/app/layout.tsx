@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Fraunces, Plus_Jakarta_Sans, DM_Mono, Tiro_Devanagari_Hindi, Noto_Serif_JP } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 import { ToastContainer } from '@/components/ui/Toast'
+import { MaintenanceBanner } from '@/components/ui/MaintenanceBanner'
 import './globals.css'
 
 const fraunces = Fraunces({
@@ -69,6 +70,7 @@ export default function RootLayout({
     >
       <body>
         <ToastContainer>
+          <MaintenanceBanner />
           {children}
         </ToastContainer>
       </body>

@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "postinstall": "prisma generate",
+    "seed:flags": "npx ts-node --project tsconfig.json scripts/seed-flags.ts",
+    "db:migrate": "prisma migrate deploy"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.80.0",
@@ -22,6 +25,7 @@
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "recharts": "^2.15.3",
     "tailwind-merge": "^3.5.0",
     "zustand": "^5.0.11"
   },

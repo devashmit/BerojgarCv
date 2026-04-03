@@ -64,6 +64,11 @@ export async function POST(req: NextRequest) {
           title
         }
       })
+
+      // AuditLog — non-blocking
+      prisma.auditLog.create({
+        data: { userId, action: 'cv.create', metadata: { cvId: cv.id, templateId } },
+      }).catch(() => {})
     }
 
     return NextResponse.json({ 

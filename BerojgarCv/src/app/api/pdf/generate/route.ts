@@ -3,14 +3,18 @@ import { NextResponse } from 'next/server'
 import { renderToBuffer } from '@react-pdf/renderer'
 import { getPDFComponent } from '@/components/cv-pdf'
 import { prisma } from '@/lib/prisma'
+import { isEnabled } from '@/lib/featureFlags'
 import React from 'react'
 
-// PDF generation must run in Node.js environment
-// Vercel Edge has a strict 25s execution limit and lacks many native Node bindings needed by @react-pdf/renderer
 export const runtime = 'nodejs'
 
 export async function POST(req: Request) {
   try {
+    // Feature flag gate
+    if (!(await isEnabled('pdf_download_enabled'))) {
+      return NextResponse.json({ error: 'PDF downloads are temporarily disabled.' }, { status: 503 })
+    }
+
     const { userId } = await auth()
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -56,6 +60,11 @@ export async function POST(req: Request) {
     await prisma.pDFLog.create({
       data: { userId, templateId, success: true, durationMs }
     })
+
+    // 6. AuditLog — non-blocking
+    prisma.auditLog.create({
+      data: { userId, action: 'pdf.download', metadata: { cvId, templateId } },
+    }).catch(() => {})
 
     // 6. Return binary response
     const name = (cvData.personal.fullName || 'download').replace(/\s+/g, '-').toLowerCase()

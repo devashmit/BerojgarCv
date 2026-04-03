@@ -11,13 +11,14 @@ import { T4Thumb } from '../cv-templates/T4Thumb'
 import { T5Thumb } from '../cv-templates/T5Thumb'
 import { T6Thumb } from '../cv-templates/T6Thumb'
 import { T7Thumb } from '../cv-templates/T7Thumb'
+import { useState, useEffect } from 'react'
 
 interface TemplateSwitcherModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const TEMPLATES = [
+const ALL_TEMPLATES = [
   { id: 't1', thumb: T1Thumb, name: 'Dhaka Heritage' },
   { id: 't2', thumb: T2Thumb, name: 'Himalaya Modern' },
   { id: 't3', thumb: T3Thumb, name: "Jake's Resume" },
@@ -29,6 +30,15 @@ const TEMPLATES = [
 
 export function TemplateSwitcherModal({ isOpen, onClose }: TemplateSwitcherModalProps) {
   const { templateId, setTemplate } = useCVStore()
+  const [t7Enabled, setT7Enabled] = useState(true)
+
+  useEffect(() => {
+    fetch('/api/flags').then(r => r.json()).then(data => {
+      setT7Enabled(data.t7_rirekisho_enabled ?? true)
+    }).catch(() => {})
+  }, [])
+
+  const templates = ALL_TEMPLATES.filter(t => t.id !== 't7' || t7Enabled)
 
   return (
     <AnimatePresence>
@@ -57,7 +67,7 @@ export function TemplateSwitcherModal({ isOpen, onClose }: TemplateSwitcherModal
             {/* Grid Map */}
             <div className="p-6 overflow-y-auto bg-gray-50 flex-1">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {TEMPLATES.map((tpl) => {
+                {templates.map((tpl) => {
                   const Thumb = tpl.thumb
                   const isSelected = templateId === tpl.id
                   

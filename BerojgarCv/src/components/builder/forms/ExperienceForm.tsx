@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useCVStore } from '@/store/cvStore'
 import { GripVertical, X, Plus, Sparkles, Loader2, CheckCircle2, XCircle } from 'lucide-react'
 import { useToast } from '@/components/ui/Toast'
@@ -7,6 +7,13 @@ export function ExperienceForm() {
   const { cvData, templateId, addExperience, updateExperience, removeExperience, addBullet, updateBullet, removeBullet } = useCVStore()
   const { experience } = cvData
   const toast = useToast()
+  const [aiEnabled, setAiEnabled] = useState(true)
+
+  useEffect(() => {
+    fetch('/api/flags').then(r => r.json()).then(data => {
+      setAiEnabled(data.ai_improvement_enabled ?? true)
+    }).catch(() => {})
+  }, [])
 
   const [aiLoading, setAiLoading] = useState<Record<string, boolean>>({})
   const [aiSuccess, setAiSuccess] = useState<Record<string, boolean>>({})
@@ -182,7 +189,8 @@ export function ExperienceForm() {
                           <GripVertical size={14} />
                         </div>
                         
-                        {/* AI Improve Button Overlay */}
+                        {/* AI Improve Button Overlay — hidden when flag is off */}
+                        {aiEnabled && (
                         <div className="absolute right-2 bottom-2">
                           <button
                             onClick={() => handleImproveBullet(exp.id, bIndex, bullet, exp.title)}
@@ -202,6 +210,7 @@ export function ExperienceForm() {
                              <Sparkles size={14} className={bullet.trim() ? 'text-amber-600' : 'text-slate-400'} />}
                           </button>
                         </div>
+                        )}
                       </div>
 
                       <button

@@ -6,9 +6,10 @@ import { DhakaLogo } from '@/components/dhaka'
 import { DhakaBorder } from '@/components/dhaka'
 import { ATSBadge } from '../ui/ATSBadge'
 import { Palette, Link2, Download, Loader2 } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { TemplateSwitcherModal } from '../ui/TemplateSwitcherModal'
 import { useToast } from '../ui/Toast'
+import { AnnouncementBanner } from '../ui/AnnouncementBanner'
 
 const TEMPLATE_NAMES: Record<string, string> = {
   t1: 'Dhaka Heritage',
@@ -25,20 +26,24 @@ export function BuilderToolbar() {
   const [showSwitcher, setShowSwitcher] = useState(false)
   const [pdfLoading, setPdfLoading] = useState(false)
   const [shareLoading, setShareLoading] = useState(false)
+  const [flags, setFlags] = useState({ pdf: true, share: true })
   const toast = useToast()
 
+  useEffect(() => {
+    fetch('/api/flags').then(r => r.json()).then(data => {
+      setFlags({ pdf: data.pdf_download_enabled ?? true, share: data.public_sharing_enabled ?? true })
+    }).catch(() => {})
+  }, [])
+
   async function handleDownload() {
+    if (!flags.pdf) { toast.error('PDF downloads are temporarily disabled.'); return }
     let currentId = cvId
     if (!currentId) {
       toast.info('Saving your CV before download...')
       await saveToDB()
       currentId = useCVStore.getState().cvId
     }
-
-    if (!currentId) {
-      toast.error('Could not save CV. Please try again.')
-      return
-    }
+    if (!currentId) { toast.error('Could not save CV. Please try again.'); return }
 
     setPdfLoading(true)
     try {
@@ -48,18 +53,15 @@ export function BuilderToolbar() {
         body: JSON.stringify({ cvId: currentId }),
       })
       if (!res.ok) throw new Error(await res.text())
-      
       const blob = await res.blob()
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      const nameStr = (cvData.personal.fullName || 'download').replace(/\s+/g, '-').toLowerCase()
-      a.download = `berojgar-cv-${nameStr}.pdf`
+      a.download = `berojgar-cv-${(cvData.personal.fullName || 'download').replace(/\s+/g, '-').toLowerCase()}.pdf`
       a.click()
       URL.revokeObjectURL(url)
-      
       toast.success('PDF downloaded successfully.')
-    } catch (err) {
+    } catch {
       toast.error('PDF generation failed. Please try again.')
     } finally {
       setPdfLoading(false)
@@ -67,26 +69,21 @@ export function BuilderToolbar() {
   }
 
   async function handleShare() {
+    if (!flags.share) { toast.error('Sharing is temporarily disabled.'); return }
     let currentShareId = shareId
     if (!currentShareId) {
       setShareLoading(true)
-      toast.info('Generating share link...')
       await saveToDB()
       currentShareId = useCVStore.getState().shareId
       setShareLoading(false)
     }
-
-    if (!currentShareId) {
-      toast.error('Could not generate share link. Please try again.')
-      return
-    }
-
+    if (!currentShareId) { toast.error('Could not generate share link.'); return }
     const url = `${window.location.origin}/preview/${currentShareId}`
     try {
       await navigator.clipboard.writeText(url)
       toast.success('Link copied! Anyone with this link can view your CV.')
     } catch {
-      toast.error('Could not copy link. Please manually copy: ' + url)
+      toast.error('Could not copy link: ' + url)
     }
   }
 
@@ -94,9 +91,9 @@ export function BuilderToolbar() {
     <>
       <div className="w-full bg-white border-b border-gray-200 flex flex-col shrink-0">
         <DhakaBorder height={3} />
-        
+        <AnnouncementBanner />
+
         <div className="h-[53px] px-4 md:px-6 flex justify-between items-center bg-white z-20">
-          
           {/* Left */}
           <div className="flex items-center gap-6">
             <DhakaLogo size={24} />
@@ -119,31 +116,32 @@ export function BuilderToolbar() {
 
           {/* Right */}
           <div className="flex items-center gap-2 sm:gap-4">
-            <button 
+            <button
               onClick={() => setShowSwitcher(true)}
               className="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <Palette size={16} />
               <span className="hidden lg:inline">Templates</span>
             </button>
-            <button 
+            <button
               onClick={handleShare}
-              disabled={shareLoading}
-              className="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-50"
+              disabled={shareLoading || !flags.share}
+              title={!flags.share ? 'Sharing is disabled' : undefined}
+              className="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {shareLoading ? <Loader2 size={16} className="animate-spin" /> : <Link2 size={16} />}
               <span className="hidden lg:inline">{shareLoading ? 'Generating...' : 'Share'}</span>
             </button>
-            <button 
+            <button
               onClick={handleDownload}
-              disabled={pdfLoading}
-              className="flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-[var(--dhaka-crimson)] hover:bg-[var(--dhaka-crimson-hover)] text-white rounded-lg transition-colors shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
+              disabled={pdfLoading || !flags.pdf}
+              title={!flags.pdf ? 'PDF downloads are disabled' : undefined}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-[var(--dhaka-crimson)] hover:opacity-90 text-white rounded-lg transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {pdfLoading ? <Loader2 size={16} className="animate-spin" /> : <Download size={16} />}
               <span className="hidden sm:inline">{pdfLoading ? 'Generating...' : 'Download PDF'}</span>
             </button>
           </div>
-
         </div>
       </div>
 
