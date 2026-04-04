@@ -7,7 +7,7 @@ export async function getFlags(): Promise<Record<string, boolean>> {
   if (Date.now() < cacheExpiry) return cache
   try {
     const flags = await prisma.featureFlag.findMany()
-    cache = Object.fromEntries(flags.map((f: { id: string; enabled: boolean }) => [f.id, f.enabled]))
+    cache = Object.fromEntries(flags.map(f => [f.id, f.enabled]))
     cacheExpiry = Date.now() + 30_000
   } catch {
     // If DB is down, return cached or defaults

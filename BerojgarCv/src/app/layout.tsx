@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Fraunces, Plus_Jakarta_Sans, DM_Mono, Tiro_Devanagari_Hindi, Noto_Serif_JP } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 import { ToastContainer } from '@/components/ui/Toast'
+import { Suspense } from 'react'
 import { MaintenanceBanner } from '@/components/ui/MaintenanceBanner'
 import './globals.css'
 
@@ -70,7 +71,9 @@ export default function RootLayout({
     >
       <body>
         <ToastContainer>
-          <MaintenanceBanner />
+          <Suspense fallback={null}>
+            <MaintenanceBanner />
+          </Suspense>
           {children}
         </ToastContainer>
       </body>
