@@ -1,8 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  // Forced reload for hydration fix
+  turbopack: {
+    root: __dirname,
+  },
 };
 
 export default nextConfig;

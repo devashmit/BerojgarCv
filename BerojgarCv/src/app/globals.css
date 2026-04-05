@@ -1,11 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --dhaka-crimson:  #C0392B;
-  --dhaka-deep:     #7D1E15;
-  --dhaka-gold:     #D4870C;
-  --dhaka-amber:    #E8A020;
-  --dhaka-saffron:  #C96A12;
+  --dhaka-crimson:       #C0392B;
+  --dhaka-crimson-hover: #A93226;
+  --dhaka-deep:          #7D1E15;
+  --dhaka-gold:          #D4870C;
+  --dhaka-amber:         #E8A020;
+  --dhaka-saffron:       #C96A12;
 
   --ground-ink:     #0E0B07;
   --ground-deep:    #181208;
@@ -108,4 +109,35 @@ textarea,
 select {
   font-family: inherit;
   color: inherit;
+}
+
+/* Utility: hide scrollbar but keep scroll */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth page transitions */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Better focus for interactive elements */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--dhaka-amber);
+  outline-offset: 2px;
+}
+
+/* Prevent layout shift from scrollbar */
+html {
+  scrollbar-gutter: stable;
 }

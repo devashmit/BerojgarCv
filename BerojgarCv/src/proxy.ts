@@ -15,7 +15,7 @@ const isAdminRoute = createRouteMatcher(['/admin(.*)', '/api/admin/(.*)'])
 
 const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 
-export default function middleware(req: any, event: any) {
+export default function proxy(req: any, event: any) {
   if (!publishableKey || publishableKey.includes('placeholder') || publishableKey.includes('...')) {
     return NextResponse.next()
   }
