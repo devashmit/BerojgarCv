@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { useCVStore } from '@/store/cvStore'
 import { TagInput } from '@/components/ui/TagInput'

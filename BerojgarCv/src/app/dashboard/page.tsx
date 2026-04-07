@@ -2,9 +2,8 @@ import { auth, currentUser } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import { DashboardGrid } from '@/components/dashboard/DashboardGrid'
-import { DhakaBorder, DhakaLogo } from '@/components/dhaka'
-import { UserButton } from '@clerk/nextjs'
-import { Plus, LayoutTemplate } from 'lucide-react'
+import { DashboardNav } from '@/components/dashboard/DashboardNav'
+import { Plus } from 'lucide-react'
 import Link from 'next/link'
 
 export const metadata = { title: 'Dashboard | BerojgarCV' }
@@ -24,28 +23,7 @@ export default async function DashboardPage() {
   return (
     <div className="min-h-screen" style={{ background: 'var(--ground-ink)' }}>
 
-      {/* Top nav */}
-      <header className="sticky top-0 z-50" style={{ background: 'rgba(14,11,7,0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid var(--ground-rim)' }}>
-        <DhakaBorder height={3} />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-          <Link href="/">
-            <DhakaLogo size={22} />
-          </Link>
-          <div className="flex items-center gap-3">
-            <Link
-              href="/templates"
-              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
-              style={{ color: 'var(--text-muted)' }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-bright)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}
-            >
-              <LayoutTemplate size={15} />
-              Templates
-            </Link>
-            <UserButton />
-          </div>
-        </div>
-      </header>
+      <DashboardNav />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
 

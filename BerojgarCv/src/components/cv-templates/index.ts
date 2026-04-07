@@ -1,3 +1,4 @@
+import React from 'react'
 import { T1DhakaHeritage } from './T1DhakaHeritage'
 import { T2HimalayaModern } from './T2HimalayaModern'
 import { T3JakesResume } from './T3JakesResume'

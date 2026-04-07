@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { useCVStore } from '@/store/cvStore'
 import { GripVertical, X, Plus } from 'lucide-react'
