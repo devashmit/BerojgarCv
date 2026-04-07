@@ -81,7 +81,7 @@ export default function RootLayout({
   )
 
   if (!publishableKey || publishableKey.includes('placeholder') || publishableKey.includes('...')) {
-    return content
+    console.warn("WARNING: Using a placeholder missing Clerk Publishable Key. Authentication will not work properly.");
   }
 
   return (
