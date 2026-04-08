@@ -101,7 +101,7 @@ export default function BuilderLayout({
         )}
 
         {(!isMobile || mobileTab === 'preview') && (
-          <div className={`${isMobile ? 'inset-0 absolute' : 'flex-1'} h-full overflow-hidden bg-[#161616]`}>
+          <div className={`${isMobile ? 'inset-0 absolute' : 'flex-1'} h-full overflow-y-auto bg-[#161616]`}>
             <PreviewPanel isMobile={isMobile} />
           </div>
         )}

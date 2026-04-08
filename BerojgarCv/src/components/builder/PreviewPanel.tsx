@@ -5,49 +5,60 @@ import { getTemplateComponent } from '../cv-templates'
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 
+const A4_WIDTH_PX = 794
+const A4_HEIGHT_PX = 1123
+
 export function PreviewPanel({ isMobile }: { isMobile?: boolean }) {
   const { cvData, templateId } = useCVStore()
   const TemplateComponent = getTemplateComponent(templateId)
-  
+
   const containerRef = useRef<HTMLDivElement>(null)
-  const [scale, setScale] = useState(1)
+  const [scale, setScale] = useState(0.75)
 
   useEffect(() => {
-    if (!isMobile) {
-      setScale(1)
-      return
-    }
     const updateScale = () => {
-      if (containerRef.current) {
-         // A4 width in pixels at standard 96dpi is 794. 
-         // We do windowWidth / 794 minus a little padding
-         const windowWidth = containerRef.current.clientWidth
-         const padding = 32
-         const availableWidth = windowWidth - padding
-         const targetScale = Math.min(1, availableWidth / 794)
-         setScale(targetScale)
-      }
+      if (!containerRef.current) return
+      const containerWidth = containerRef.current.clientWidth
+      const containerHeight = containerRef.current.clientHeight
+      const scaleByWidth = (containerWidth - 48) / A4_WIDTH_PX
+      const scaleByHeight = (containerHeight - 64) / A4_HEIGHT_PX
+      setScale(Math.min(scaleByWidth, scaleByHeight, 1))
     }
+
     updateScale()
-    window.addEventListener('resize', updateScale)
-    return () => window.removeEventListener('resize', updateScale)
-  }, [isMobile])
+    const ro = new ResizeObserver(updateScale)
+    if (containerRef.current) ro.observe(containerRef.current)
+    return () => ro.disconnect()
+  }, [])
+
+  const scaledWidth = A4_WIDTH_PX * scale
+  const scaledHeight = A4_HEIGHT_PX * scale
 
   return (
-    <div ref={containerRef} className="w-full h-full overflow-y-auto no-scrollbar py-8 sm:py-12 flex justify-center items-start">
-      <div 
-        className="origin-top" 
-        style={{ transform: `scale(${scale})`, marginBottom: `${(scale - 1) * 1123}px` }}
-      >
-        <motion.div
-           key={templateId}
-           initial={{ opacity: 0, y: 10 }}
-           animate={{ opacity: 1, y: 0 }}
-           transition={{ duration: 0.3 }}
-           className="shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] bg-white w-[210mm] min-h-[297mm] mx-auto"
+    <div
+      ref={containerRef}
+      className="w-full h-full overflow-y-auto no-scrollbar flex justify-center items-start py-8"
+    >
+      {/* Shrink-wrapper: takes up exactly the scaled footprint so the page centres correctly */}
+      <div style={{ width: scaledWidth, height: scaledHeight, flexShrink: 0 }}>
+        <div
+          style={{
+            width: A4_WIDTH_PX,
+            height: A4_HEIGHT_PX,
+            transform: `scale(${scale})`,
+            transformOrigin: 'top left',
+          }}
         >
-          <TemplateComponent cvData={cvData} />
-        </motion.div>
+          <motion.div
+            key={templateId}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] bg-white w-[794px] min-h-[1123px]"
+          >
+            <TemplateComponent cvData={cvData} />
+          </motion.div>
+        </div>
       </div>
     </div>
   )
