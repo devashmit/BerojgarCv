@@ -1,6 +1,10 @@
 import type { CVData } from '@/types/cv'
 
-export const defaultCVData: CVData = {
+/**
+ * Rich sample data used ONLY for landing-page demos and template previews.
+ * The live builder always starts from blankCVData — never this.
+ */
+export const demoCVData: CVData = {
   personal: {
     fullName: 'Arjun Sharma',
     jobTitle: 'Software Engineer',
@@ -50,3 +54,6 @@ export const defaultCVData: CVData = {
   references: [],
   referencesOnRequest: true,
 }
+
+/** @deprecated Use demoCVData for demos, blankCVData for new sessions */
+export const defaultCVData = demoCVData

@@ -3,7 +3,7 @@
 import { create } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 import { calculateATS } from '@/lib/atsCalculator'
-import { defaultCVData } from '@/lib/defaultCVData'
+import { blankCVData } from '@/lib/blankCVData'
 import type { CVData, EducationEntry, ExperienceEntry, LanguageEntry, ReferenceEntry } from '@/types/cv'
 
 interface CVStore {
@@ -15,6 +15,8 @@ interface CVStore {
   atsScore: number
   isDirty: boolean
   isSaving: boolean
+  /** Tracks which Clerk userId loaded this store — used to detect cross-user contamination */
+  loadedUserId: string | null
 
   updatePersonal: (field: keyof CVData['personal'], value: string | number | boolean | undefined) => void
   setTemplate: (id: string) => void
@@ -50,8 +52,14 @@ interface CVStore {
   removeReference: (id: string) => void
   toggleReferencesOnRequest: () => void
 
+  /**
+   * Wipes all CV state back to an empty slate.
+   * Called on login, user switch, and logout (SPA session) to prevent data leakage.
+   */
+  resetToBlank: (userId?: string | null) => void
+
   saveToDB: () => Promise<void>
-  loadFromDB: (cvId: string) => Promise<void>
+  loadFromDB: (cvId: string, currentUserId?: string) => Promise<void>
 }
 
 // ATS score must stay in sync with data — recalculate after every mutation
@@ -62,7 +70,8 @@ function recalc(state: CVStore) {
 
 export const useCVStore = create<CVStore>()(
   immer((set, get) => ({
-    cvData: defaultCVData,
+    // ✅ Always blank on module load — no pre-filled user data ever
+    cvData: blankCVData,
     templateId: 't3',
     activeSection: 'personal',
     cvId: null,
@@ -70,6 +79,7 @@ export const useCVStore = create<CVStore>()(
     atsScore: 0,
     isDirty: false,
     isSaving: false,
+    loadedUserId: null,
 
     updatePersonal: (field, value) => set(state => {
       (state.cvData.personal as Record<string, unknown>)[field] = value
@@ -245,7 +255,20 @@ export const useCVStore = create<CVStore>()(
       recalc(state)
     }),
 
-    // DB stubs — wired to API routes in Phase 4
+    // ─── SECURITY: Reset to blank ───────────────────────────────────────────
+    resetToBlank: (userId = null) => set(state => {
+      state.cvData = blankCVData as typeof state.cvData
+      state.templateId = 't3'
+      state.activeSection = 'personal'
+      state.cvId = null
+      state.shareId = null
+      state.atsScore = 0
+      state.isDirty = false
+      state.isSaving = false
+      state.loadedUserId = userId
+    }),
+
+    // ─── DB operations ─────────────────────────────────────────────────────
     saveToDB: async () => {
       set(state => { state.isSaving = true })
       const { cvData, templateId, cvId } = get()
@@ -257,7 +280,7 @@ export const useCVStore = create<CVStore>()(
             cvData,
             templateId,
             cvId,
-            title: (cvData.personal as any).fullName || 'My CV',
+            title: (cvData.personal as Record<string, unknown>).fullName || 'My CV',
           }),
         })
         const data = await res.json()
@@ -269,18 +292,31 @@ export const useCVStore = create<CVStore>()(
         })
       } catch {
         set(state => { state.isSaving = false })
-        // Toast shown by the component that triggered saveToDB
       }
     },
 
-    loadFromDB: async (cvId: string) => {
+    loadFromDB: async (cvId: string, currentUserId?: string) => {
       const res = await fetch(`/api/cv/${cvId}`)
+      if (!res.ok) {
+        let errText = await res.text().catch(() => '')
+        console.error(`[CVStore] loadFromDB: API returned ${res.status} for cvId=${cvId}. Details:`, errText)
+        return
+      }
       const data = await res.json()
       set(state => {
+        // Security assertion — loaded CV must belong to the requesting user
+        if (currentUserId && data.ownerId && data.ownerId !== currentUserId) {
+          console.error(
+            `[CVStore] SECURITY: loaded CV userId mismatch! ` +
+            `Expected ${currentUserId}, got ${data.ownerId}. Aborting load.`
+          )
+          return
+        }
         state.cvData = data.cvData
         state.templateId = data.templateId
         state.cvId = cvId
         state.shareId = data.shareId
+        state.loadedUserId = currentUserId ?? null
         state.atsScore = calculateATS(data.cvData, data.templateId)
         state.isDirty = false
       })

@@ -2,160 +2,145 @@
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer'
 import { CVData } from '@/types/cv'
 
-const styles = StyleSheet.create({
-  page: { flexDirection: 'row', backgroundColor: '#FFFFFF' },
-  sidebar: { width: 180, backgroundColor: '#2D4739', color: '#FFFFFF', padding: 25, paddingTop: 40 },
-  main: { flex: 1, padding: 35, paddingTop: 40, position: 'relative' },
-  
-  initialBox: { width: 60, height: 60, backgroundColor: 'rgba(255,255,255,0.1)', border: 1, borderColor: 'rgba(255,255,255,0.2)', alignSelf: 'center', marginBottom: 25, transform: 'rotate(45deg)', justifyContent: 'center', alignItems: 'center' },
-  initialText: { fontSize: 18, fontWeight: 'bold', color: '#FFFFFF', transform: 'rotate(-45deg)' },
-  
-  name: { fontSize: 16, fontWeight: 'bold', textAlign: 'center', marginBottom: 6, textTransform: 'uppercase' },
-  title: { fontSize: 10, color: '#A5C9B3', textAlign: 'center', marginBottom: 30, paddingBottom: 20, borderBottom: 1, borderBottomColor: 'rgba(255,255,255,0.1)' },
-  
-  sideSection: { marginBottom: 25 },
-  sideTitle: { fontSize: 9, fontWeight: 'bold', uppercase: true, color: '#A5C9B3', marginBottom: 10, letterSpacing: 1 },
-  contactItem: { flexDirection: 'row', marginBottom: 8 },
-  contactDot: { fontSize: 8, color: '#A5C9B3', width: 10 },
-  contactText: { fontSize: 8.5, color: '#FFFFFF', flex: 1 },
+const GREEN = '#2D4739'
+const LG = '#A5C9B3'
 
-  skillWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 4 },
-  skillPill: { backgroundColor: 'rgba(255,255,255,0.1)', paddingHorizontal: 6, paddingVertical: 3, borderRadius: 10, border: 1, borderColor: 'rgba(255,255,255,0.05)', fontSize: 8 },
-
-  langItem: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 },
-  langText: { fontSize: 9, color: '#FFFFFF' },
-  langDots: { flexDirection: 'row', gap: 2 },
-  langDotFill: { width: 4, height: 4, borderRadius: 2, backgroundColor: '#A5C9B3' },
-  langDotEmpty: { width: 4, height: 4, borderRadius: 2, backgroundColor: 'rgba(255,255,255,0.2)' },
-
-  topLineBg: { position: 'absolute', top: 0, left: 0, right: 0, height: 6, backgroundColor: '#6EB38A' },
-  
-  summaryBox: { borderLeft: 3, borderLeftColor: '#A5C9B3', paddingLeft: 12, paddingVertical: 2, marginBottom: 25 },
-  summaryText: { fontSize: 10, color: '#4b5563', fontStyle: 'italic', lineHeight: 1.5 },
-
-  mainSection: { marginBottom: 25 },
-  mainSecTitleRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 15 },
-  mainSecLine: { width: 20, height: 2, backgroundColor: '#2D4739', marginRight: 10 },
-  mainSecTitle: { fontSize: 11, fontWeight: 'bold', color: '#2D4739', textTransform: 'uppercase', letterSpacing: 1 },
-
-  itemWrap: { marginBottom: 18, marginLeft: 30, position: 'relative' },
-  itemDot: { position: 'absolute', left: -34, top: 4, width: 8, height: 8, borderRadius: 4, border: 2, borderColor: '#2D4739', backgroundColor: '#FFFFFF' },
-  itemTitle: { fontSize: 11.5, fontWeight: 'bold', color: '#111827', marginBottom: 2 },
-  itemCompany: { fontSize: 10, fontWeight: 'bold', color: '#2D4739', marginBottom: 2 },
-  itemMeta: { fontSize: 8.5, color: '#6b7280', textTransform: 'uppercase', marginBottom: 8, fontWeight: 'bold' },
-  
-  bulletList: { paddingLeft: 10 },
-  bullet: { flexDirection: 'row', marginBottom: 4 },
-  bulletPoint: { width: 10, fontSize: 10, color: '#4b5563' },
-  bulletText: { flex: 1, fontSize: 10, color: '#374151', lineHeight: 1.4 },
+const s = StyleSheet.create({
+  page: { backgroundColor: '#fff', flexDirection: 'row', fontFamily: 'Helvetica', fontSize: 10 },
+  sidebar: { width: 158, backgroundColor: GREEN, color: '#fff', padding: 18, flexDirection: 'column', gap: 14 },
+  sideLabel: { fontSize: 7.5, fontFamily: 'Helvetica-Bold', color: LG, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 5 },
+  name: { fontSize: 13, fontFamily: 'Helvetica-Bold', textTransform: 'uppercase', letterSpacing: 0.5, textAlign: 'center', color: '#fff', marginBottom: 3 },
+  jobTitle: { fontSize: 8.5, color: LG, textAlign: 'center', marginBottom: 8 },
+  initials: { width: 46, height: 46, borderRadius: 23, backgroundColor: 'rgba(255,255,255,0.12)', alignItems: 'center', justifyContent: 'center', alignSelf: 'center', marginBottom: 8 },
+  initialsText: { fontSize: 16, fontFamily: 'Helvetica-Bold', color: '#fff' },
+  contactItem: { fontSize: 8, color: 'rgba(255,255,255,0.85)', marginBottom: 3 },
+  pill: { backgroundColor: 'rgba(255,255,255,0.12)', paddingHorizontal: 5, paddingVertical: 2, borderRadius: 10, marginBottom: 3, fontSize: 8, color: '#fff' },
+  softPill: { backgroundColor: 'rgba(165,201,179,0.2)', paddingHorizontal: 5, paddingVertical: 2, borderRadius: 10, marginBottom: 3, fontSize: 8, color: LG },
+  langDot: { width: 5, height: 5, borderRadius: 2.5, marginRight: 2 },
+  main: { flex: 1, padding: 26, paddingTop: 30 },
+  topStrip: { height: 5, marginHorizontal: -26, marginTop: -30, marginBottom: 18, backgroundColor: GREEN },
+  section: { marginBottom: 18 },
+  sectionTitle: { fontSize: 10.5, fontFamily: 'Helvetica-Bold', color: GREEN, textTransform: 'uppercase', letterSpacing: 1, flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 },
+  expTitle: { fontSize: 10.5, fontFamily: 'Helvetica-Bold', color: '#111' },
+  expMeta: { fontSize: 9.5, color: GREEN, fontFamily: 'Helvetica-Bold', marginTop: 1 },
+  dateLine: { fontSize: 8.5, color: '#888', textTransform: 'uppercase', letterSpacing: 0.5, marginTop: 2, marginBottom: 5 },
+  row: { flexDirection: 'row', justifyContent: 'space-between' },
+  bullet: { flexDirection: 'row', gap: 5, marginTop: 2 },
+  bulletDot: { fontSize: 9, width: 8 },
+  bulletText: { fontSize: 9.5, color: '#444', flex: 1, lineHeight: 1.45 },
+  summaryText: { fontSize: 10, color: '#555', lineHeight: 1.5, borderLeftWidth: 3, borderLeftColor: LG, paddingLeft: 8, marginBottom: 16, fontStyle: 'italic' },
+  projectName: { fontSize: 10.5, fontFamily: 'Helvetica-Bold', color: '#111' },
 })
 
-export function T5PDF({ cvData }: { cvData: CVData }) {
-  const { personal, experience, education, skills, languages } = cvData
+function SideSection({ title, children }: { title: string; children: React.ReactNode }) {
+  return <View><Text style={s.sideLabel}>{title}</Text>{children}</View>
+}
 
-  const initials = personal.fullName.split(' ').map(n => n[0]).slice(0, 2).join('')
+function MainSection({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <View style={s.section}>
+      <Text style={s.sectionTitle}>— {title}</Text>
+      {children}
+    </View>
+  )
+}
+
+export function T5PDF({ cvData }: { cvData: CVData }) {
+  const { personal, experience, education, skills, certifications, projects, languages } = cvData
+  const hasExp = experience.length > 0
+  const hasEdu = education.length > 0
+  const hasTech = skills.technical.length > 0
+  const hasSoft = skills.soft.length > 0
+  const hasCerts = certifications.length > 0
+  const hasProj = projects && projects.length > 0
+  const hasLangs = languages.length > 0
+  const initials = personal.fullName ? personal.fullName.split(' ').map(n => n[0]).filter(Boolean).slice(0, 2).join('') : '?'
+  const contacts = [personal.email, personal.phone, personal.address, personal.linkedin?.replace(/https?:\/\/(www\.)?/, '')].filter(Boolean)
+
+  const profDots = (prof: string) => { const m: Record<string, number> = { Native: 5, Fluent: 4, Professional: 3, Conversational: 2, Basic: 1 }; return m[prof] ?? 2 }
 
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
-        
-        <View style={styles.sidebar}>
-          <View style={styles.initialBox}>
-            <Text style={styles.initialText}>{initials}</Text>
-          </View>
-          
-          <Text style={styles.name}>{personal.fullName}</Text>
-          <Text style={styles.title}>{personal.jobTitle}</Text>
+      <Page size="A4" style={s.page}>
+        <View style={s.sidebar}>
+          <View style={s.initials}><Text style={s.initialsText}>{initials}</Text></View>
+          {personal.fullName ? <Text style={s.name}>{personal.fullName}</Text> : null}
+          {personal.jobTitle ? <Text style={s.jobTitle}>{personal.jobTitle}</Text> : null}
 
-          <View style={styles.sideSection}>
-            <Text style={styles.sideTitle}>Contact</Text>
-            {personal.email && (
-              <View style={styles.contactItem}><Text style={styles.contactDot}>•</Text><Text style={styles.contactText}>{personal.email}</Text></View>
-            )}
-            {personal.phone && (
-              <View style={styles.contactItem}><Text style={styles.contactDot}>•</Text><Text style={styles.contactText}>{personal.phone}</Text></View>
-            )}
-            {personal.address && (
-              <View style={styles.contactItem}><Text style={styles.contactDot}>•</Text><Text style={styles.contactText}>{personal.address}</Text></View>
-            )}
-            {personal.linkedin && (
-              <View style={styles.contactItem}><Text style={styles.contactDot}>•</Text><Text style={styles.contactText}>{personal.linkedin.replace(/https?:\/\/(www\.)?/, '')}</Text></View>
-            )}
-          </View>
+          <SideSection title="Contact">
+            {contacts.map((c, i) => <Text key={i} style={s.contactItem}>{c}</Text>)}
+          </SideSection>
 
-          <View style={styles.sideSection}>
-            <Text style={styles.sideTitle}>Skills</Text>
-            <View style={styles.skillWrap}>
-              {skills.technical.map(s => <Text key={s} style={styles.skillPill}>{s}</Text>)}
-            </View>
-          </View>
+          {hasTech ? <SideSection title="Technical Skills">{skills.technical.map((sk, i) => <Text key={i} style={s.pill}>{sk}</Text>)}</SideSection> : null}
+          {hasSoft ? <SideSection title="Soft Skills">{skills.soft.map((sk, i) => <Text key={i} style={s.softPill}>{sk}</Text>)}</SideSection> : null}
 
-          <View style={styles.sideSection}>
-            <Text style={styles.sideTitle}>Languages</Text>
-            {languages.map(l => {
-              const score = l.proficiency === 'Native' ? 5 : l.proficiency === 'Fluent' ? 4 : l.proficiency === 'Professional' ? 3 : 2
-              return (
-                <View key={l.language} style={styles.langItem}>
-                  <Text style={styles.langText}>{l.language}</Text>
-                  <View style={styles.langDots}>
-                     {[1,2,3,4,5].map(d => <View key={d} style={d <= score ? styles.langDotFill : styles.langDotEmpty} />)}
+          {hasLangs ? (
+            <SideSection title="Languages">
+              {languages.map((l, i) => (
+                <View key={i} style={{ marginBottom: 6 }}>
+                  <Text style={s.contactItem}>{l.language}</Text>
+                  <View style={{ flexDirection: 'row', gap: 2, marginTop: 2 }}>
+                    {[1,2,3,4,5].map(d => (
+                      <View key={d} style={{ ...s.langDot, backgroundColor: d <= profDots(l.proficiency) ? LG : 'rgba(255,255,255,0.2)' }} />
+                    ))}
                   </View>
                 </View>
-              )
-            })}
-          </View>
+              ))}
+            </SideSection>
+          ) : null}
+
+          {hasCerts ? (
+            <SideSection title="Certifications">
+              {certifications.map((c, i) => <Text key={i} style={{ fontSize: 8, color: 'rgba(255,255,255,0.8)', marginBottom: 3 }}>▸ {c}</Text>)}
+            </SideSection>
+          ) : null}
         </View>
 
-        <View style={styles.main}>
-          <View style={styles.topLineBg} />
+        <View style={s.main}>
+          <View style={s.topStrip} />
+          {personal.summary?.trim() ? <Text style={s.summaryText}>{personal.summary}</Text> : null}
 
-          {personal.summary && (
-            <View style={styles.summaryBox}>
-              <Text style={styles.summaryText}>{personal.summary}</Text>
-            </View>
-          )}
-
-          <View style={styles.mainSection}>
-            <View style={styles.mainSecTitleRow}>
-              <View style={styles.mainSecLine} />
-              <Text style={styles.mainSecTitle}>Experience</Text>
-            </View>
-
-            {experience.map(exp => (
-              <View key={exp.id} style={styles.itemWrap}>
-                <View style={styles.itemDot} />
-                <Text style={styles.itemTitle}>{exp.title}</Text>
-                <Text style={styles.itemCompany}>{exp.company}</Text>
-                <Text style={styles.itemMeta}>{exp.startDate} – {exp.currentJob ? 'Present' : exp.endDate} | {exp.location}</Text>
-                <View style={styles.bulletList}>
-                  {exp.bullets.map((b, i) => (
-                    <View key={i} style={styles.bullet}>
-                      <Text style={styles.bulletPoint}>•</Text>
-                      <Text style={styles.bulletText}>{b}</Text>
+          {hasExp ? (
+            <MainSection title="Work Experience">
+              {experience.map((exp, i) => (
+                <View key={i} style={{ marginBottom: 14, paddingLeft: 8 }}>
+                  <Text style={s.expTitle}>{exp.title}</Text>
+                  <Text style={s.expMeta}>{exp.company}</Text>
+                  <Text style={s.dateLine}>{exp.startDate}{exp.startDate ? ' – ' : ''}{exp.currentJob ? 'Present' : exp.endDate}{exp.location ? ` · ${exp.location}` : ''}</Text>
+                  {exp.bullets.filter(b => b.trim()).map((b, j) => (
+                    <View key={j} style={s.bullet}>
+                      <Text style={s.bulletDot}>•</Text>
+                      <Text style={s.bulletText}>{b}</Text>
                     </View>
                   ))}
                 </View>
-              </View>
-            ))}
-          </View>
+              ))}
+            </MainSection>
+          ) : null}
 
-          <View style={styles.mainSection}>
-            <View style={styles.mainSecTitleRow}>
-              <View style={styles.mainSecLine} />
-              <Text style={styles.mainSecTitle}>Education</Text>
-            </View>
+          {hasEdu ? (
+            <MainSection title="Education">
+              {education.map((edu, i) => (
+                <View key={i} style={{ marginBottom: 12, paddingLeft: 8 }}>
+                  <Text style={s.expTitle}>{edu.degree}</Text>
+                  <Text style={s.expMeta}>{edu.institution}</Text>
+                  <Text style={s.dateLine}>{edu.startYear}{edu.startYear ? ' – ' : ''}{edu.endYear}{edu.location ? ` · ${edu.location}` : ''}</Text>
+                  {edu.grade ? <Text style={{ fontSize: 9.5, color: '#666' }}>Grade: {edu.grade}</Text> : null}
+                </View>
+              ))}
+            </MainSection>
+          ) : null}
 
-            {education.map(edu => (
-              <View key={edu.id} style={styles.itemWrap}>
-                <View style={styles.itemDot} />
-                <Text style={styles.itemTitle}>{edu.degree}</Text>
-                <Text style={styles.itemCompany}>{edu.institution}</Text>
-                <Text style={styles.itemMeta}>{edu.startYear} – {edu.endYear} | {edu.location}</Text>
-                {edu.grade && <Text style={{fontSize: 9.5, color: '#4b5563', marginTop: 2}}>Grade: {edu.grade}</Text>}
-              </View>
-            ))}
-          </View>
-
+          {hasProj ? (
+            <MainSection title="Projects">
+              {projects!.map((proj, i) => (
+                <View key={i} style={{ marginBottom: 10 }}>
+                  <Text style={s.projectName}>{proj.name}{proj.technologies.length > 0 ? ` — ${proj.technologies.join(', ')}` : ''}</Text>
+                  {proj.description ? <Text style={{ fontSize: 9.5, color: '#444', marginTop: 2 }}>{proj.description}</Text> : null}
+                </View>
+              ))}
+            </MainSection>
+          ) : null}
         </View>
       </Page>
     </Document>

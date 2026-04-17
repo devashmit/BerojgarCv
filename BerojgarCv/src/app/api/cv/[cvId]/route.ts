@@ -16,7 +16,8 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ cvId
 
     return NextResponse.json({ cvData: cv.data, templateId: cv.templateId, shareId: cv.shareId, title: cv.title })
   } catch (error) {
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
+    console.error('API GET /cv/[cvId] ERROR:', error);
+    return NextResponse.json({ error: 'Internal Server Error', details: String(error) }, { status: 500 })
   }
 }
 

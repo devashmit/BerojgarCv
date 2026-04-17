@@ -2,173 +2,167 @@
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer'
 import { CVData } from '@/types/cv'
 
-const styles = StyleSheet.create({
-  page: { backgroundColor: '#FAF7F4', padding: 40, flexDirection: 'column' },
-  
-  header: { alignItems: 'center', marginBottom: 20 },
-  name: { fontSize: 26, fontWeight: 'bold', color: '#2C2C2C', marginBottom: 6, letterSpacing: 1 },
-  title: { fontSize: 10.5, color: '#C19A6B', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: 3 },
-  
-  ornamentWrap: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginVertical: 15, opacity: 0.6 },
-  ornLine: { width: 50, height: 1, backgroundColor: '#C19A6B' },
-  ornDiamond: { width: 6, height: 6, border: 1, borderColor: '#C19A6B', marginHorizontal: 8, transform: 'rotate(45deg)' },
+const GOLD = '#C19A6B'
+const CREAM = '#FAF7F4'
+const DARK = '#2C2C2C'
 
-  contactRow: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', fontSize: 9, color: '#555555', textTransform: 'uppercase', letterSpacing: 1 },
-  contactSeparator: { color: '#C19A6B', marginHorizontal: 12 },
-
-  summary: { textAlign: 'center', fontSize: 10.5, fontStyle: 'italic', color: '#444444', lineHeight: 1.5, marginBottom: 25, paddingHorizontal: 30 },
-
-  layout: { flexDirection: 'row', gap: 35 },
+const s = StyleSheet.create({
+  page: { backgroundColor: CREAM, padding: 40, fontFamily: 'Times-Roman', fontSize: 10 },
+  topLine: { height: 2, backgroundColor: GOLD, marginHorizontal: -40, marginTop: -40, marginBottom: 24, opacity: 0.7 },
+  bottomLine: { height: 2, backgroundColor: GOLD, marginHorizontal: -40, marginTop: 24, opacity: 0.7 },
+  header: { alignItems: 'center', marginBottom: 8 },
+  name: { fontSize: 22, fontFamily: 'Times-Bold', color: DARK, letterSpacing: 1, marginBottom: 5 },
+  jobTitle: { fontSize: 11, color: GOLD, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 10 },
+  ornamentLine: { height: 0.5, backgroundColor: GOLD, width: 40 },
+  ornamentDiamond: { width: 5, height: 5, transform: 'rotate(45deg)', borderWidth: 0.5, borderColor: GOLD },
+  ornamentRow: { flexDirection: 'row', alignItems: 'center', gap: 5, marginVertical: 8, opacity: 0.6 },
+  contactRow: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 6 },
+  contactText: { fontSize: 8.5, color: '#555', textTransform: 'uppercase', letterSpacing: 0.5 },
+  body: { flexDirection: 'row', gap: 30, marginTop: 10 },
   leftCol: { flex: 1 },
-  rightCol: { width: 160 },
-
-  section: { marginBottom: 25 },
-  sectionTitleWrap: { borderBottom: 1, borderBottomColor: '#E5DFD5', paddingBottom: 6, marginBottom: 12 },
-  sectionTitle: { fontSize: 10.5, fontWeight: 'bold', color: '#C19A6B', textTransform: 'uppercase', letterSpacing: 2 },
-
-  item: { marginBottom: 15 },
-  itemTitle: { fontSize: 11.5, fontWeight: 'bold', color: '#2C2C2C', marginBottom: 2 },
-  itemMetaRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 },
-  itemLoc: { fontSize: 9.5, fontStyle: 'italic', color: '#666666' },
-  itemDate: { fontSize: 9.5, fontWeight: 'bold', color: '#C19A6B' },
-
-  bulletList: { paddingLeft: 0 },
-  bullet: { flexDirection: 'row', marginBottom: 3 },
-  bulletPoint: { fontSize: 10, color: '#C19A6B', fontWeight: 'bold', width: 14 },
-  bulletText: { fontSize: 10, flex: 1, color: '#444444', lineHeight: 1.4 },
-
-  sideBlock: { marginBottom: 10 },
-  sideTitle: { fontSize: 9, textTransform: 'uppercase', color: '#666666', letterSpacing: 1, marginBottom: 4 },
-  sideTextList: { marginBottom: 12 },
-  sideText: { fontSize: 9.5, color: '#444444', marginBottom: 2 },
-
-  langRow: { marginBottom: 8 },
-  langName: { fontSize: 9.5, fontWeight: 'bold', color: '#2C2C2C', marginBottom: 2 },
-  langProf: { fontSize: 8.5, fontStyle: 'italic', color: '#C19A6B' },
-
-  certItem: { fontSize: 9.5, color: '#444444', marginBottom: 4 }
+  rightCol: { width: 145 },
+  section: { marginBottom: 16 },
+  leftSectionTitle: { fontSize: 10, fontFamily: 'Times-Bold', color: GOLD, textTransform: 'uppercase', letterSpacing: 1.2, borderBottomWidth: 0.5, borderBottomColor: '#E5DFD5', paddingBottom: 4, marginBottom: 8 },
+  rightSectionTitle: { fontSize: 9, fontFamily: 'Times-Bold', color: GOLD, textTransform: 'uppercase', letterSpacing: 1.2, borderBottomWidth: 0.5, borderBottomColor: '#E5DFD5', paddingBottom: 3, marginBottom: 7 },
+  expTitle: { fontSize: 11, fontFamily: 'Times-Bold', color: DARK },
+  expMeta: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 2, marginBottom: 6 },
+  expMetaText: { fontSize: 9.5, fontStyle: 'italic', color: '#666' },
+  expDate: { fontSize: 9.5, color: GOLD, fontFamily: 'Times-Roman' },
+  bullet: { flexDirection: 'row', gap: 5, marginTop: 2 },
+  bulletDash: { fontSize: 10, color: GOLD, width: 10, fontFamily: 'Times-Bold' },
+  bulletText: { fontSize: 9.5, color: '#444', flex: 1, lineHeight: 1.45 },
+  summaryText: { fontSize: 10.5, color: '#444', lineHeight: 1.5, fontStyle: 'italic', textAlign: 'center', marginBottom: 16 },
+  listItem: { fontSize: 9.5, color: '#444', marginBottom: 3 },
+  langName: { fontSize: 10, fontFamily: 'Times-Bold', color: DARK, marginBottom: 1 },
+  langProf: { fontSize: 9, color: GOLD, fontStyle: 'italic', marginBottom: 4 },
+  projectTitle: { fontSize: 10.5, fontFamily: 'Times-Bold', color: DARK },
+  projectMeta: { fontSize: 9, color: '#666', fontStyle: 'italic', marginBottom: 3 },
 })
 
 export function T6PDF({ cvData }: { cvData: CVData }) {
-  const { personal, experience, education, skills, languages } = cvData
-
-  const contacts = [
-    personal.email,
-    personal.phone,
-    personal.address,
-    personal.linkedin?.replace(/https?:\/\/(www\.)?/, '')
-  ].filter(Boolean)
+  const { personal, experience, education, skills, certifications, projects, languages } = cvData
+  const hasExp = experience.length > 0
+  const hasEdu = education.length > 0
+  const hasTech = skills.technical.length > 0
+  const hasSoft = skills.soft.length > 0
+  const hasCerts = certifications.length > 0
+  const hasProj = projects && projects.length > 0
+  const hasLangs = languages.length > 0
+  const contacts = [personal.email, personal.phone, personal.address, personal.linkedin?.replace(/https?:\/\/(www\.)?/, '')].filter(Boolean)
 
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
-        
-        <View style={styles.header}>
-          <Text style={styles.name}>{personal.fullName}</Text>
-          <Text style={styles.title}>{personal.jobTitle}</Text>
-          
-          <View style={styles.ornamentWrap}>
-            <View style={styles.ornLine} />
-            <View style={styles.ornDiamond} />
-            <View style={styles.ornLine} />
-          </View>
+      <Page size="A4" style={s.page}>
+        <View style={s.topLine} />
 
-          <View style={styles.contactRow}>
-            {contacts.map((c, i) => (
-              <Text key={i}>
-                {i > 0 && <Text style={styles.contactSeparator}>  ·  </Text>}
-                {c}
-              </Text>
-            ))}
+        <View style={s.header}>
+          {personal.fullName ? <Text style={s.name}>{personal.fullName}</Text> : null}
+          {personal.jobTitle ? <Text style={s.jobTitle}>{personal.jobTitle}</Text> : null}
+          <View style={s.ornamentRow}>
+            <View style={s.ornamentLine} /><View style={s.ornamentDiamond} /><View style={s.ornamentLine} />
           </View>
+          <View style={s.contactRow}>{contacts.map((c, i) => <Text key={i} style={s.contactText}>{i > 0 ? `  ·  ${c}` : c}</Text>)}</View>
         </View>
 
-        {personal.summary && <Text style={styles.summary}>{personal.summary}</Text>}
+        {personal.summary?.trim() ? <Text style={s.summaryText}>"{personal.summary}"</Text> : null}
 
-        <View style={styles.layout}>
-          <View style={styles.leftCol}>
-            <View style={styles.section}>
-              <View style={styles.sectionTitleWrap}>
-                <Text style={styles.sectionTitle}>Expérience Professionnelle</Text>
-              </View>
-              {experience.map(exp => (
-                <View key={exp.id} style={styles.item}>
-                  <Text style={styles.itemTitle}>{exp.title}</Text>
-                  <View style={styles.itemMetaRow}>
-                    <Text style={styles.itemLoc}>{exp.company}, {exp.location}</Text>
-                    <Text style={styles.itemDate}>{exp.startDate} – {exp.currentJob ? 'Present' : exp.endDate}</Text>
-                  </View>
-                  <View style={styles.bulletList}>
-                    {exp.bullets.map((b, i) => (
-                      <View key={i} style={styles.bullet}>
-                        <Text style={styles.bulletPoint}>—</Text>
-                        <Text style={styles.bulletText}>{b}</Text>
+        <View style={s.body}>
+          {/* Left col */}
+          <View style={s.leftCol}>
+            {hasExp ? (
+              <View style={s.section}>
+                <Text style={s.leftSectionTitle}>Expérience Professionnelle</Text>
+                {experience.map((exp, i) => (
+                  <View key={i} style={{ marginBottom: 14 }}>
+                    <Text style={s.expTitle}>{exp.title}</Text>
+                    <View style={s.expMeta}>
+                      <Text style={s.expMetaText}>{exp.company}{exp.company && exp.location ? `, ${exp.location}` : ''}</Text>
+                      <Text style={s.expDate}>{exp.startDate}{exp.startDate ? ' – ' : ''}{exp.currentJob ? 'Present' : exp.endDate}</Text>
+                    </View>
+                    {exp.bullets.filter(b => b.trim()).map((b, j) => (
+                      <View key={j} style={s.bullet}>
+                        <Text style={s.bulletDash}>—</Text>
+                        <Text style={s.bulletText}>{b}</Text>
                       </View>
                     ))}
                   </View>
-                </View>
-              ))}
-            </View>
-
-            <View style={styles.section}>
-              <View style={styles.sectionTitleWrap}>
-                <Text style={styles.sectionTitle}>Formation</Text>
+                ))}
               </View>
-              {education.map(edu => (
-                <View key={edu.id} style={styles.item}>
-                  <Text style={styles.itemTitle}>{edu.degree}</Text>
-                  <View style={styles.itemMetaRow}>
-                    <Text style={styles.itemLoc}>{edu.institution}, {edu.location}</Text>
-                    <Text style={styles.itemDate}>{edu.startYear} – {edu.endYear}</Text>
+            ) : null}
+
+            {hasEdu ? (
+              <View style={s.section}>
+                <Text style={s.leftSectionTitle}>Formation</Text>
+                {education.map((edu, i) => (
+                  <View key={i} style={{ marginBottom: 10 }}>
+                    <Text style={s.expTitle}>{edu.degree}</Text>
+                    <View style={s.expMeta}>
+                      <Text style={s.expMetaText}>{edu.institution}{edu.institution && edu.location ? `, ${edu.location}` : ''}</Text>
+                      <Text style={s.expDate}>{edu.startYear}{edu.startYear ? ' – ' : ''}{edu.endYear}</Text>
+                    </View>
+                    {edu.grade ? <Text style={{ fontSize: 9, color: '#666' }}>Grade: {edu.grade}</Text> : null}
                   </View>
-                  {edu.grade && <Text style={{fontSize: 9, color: '#555', marginTop: 2}}>Grade: {edu.grade}</Text>}
-                </View>
-              ))}
-            </View>
+                ))}
+              </View>
+            ) : null}
+
+            {hasProj ? (
+              <View style={s.section}>
+                <Text style={s.leftSectionTitle}>Projets</Text>
+                {projects!.map((proj, i) => (
+                  <View key={i} style={{ marginBottom: 10 }}>
+                    <Text style={s.projectTitle}>{proj.name}</Text>
+                    {proj.technologies.length > 0 ? <Text style={s.projectMeta}>{proj.technologies.join(', ')}</Text> : null}
+                    {proj.description ? (
+                      <View style={s.bullet}>
+                        <Text style={s.bulletDash}>—</Text>
+                        <Text style={s.bulletText}>{proj.description}</Text>
+                      </View>
+                    ) : null}
+                  </View>
+                ))}
+              </View>
+            ) : null}
           </View>
 
-          <View style={styles.rightCol}>
-            <View style={styles.section}>
-              <View style={styles.sectionTitleWrap}>
-                <Text style={styles.sectionTitle}>Compétences</Text>
+          {/* Right col */}
+          <View style={s.rightCol}>
+            {hasTech ? (
+              <View style={s.section}>
+                <Text style={s.rightSectionTitle}>Compétences Techniques</Text>
+                {skills.technical.map((sk, i) => <Text key={i} style={s.listItem}>— {sk}</Text>)}
               </View>
-              <View style={styles.sideBlock}>
-                <Text style={styles.sideTitle}>Technical</Text>
-                <View style={styles.sideTextList}>
-                  {skills.technical.map(s => <Text key={s} style={styles.sideText}>{s}</Text>)}
-                </View>
-              </View>
-              <View style={styles.sideBlock}>
-                <Text style={styles.sideTitle}>Soft Skills</Text>
-                <View style={styles.sideTextList}>
-                  {skills.soft.map(s => <Text key={s} style={styles.sideText}>{s}</Text>)}
-                </View>
-              </View>
-            </View>
+            ) : null}
 
-            <View style={styles.section}>
-              <View style={styles.sectionTitleWrap}>
-                <Text style={styles.sectionTitle}>Langues</Text>
+            {hasSoft ? (
+              <View style={s.section}>
+                <Text style={s.rightSectionTitle}>Soft Skills</Text>
+                {skills.soft.map((sk, i) => <Text key={i} style={s.listItem}>— {sk}</Text>)}
               </View>
-              {languages.map(l => (
-                <View key={l.language} style={styles.langRow}>
-                  <Text style={styles.langName}>{l.language}</Text>
-                  <Text style={styles.langProf}>{l.proficiency}</Text>
-                </View>
-              ))}
-            </View>
+            ) : null}
 
-            {cvData.certifications.length > 0 && (
-              <View style={styles.section}>
-                <View style={styles.sectionTitleWrap}>
-                  <Text style={styles.sectionTitle}>Certifications</Text>
-                </View>
-                {cvData.certifications.map(c => <Text key={c} style={styles.certItem}>— {c}</Text>)}
+            {hasLangs ? (
+              <View style={s.section}>
+                <Text style={s.rightSectionTitle}>Langues</Text>
+                {languages.map((l, i) => (
+                  <View key={i} style={{ marginBottom: 5 }}>
+                    <Text style={s.langName}>{l.language}</Text>
+                    {l.proficiency ? <Text style={s.langProf}>{l.proficiency}</Text> : null}
+                  </View>
+                ))}
               </View>
-            )}
+            ) : null}
+
+            {hasCerts ? (
+              <View style={s.section}>
+                <Text style={s.rightSectionTitle}>Certifications</Text>
+                {certifications.map((c, i) => <Text key={i} style={s.listItem}>— {c}</Text>)}
+              </View>
+            ) : null}
           </View>
         </View>
 
+        <View style={s.bottomLine} />
       </Page>
     </Document>
   )
