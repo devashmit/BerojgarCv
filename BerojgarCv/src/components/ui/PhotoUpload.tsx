@@ -21,7 +21,6 @@ export function PhotoUpload({ value, onChange, onRemove }: PhotoUploadProps) {
     const file = e.target.files?.[0]
     if (!file) return
 
-    // Validate: size <= 5MB, type starts with "image/"
     if (file.size > 5 * 1024 * 1024) {
       toast.error('File size exceeds 5MB limit.')
       return
@@ -33,27 +32,51 @@ export function PhotoUpload({ value, onChange, onRemove }: PhotoUploadProps) {
     }
 
     setIsUploading(true)
-    const formData = new FormData()
-    formData.append('photo', file)
+    
+    // Process image locally via FileReader and Canvas
+    const reader = new FileReader()
+    reader.onload = (event) => {
+      const img = new globalThis.Image()
+      img.onload = () => {
+        const canvas = document.createElement('canvas')
+        const MAX_WIDTH = 400
+        const MAX_HEIGHT = 500
+        let width = img.width
+        let height = img.height
 
-    try {
-      const res = await fetch('/api/upload/photo', {
-        method: 'POST',
-        body: formData,
-      })
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width
+            width = MAX_WIDTH
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height
+            height = MAX_HEIGHT
+          }
+        }
 
-      if (!res.ok) {
-        throw new Error('Upload failed')
+        canvas.width = width
+        canvas.height = height
+        const ctx = canvas.getContext('2d')
+        ctx?.drawImage(img, 0, 0, width, height)
+
+        const dataUrl = canvas.toDataURL(file.type, 0.8)
+        onChange(dataUrl)
+        setIsUploading(false)
+        toast.success('Photo uploaded successfully.')
       }
-
-      const data = await res.json()
-      onChange(data.url)
-      toast.success('Photo uploaded successfully.')
-    } catch {
-      toast.error('Photo upload failed. Please try again.')
-    } finally {
-      setIsUploading(false)
+      img.onerror = () => {
+        setIsUploading(false)
+        toast.error('Failed to read image.')
+      }
+      img.src = event.target?.result as string
     }
+    reader.onerror = () => {
+      setIsUploading(false)
+      toast.error('Photo upload failed. Please try again.')
+    }
+    reader.readAsDataURL(file)
   }
 
   const handleClick = () => {

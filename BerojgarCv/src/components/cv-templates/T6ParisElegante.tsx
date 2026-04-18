@@ -64,7 +64,7 @@ export function T6ParisElegante({ cvData }: { cvData: CVData }) {
           <h1 className="text-[24pt] font-bold text-[#2C2C2C] tracking-wide mb-1 leading-tight">{personal.fullName}</h1>
         )}
         {personal.jobTitle && (
-          <p className="text-[11pt] text-[#C19A6B] font-medium tracking-[0.2em] uppercase">{personal.jobTitle}</p>
+          <p className="text-justify text-[11pt] text-[#C19A6B] font-medium tracking-[0.2em] uppercase">{personal.jobTitle}</p>
         )}
         <Ornament />
         {contacts.length > 0 && (
@@ -170,7 +170,7 @@ export function T6ParisElegante({ cvData }: { cvData: CVData }) {
           {hasTechSkills && (
             <RightSection title="Compétences Techniques">
               <ul className="space-y-1">
-                {skills.technical.map(s => <li key={s} className="text-[#444] text-[9.5pt]">— {s}</li>)}
+                {skills.technical.map(s => <li key={s} className="text-justify text-[#444] text-[9.5pt]">{s}</li>)}
               </ul>
             </RightSection>
           )}
@@ -178,7 +178,7 @@ export function T6ParisElegante({ cvData }: { cvData: CVData }) {
           {hasSoftSkills && (
             <RightSection title="Soft Skills">
               <ul className="space-y-1">
-                {skills.soft.map(s => <li key={s} className="text-[#444] text-[9.5pt]">— {s}</li>)}
+                {skills.soft.map(s => <li key={s} className="text-justify text-[#444] text-[9.5pt]">{s}</li>)}
               </ul>
             </RightSection>
           )}
@@ -200,7 +200,7 @@ export function T6ParisElegante({ cvData }: { cvData: CVData }) {
             <RightSection title="Certifications">
               <ul className="list-disc list-outside pl-3 space-y-1.5 marker:text-[#C19A6B]">
                 {certifications.map(c => (
-                  <li key={c} className="text-[#444] leading-snug text-[9.5pt] pl-1">{c}</li>
+                  <li key={c} className="text-justify text-[#444] leading-snug text-[9.5pt] pl-1">{c}</li>
                 ))}
               </ul>
             </RightSection>

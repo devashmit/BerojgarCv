@@ -28,7 +28,7 @@ export function PersonalForm() {
 
   return (
     <div className="w-full flex flex-col gap-6">
-      <div className="flex gap-8 items-start">
+      <div className="flex w-full items-center justify-center mb-2">
         <PhotoUpload 
           value={personal.photo}
           onChange={(url) => updatePersonal('photo', url)}

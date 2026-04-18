@@ -45,7 +45,7 @@ export function T4ZurichExecutive({ cvData }: { cvData: CVData }) {
           <h1 className="text-[24pt] font-bold tracking-[0.15em] uppercase text-[#0A192F] mb-2">{personal.fullName}</h1>
         )}
         {personal.jobTitle && (
-          <p className="text-[11pt] text-gray-500 font-medium tracking-widest uppercase mb-4">{personal.jobTitle}</p>
+          <p className="text-justify text-[11pt] text-gray-500 font-medium tracking-widest uppercase mb-4">{personal.jobTitle}</p>
         )}
         {contacts.length > 0 && (
           <div className="flex flex-wrap justify-center gap-x-5 gap-y-1.5 text-[9.5pt] text-gray-600">
@@ -86,7 +86,7 @@ export function T4ZurichExecutive({ cvData }: { cvData: CVData }) {
                       {exp.bullets.filter(b => b.trim()).map((bullet, i) => (
                         <li key={i} className="flex items-start gap-2 text-gray-600 leading-relaxed text-[10pt]">
                           <span className="text-[#0A192F] text-[13px] leading-tight shrink-0 mt-[1px]">▸</span>
-                          <span>{bullet}</span>
+                          <span>{bullet.replace(/^[\—\-\•\.\s]+/, "")}</span>
                         </li>
                       ))}
                     </ul>
@@ -170,7 +170,7 @@ export function T4ZurichExecutive({ cvData }: { cvData: CVData }) {
         {hasCerts && (
           <Section title="Certifications">
             <ul className="list-disc list-outside ml-4 space-y-1 text-gray-700">
-              {certifications.map((cert, i) => <li key={i}>{cert}</li>)}
+              {certifications.map((cert, i) => <li key={i} className="text-justify">{cert}</li>)}
             </ul>
           </Section>
         )}

@@ -113,7 +113,7 @@ export function T2HimalayaModern({ cvData }: { cvData: CVData }) {
             <SideSection title="Certifications">
               <ul className="space-y-1.5 text-[8.5pt] text-blue-50/90">
                 {certifications.map((cert, i) => (
-                  <li key={i} className="flex gap-1.5"><span className="text-blue-300 mt-0.5 shrink-0">▸</span>{cert}</li>
+                  <li key={i} className="text-justify flex gap-1.5"><span className="text-blue-300 mt-0.5 shrink-0">▸</span>{cert}</li>
                 ))}
               </ul>
             </SideSection>
@@ -129,7 +129,7 @@ export function T2HimalayaModern({ cvData }: { cvData: CVData }) {
 
         {/* Summary */}
         {personal.summary?.trim() && (
-          <p className="text-gray-700 leading-relaxed text-[10.5pt]">{personal.summary}</p>
+          <p className="text-justify text-gray-700 leading-relaxed text-[10.5pt]">{personal.summary}</p>
         )}
 
         {/* Experience */}
@@ -150,7 +150,7 @@ export function T2HimalayaModern({ cvData }: { cvData: CVData }) {
                   </div>
                   {exp.bullets.filter(b => b.trim()).length > 0 && (
                     <ul className="list-disc list-outside ml-4 space-y-1 text-gray-700">
-                      {exp.bullets.filter(b => b.trim()).map((bullet, j) => <li key={j}>{bullet}</li>)}
+                      {exp.bullets.filter(b => b.trim()).map((bullet, j) => <li key={j} className="text-justify">{bullet.replace(/^[\—\-\•\.\s]+/, "")}</li>)}
                     </ul>
                   )}
                 </div>
@@ -192,7 +192,7 @@ export function T2HimalayaModern({ cvData }: { cvData: CVData }) {
                       <span className="text-gray-500 font-normal text-[9.5pt] italic">{proj.technologies.join(', ')}</span>
                     )}
                   </div>
-                  {proj.description && <p className="text-gray-700 text-[10pt]">{proj.description}</p>}
+                  {proj.description && <p className="text-justify text-gray-700 text-[10pt]">{proj.description}</p>}
                   {proj.link && <div className="text-[#3A7CA5] text-[9pt] mt-0.5">{proj.link}</div>}
                 </div>
               ))}

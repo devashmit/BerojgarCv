@@ -118,7 +118,7 @@ export function T5NovaSidebar({ cvData }: { cvData: CVData }) {
           <SideSection title="Certifications">
             <ul className="space-y-1.5 text-[8.5pt] text-white/80">
               {certifications.map((c, i) => (
-                <li key={i} className="flex gap-1.5"><span className="text-[#A5C9B3] shrink-0">▸</span>{c}</li>
+                <li key={i} className="text-justify flex gap-1.5"><span className="text-[#A5C9B3] shrink-0">▸</span>{c}</li>
               ))}
             </ul>
           </SideSection>
@@ -150,7 +150,7 @@ export function T5NovaSidebar({ cvData }: { cvData: CVData }) {
                   </div>
                   {exp.bullets.filter(b => b.trim()).length > 0 && (
                     <ul className="list-disc list-outside ml-4 space-y-1 text-gray-700 text-[10pt] leading-relaxed">
-                      {exp.bullets.filter(b => b.trim()).map((b, j) => <li key={j}>{b}</li>)}
+                      {exp.bullets.filter(b => b.trim()).map((b, j) => <li key={j} className="text-justify">{b}</li>)}
                     </ul>
                   )}
                 </div>
@@ -190,7 +190,7 @@ export function T5NovaSidebar({ cvData }: { cvData: CVData }) {
                       <span className="text-gray-500 text-[9pt] italic">{proj.technologies.join(', ')}</span>
                     )}
                   </div>
-                  {proj.description && <p className="text-gray-700 text-[10pt]">{proj.description}</p>}
+                  {proj.description && <p className="text-justify text-gray-700 text-[10pt]">{proj.description}</p>}
                   {proj.link && <div className="text-[#2D4739] text-[9pt] mt-0.5">{proj.link}</div>}
                 </div>
               ))}

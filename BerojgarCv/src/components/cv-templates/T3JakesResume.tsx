@@ -47,7 +47,7 @@ export function T3JakesResume({ cvData }: { cvData: CVData }) {
         {/* Summary */}
         {personal.summary?.trim() && (
           <Section title="Professional Summary">
-            <p className="leading-relaxed text-[10.5pt] text-gray-800">{personal.summary}</p>
+            <p className="text-justify leading-relaxed text-[10.5pt] text-gray-800">{personal.summary}</p>
           </Section>
         )}
 
@@ -84,7 +84,7 @@ export function T3JakesResume({ cvData }: { cvData: CVData }) {
                 </div>
                 {exp.bullets.filter(b => b.trim()).length > 0 && (
                   <ul className="list-disc list-outside ml-5 space-y-0.5 text-[10pt]">
-                    {exp.bullets.filter(b => b.trim()).map((bullet, j) => <li key={j}>{bullet}</li>)}
+                    {exp.bullets.filter(b => b.trim()).map((bullet, j) => <li key={j} className="text-justify">{bullet.replace(/^[\—\-\•\.\s]+/, "")}</li>)}
                   </ul>
                 )}
               </div>

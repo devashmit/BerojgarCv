@@ -45,7 +45,7 @@ export function T1DhakaHeritage({ cvData }: { cvData: CVData }) {
             <h1 className="text-[22pt] font-bold tracking-wide uppercase mb-1 leading-tight">{personal.fullName}</h1>
           )}
           {personal.jobTitle && (
-            <p className="text-[#FFD580] text-[12pt] font-medium mb-3">{personal.jobTitle}</p>
+            <p className="text-justify text-[#FFD580] text-[12pt] font-medium mb-3">{personal.jobTitle}</p>
           )}
           <div className="flex flex-wrap gap-x-4 gap-y-1 text-[9pt] font-light text-white/90">
             {personal.email && <span className="flex items-center gap-1.5"><Mail size={12}/> {personal.email}</span>}
@@ -156,7 +156,7 @@ export function T1DhakaHeritage({ cvData }: { cvData: CVData }) {
                       <span className="text-gray-500 font-normal text-[9.5pt] italic">{proj.technologies.join(', ')}</span>
                     )}
                   </div>
-                  {proj.description && <p className="text-gray-700 text-[10pt]">{proj.description}</p>}
+                  {proj.description && <p className="text-justify text-gray-700 text-[10pt]">{proj.description}</p>}
                   {proj.link && <div className="text-[#C0392B] text-[9pt] mt-0.5">{proj.link}</div>}
                 </div>
               ))}
@@ -168,7 +168,7 @@ export function T1DhakaHeritage({ cvData }: { cvData: CVData }) {
         {hasCerts && (
           <Section title="Certifications">
             <ul className="list-disc list-outside ml-4 space-y-1 text-gray-700">
-              {certifications.map((cert, i) => <li key={i}>{cert}</li>)}
+              {certifications.map((cert, i) => <li key={i} className="text-justify">{cert}</li>)}
             </ul>
           </Section>
         )}
@@ -180,7 +180,7 @@ export function T1DhakaHeritage({ cvData }: { cvData: CVData }) {
               {languages.map((lang, i) => (
                 <span key={i} className="text-gray-700">
                   <span className="font-medium text-gray-800">{lang.language}</span>
-                  {lang.proficiency ? ` — ${lang.proficiency}` : ''}
+                  {lang.proficiency ? ` ${lang.proficiency}` : ''}
                 </span>
               ))}
             </div>
@@ -203,7 +203,7 @@ export function T1DhakaHeritage({ cvData }: { cvData: CVData }) {
         )}
 
         {cvData.referencesOnRequest && !hasRefs && (
-          <p className="text-gray-400 text-[9.5pt] italic mt-2">References available upon request.</p>
+          <p className="text-justify text-gray-400 text-[9.5pt] italic mt-2">References available upon request.</p>
         )}
       </div>
     </div>
