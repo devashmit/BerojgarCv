@@ -18,6 +18,11 @@ export default async function DashboardPage() {
     include: { cvs: { orderBy: { updatedAt: 'desc' } } },
   })
 
+  // Ensure current user is the owner (extra safety check)
+  if (dbUser && dbUser.clerkId !== userId) {
+    redirect('/sign-in')
+  }
+
   const cvs = dbUser?.cvs || []
 
   return (

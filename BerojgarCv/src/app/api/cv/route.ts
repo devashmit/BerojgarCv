@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
       }
     })
 
-    if (!user) {
+    if (!user || user.clerkId !== userId) {
       return NextResponse.json([])
     }
 
