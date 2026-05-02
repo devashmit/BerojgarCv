@@ -27,37 +27,35 @@ export function FormPanel() {
   const currentText = sectionTitleMap[activeSection] || { title: activeSection, subtitle: '' }
 
   return (
-    <div className="flex flex-col h-full bg-white relative px-8 py-10 w-full max-w-[800px] mx-auto">
-      
-      {/* Dynamic Massive Header Area */}
-      <div className="mb-10 shrink-0">
-        <h1 className="text-4xl font-extrabold text-blue-500 tracking-tight mb-2">
+    <div className="flex flex-col h-full bg-white w-full">
+      {/* Section header */}
+      <div className="px-6 pt-6 pb-4 border-b border-slate-100 shrink-0">
+        <h1 className="text-xl font-bold text-slate-900 leading-tight">
           {currentText.title}
         </h1>
-        <p className="text-slate-500 font-medium">
+        <p className="text-sm text-slate-400 mt-0.5">
           {currentText.subtitle}
         </p>
       </div>
-      
-      <div className="flex-1 w-full relative">
+
+      {/* Scrollable form content */}
+      <div className="flex-1 overflow-y-auto">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeSection}
-            initial={{ opacity: 0, x: -10 }}
+            initial={{ opacity: 0, x: -8 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 10 }}
-            transition={{ duration: 0.15, ease: 'easeOut' }}
-            className="w-full absolute inset-0"
+            exit={{ opacity: 0, x: 8 }}
+            transition={{ duration: 0.12, ease: 'easeOut' }}
+            className="w-full"
           >
-            <div className="w-full h-full pb-32">
-              {activeSection === 'personal' && <PersonalForm />}
-              {activeSection === 'education' && <EducationForm />}
-              {activeSection === 'experience' && <ExperienceForm />}
-              {activeSection === 'skills' && <SkillsForm />}
-              {activeSection === 'languages' && <LanguagesForm />}
-              {activeSection === 'certifications' && <CertificationsForm />}
-              {activeSection === 'references' && <ReferencesForm />}
-            </div>
+            {activeSection === 'personal' && <PersonalForm />}
+            {activeSection === 'education' && <EducationForm />}
+            {activeSection === 'experience' && <ExperienceForm />}
+            {activeSection === 'skills' && <SkillsForm />}
+            {activeSection === 'languages' && <LanguagesForm />}
+            {activeSection === 'certifications' && <CertificationsForm />}
+            {activeSection === 'references' && <ReferencesForm />}
           </motion.div>
         </AnimatePresence>
       </div>

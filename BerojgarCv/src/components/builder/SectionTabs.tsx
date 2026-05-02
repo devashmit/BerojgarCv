@@ -30,24 +30,29 @@ export function SectionTabs() {
   }
 
   return (
-    <div className="flex flex-col w-full gap-4 items-center">
+    <div className="flex flex-col w-full gap-1 items-center overflow-y-auto no-scrollbar">
       {TABS.map(tab => {
         const isActive = tab.id === activeSection
+        const dataFilled = hasData(tab.id)
         const Icon = tab.icon
 
         return (
           <button
             key={tab.id}
             onClick={() => setActiveSection(tab.id)}
+            title={tab.label}
             className={`
-              flex flex-col items-center justify-center w-[72px] h-[72px] rounded-2xl transition-all relative
-              ${isActive 
-                ? 'bg-[#E8F5E9] text-[#2E7D32]' 
-                : 'bg-transparent text-slate-400 hover:text-slate-600 hover:bg-slate-50'}
+              relative flex flex-col items-center justify-center w-[68px] h-[64px] rounded-xl transition-all
+              ${isActive
+                ? 'bg-green-50 text-green-700'
+                : 'text-slate-400 hover:text-slate-700 hover:bg-slate-50'}
             `}
           >
-            <Icon size={24} />
-            <span className="text-[10px] font-bold tracking-wide mt-1.5">{tab.label}</span>
+            <Icon size={20} />
+            <span className="text-[9px] font-bold tracking-wide mt-1 leading-tight text-center">{tab.label}</span>
+            {dataFilled && !isActive && (
+              <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-green-400" />
+            )}
           </button>
         )
       })}

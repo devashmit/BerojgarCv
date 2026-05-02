@@ -125,14 +125,14 @@ export default function BuilderLayout({
   return (
     <div className="h-[100dvh] w-full flex flex-col lg:flex-row overflow-hidden bg-white">
       
-      {/* 1. Left Vertical Nav (Hidden on mobile entirely, converted later if needed) */}
+      {/* 1. Left Vertical Nav */}
       {!isMobile && (
-        <div className="w-[100px] shrink-0 border-r border-slate-200 h-full flex flex-col bg-white overflow-y-auto no-scrollbar py-6 items-center">
-           {/* Logo placeholder */}
-           <div className="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mb-8 shadow-sm">
-             <span className="text-white font-bold text-xl">CV</span>
-           </div>
-           <SectionTabs />
+        <div className="w-[88px] shrink-0 border-r border-slate-100 h-full flex flex-col bg-white py-4 items-center gap-1">
+          {/* Logo */}
+          <div className="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center mb-4 shadow-sm shrink-0">
+            <span className="text-white font-bold text-base">CV</span>
+          </div>
+          <SectionTabs />
         </div>
       )}
 
