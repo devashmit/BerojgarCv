@@ -46,33 +46,52 @@ export function DashboardGrid({ initialCvs }: DashboardGridProps) {
 
   if (cvs.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
-        <div className="w-20 h-20 bg-amber-50 rounded-full flex items-center justify-center mb-6 shadow-sm border border-amber-100">
-           <div className="w-8 h-8 rotate-45 border-r-2 border-b-2 border-amber-400 opacity-60" />
-           <div className="w-8 h-8 -rotate-135 border-r-2 border-b-2 border-amber-400 opacity-60 absolute" />
+      <div className="flex flex-col items-center justify-center py-24 px-4 text-center">
+        {/* Illustration */}
+        <div className="w-24 h-24 rounded-3xl bg-red-50 border border-red-100 flex items-center justify-center mb-6 shadow-sm">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <rect x="6" y="4" width="28" height="34" rx="3" fill="#FEE2E2" stroke="#C0392B" strokeWidth="1.5"/>
+            <rect x="11" y="11" width="18" height="2" rx="1" fill="#C0392B" opacity="0.5"/>
+            <rect x="11" y="16" width="14" height="2" rx="1" fill="#C0392B" opacity="0.3"/>
+            <rect x="11" y="21" width="16" height="2" rx="1" fill="#C0392B" opacity="0.3"/>
+            <rect x="11" y="26" width="10" height="2" rx="1" fill="#C0392B" opacity="0.3"/>
+          </svg>
         </div>
-        <h3 className="text-2xl font-bold font-fraunces text-white mb-2">
-          Start Your First CV
+        <h3 className="text-2xl font-bold text-gray-900 mb-2">
+          Create your first CV
         </h3>
-        <p className="text-gray-400 max-w-sm mb-8">
-          Join thousands of professionals in Nepal and build a certified resume in minutes.
+        <p className="text-gray-500 max-w-xs mb-8 text-sm leading-relaxed">
+          Choose from 7 professional templates and build a job-ready resume in minutes.
         </p>
-        <Link 
+        <Link
           href="/builder"
-          className="flex items-center gap-2 px-8 py-3 bg-[var(--dhaka-crimson)] hover:bg-[var(--dhaka-crimson-hover)] text-white rounded-xl font-bold transition-all shadow-lg"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-white shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all"
+          style={{ background: 'linear-gradient(135deg, #C0392B 0%, #922B21 100%)' }}
         >
-          Build Free →
+          <Plus size={16} />
+          Build Free
         </Link>
       </div>
     )
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      {/* New CV card */}
+      <Link
+        href="/builder"
+        className="group flex flex-col items-center justify-center h-[260px] rounded-2xl border-2 border-dashed border-gray-200 hover:border-[#C0392B] hover:bg-red-50/30 transition-all duration-200 cursor-pointer"
+      >
+        <div className="w-12 h-12 rounded-2xl bg-gray-100 group-hover:bg-red-100 flex items-center justify-center mb-3 transition-colors">
+          <Plus size={22} className="text-gray-400 group-hover:text-[#C0392B] transition-colors" />
+        </div>
+        <p className="text-sm font-bold text-gray-400 group-hover:text-[#C0392B] transition-colors">New CV</p>
+      </Link>
+
       {cvs.map(cv => (
-        <DashboardCard 
-          key={cv.id} 
-          cv={cv} 
+        <DashboardCard
+          key={cv.id}
+          cv={cv}
           onDelete={handleDelete}
           onUpdateTitle={handleUpdateTitle}
         />
