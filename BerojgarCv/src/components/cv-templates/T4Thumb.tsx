@@ -1,61 +1,57 @@
+// T4 Zürich Executive — single column, sans-serif, thin separator lines, gray secondary
 export function T4Thumb() {
   return (
-    <div className="w-full h-[168px] bg-white overflow-hidden shadow-sm flex flex-col pointer-events-none border border-gray-100 border-t-[3px] border-b-[3px] border-[#0A192F]">
-      <div className="flex flex-col items-center pt-3 pb-2 border-b border-gray-100">
-        <div className="h-2 w-24 bg-[#0A192F] mb-1.5" />
-        <div className="h-1.5 w-16 bg-gray-300 mb-2" />
-        <div className="flex gap-2">
-          <div className="h-1 w-8 bg-gray-200" /><div className="h-1 w-8 bg-gray-200" /><div className="h-1 w-8 bg-gray-200" />
+    <div className="w-[119px] h-[168px] overflow-hidden pointer-events-none bg-white border border-gray-200 shadow-sm px-[8px] py-[6px]" style={{ fontFamily: 'Arial, sans-serif' }}>
+      {/* Header */}
+      <div className="mb-[4px]">
+        <div className="h-[5px] w-[52px] bg-black mb-[1.5px]" />
+        <div className="h-[3px] w-[36px] bg-gray-400 mb-[2px]" />
+        {/* Contact line */}
+        <div className="flex items-center gap-[3px]">
+          <div className="h-[1.5px] w-[16px] bg-gray-500" />
+          <div className="h-[1.5px] w-[1px] bg-gray-300" />
+          <div className="h-[1.5px] w-[20px] bg-gray-500" />
+          <div className="h-[1.5px] w-[1px] bg-gray-300" />
+          <div className="h-[1.5px] w-[16px] bg-gray-500" />
         </div>
       </div>
 
-      <div className="p-3 flex flex-col gap-2.5">
-        <div className="flex flex-col gap-0.5">
-          <div className="flex items-center gap-2 mb-1">
-            <div className="h-1.5 w-12 bg-[#0A192F]" />
-            <div className="flex-1 h-[1px] bg-gray-200 relative"><div className="absolute left-0 top-0 w-4 h-full bg-[#0A192F]" /></div>
-          </div>
-          <div className="flex justify-between">
-            <div className="h-1.5 w-16 bg-[#0A192F] mb-0.5" />
-            <div className="h-1 w-8 bg-gray-200" />
-          </div>
-          <div className="h-1 w-12 bg-gray-400 mb-1" />
-          <div className="pl-1.5 flex items-center gap-1 mb-0.5">
-            <div className="text-[6px] text-[#0A192F] leading-[4px] mt-0.5">▸</div>
-            <div className="h-1 w-full bg-gray-300" />
-          </div>
-          <div className="pl-1.5 flex items-center gap-1">
-            <div className="text-[6px] text-[#0A192F] leading-[4px] mt-0.5">▸</div>
-            <div className="h-1 w-[80%] bg-gray-300" />
-          </div>
-        </div>
+      {/* Thin separator */}
+      <div className="h-[0.5px] w-full bg-gray-300 mb-[3px]" />
 
-        <div className="flex flex-col gap-0.5">
-          <div className="flex items-center gap-2 mb-1">
-            <div className="h-1.5 w-10 bg-[#0A192F]" />
-            <div className="flex-1 h-[1px] bg-gray-200 relative"><div className="absolute left-0 top-0 w-4 h-full bg-[#0A192F]" /></div>
+      {/* Summary */}
+      <div className="mb-[3px]">
+        <div className="h-[1.5px] w-full bg-gray-300 mb-[1px]" />
+        <div className="h-[1.5px] w-[90%] bg-gray-300" />
+      </div>
+
+      {/* Sections */}
+      {[
+        { label: 40, entries: [{ title: 44, sub: 32, date: true, lines: [48, 40] }, { title: 38, sub: 28, date: true, lines: [44] }] },
+        { label: 32, entries: [{ title: 40, sub: 30, date: true, lines: [] }] },
+        { label: 24, entries: [{ title: 80, sub: 0, date: false, lines: [] }] },
+      ].map((sec, i) => (
+        <div key={i} className="mb-[3px]">
+          {/* Section heading */}
+          <div className="flex items-center gap-[2px] mb-[1.5px]">
+            <div className="h-[2.5px] bg-black" style={{ width: sec.label }} />
+            <div className="flex-1 h-[0.5px] bg-gray-200" />
           </div>
-          <div className="flex justify-between">
-            <div>
-              <div className="h-1.5 w-14 bg-[#0A192F] mb-0.5" />
-              <div className="h-1 w-16 bg-gray-400" />
+          {sec.entries.map((entry, j) => (
+            <div key={j} className="mb-[2px]">
+              <div className="flex justify-between">
+                <div className="h-[2.5px] bg-black" style={{ width: entry.title }} />
+                {entry.date && <div className="h-[2px] w-[14px] bg-[#333]" />}
+              </div>
+              {entry.sub > 0 && <div className="h-[2px] bg-[#333] mb-[1px]" style={{ width: entry.sub }} />}
+              {entry.lines.map((lw, k) => (
+                <div key={k} className="h-[1.5px] bg-gray-300 mb-[0.5px]" style={{ width: lw }} />
+              ))}
             </div>
-            <div className="h-1 w-8 bg-gray-200" />
-          </div>
+          ))}
+          <div className="h-[0.5px] w-full bg-gray-200 mt-[1px]" />
         </div>
-
-        <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-2 mb-0.5">
-            <div className="h-1.5 w-12 bg-[#0A192F]" />
-            <div className="flex-1 h-[1px] bg-gray-200 relative"><div className="absolute left-0 top-0 w-4 h-full bg-[#0A192F]" /></div>
-          </div>
-          <div className="flex gap-1">
-            <div className="h-2.5 w-10 bg-[#0A192F] rounded-[1px]" />
-            <div className="h-2.5 w-8 bg-[#0A192F] rounded-[1px]" />
-            <div className="h-2.5 w-12 bg-gray-100 border border-gray-200 rounded-[1px]" />
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
   )
 }

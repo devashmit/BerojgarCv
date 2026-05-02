@@ -99,13 +99,13 @@ export function DashboardCard({ cv, onDelete, onUpdateTitle }: DashboardCardProp
     <div className="group relative bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col overflow-hidden">
 
       {/* Thumbnail area */}
-      <Link href={`/builder?cv=${cv.id}`} className="block relative bg-gray-50 overflow-hidden" style={{ height: 160 }}>
+      <Link href={`/builder?cv=${cv.id}`} className="block relative bg-[#F3F4F6] overflow-hidden" style={{ height: 160 }}>
         {/* Accent top bar */}
         <div className="absolute top-0 left-0 right-0 h-1 z-10" style={{ background: accentColor }} />
 
-        {/* Scaled thumb */}
-        <div className="absolute inset-0 flex items-start justify-center pt-3 overflow-hidden">
-          <div style={{ transform: 'scale(0.55)', transformOrigin: 'top center' }}>
+        {/* Scaled thumb — render at natural size then scale up to fill */}
+        <div className="absolute inset-0 flex items-start justify-center pt-4 overflow-hidden">
+          <div style={{ transform: 'scale(1.1)', transformOrigin: 'top center' }}>
             <Thumb />
           </div>
         </div>

@@ -59,11 +59,9 @@ export function TemplatesContent() {
                 className="group relative bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col"
               >
                 {/* Thumb Visuals */}
-                <div className="bg-gray-100 p-8 flex justify-center items-center h-[280px] shrink-0 border-b border-gray-200 overflow-hidden relative">
-                  <div className="w-[180px] h-[254px] shadow-lg bg-white scale-125 origin-top transition-transform duration-500 ease-out group-hover:scale-[1.35]">
-                    <div className="w-[180px] h-[168px] scale-[1.07] origin-top-left">
-                       <Thumb />
-                    </div>
+                <div className="bg-[#F3F4F6] flex justify-center items-start h-[220px] shrink-0 border-b border-gray-200 overflow-hidden relative pt-6">
+                  <div className="shadow-lg" style={{ transform: 'scale(1.55)', transformOrigin: 'top center' }}>
+                    <Thumb />
                   </div>
                 </div>
 

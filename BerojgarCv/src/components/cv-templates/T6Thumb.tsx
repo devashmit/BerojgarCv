@@ -1,66 +1,49 @@
+// T6 Paris Élégante — single column, off-white bg, centered serif name, gold separator lines
 export function T6Thumb() {
   return (
-    <div className="w-full h-[168px] bg-[#FAF7F4] overflow-hidden shadow-sm flex flex-col pointer-events-none border border-gray-100 p-3 pt-4">
-      <div className="flex flex-col items-center mb-4">
-        <div className="h-2 w-20 bg-[#2C2C2C] mb-1" />
-        <div className="h-1 w-12 bg-[#C19A6B] mb-2" />
-        
-        <div className="flex items-center gap-1 mb-2 opacity-60">
-          <div className="h-[0.5px] w-6 bg-[#C19A6B]" />
-          <div className="w-1 h-1 rotate-45 border-[0.5px] border-[#C19A6B]" />
-          <div className="h-[0.5px] w-6 bg-[#C19A6B]" />
+    <div className="w-[119px] h-[168px] overflow-hidden pointer-events-none border border-gray-200 shadow-sm px-[8px] py-[6px] flex flex-col" style={{ background: '#FAFAF8', fontFamily: 'Georgia, serif' }}>
+      {/* Centered name */}
+      <div className="flex flex-col items-center mb-[3px]">
+        <div className="h-[5px] w-[52px] bg-[#2C2C2C] mb-[2px]" />
+        <div className="h-[2px] w-[36px] bg-[#888] mb-[2px]" />
+        {/* Contact */}
+        <div className="flex items-center gap-[2px] mb-[2px]">
+          <div className="h-[1.5px] w-[14px] bg-[#666]" />
+          <div className="h-[1.5px] w-[1px] bg-[#C9B99A]" />
+          <div className="h-[1.5px] w-[18px] bg-[#666]" />
+          <div className="h-[1.5px] w-[1px] bg-[#C9B99A]" />
+          <div className="h-[1.5px] w-[14px] bg-[#666]" />
         </div>
-
-        <div className="flex gap-2">
-          <div className="h-0.5 w-6 bg-gray-400" /><div className="h-0.5 w-0.5 bg-[#C19A6B]" />
-          <div className="h-0.5 w-8 bg-gray-400" /><div className="h-0.5 w-0.5 bg-[#C19A6B]" />
-          <div className="h-0.5 w-6 bg-gray-400" />
-        </div>
+        {/* Gold separator */}
+        <div className="h-[0.5px] w-full bg-[#C9B99A]" />
       </div>
 
-      <div className="flex gap-3">
-        <div className="flex-[2] flex flex-col gap-3">
-          <div>
-            <div className="h-1 w-14 bg-[#C19A6B] border-b-[0.5px] border-[#E5DFD5] pb-1 mb-1" />
-            <div className="flex justify-between mb-0.5">
-              <div className="h-1.5 w-16 bg-[#2C2C2C]" />
+      {/* Sections */}
+      {[
+        { label: 36, entries: [{ title: 44, sub: 32, date: true, lines: [48, 40] }] },
+        { label: 28, entries: [{ title: 40, sub: 30, date: true, lines: [44, 36] }] },
+        { label: 20, entries: [{ title: 72, sub: 0, date: false, lines: [] }] },
+        { label: 24, entries: [{ title: 60, sub: 0, date: false, lines: [] }] },
+      ].map((sec, i) => (
+        <div key={i} className="mb-[3px]">
+          {/* Small caps heading */}
+          <div className="h-[2.5px] bg-[#2C2C2C] mb-[1.5px]" style={{ width: sec.label }} />
+          {/* Gold separator */}
+          <div className="h-[0.5px] w-full bg-[#C9B99A] mb-[1.5px]" />
+          {sec.entries.map((entry, j) => (
+            <div key={j} className="mb-[1.5px]">
+              <div className="flex justify-between">
+                <div className="h-[2.5px] bg-[#2C2C2C]" style={{ width: entry.title }} />
+                {entry.date && <div className="h-[2px] w-[14px] bg-[#C9B99A]" />}
+              </div>
+              {entry.sub > 0 && <div className="h-[2px] bg-[#666] mb-[1px]" style={{ width: entry.sub }} />}
+              {entry.lines.map((lw, k) => (
+                <div key={k} className="h-[1.5px] bg-[#999] mb-[0.5px]" style={{ width: lw }} />
+              ))}
             </div>
-            <div className="flex justify-between mb-1">
-              <div className="h-1 w-12 bg-gray-400" />
-              <div className="h-1 w-8 bg-[#C19A6B]" />
-            </div>
-            <div className="flex gap-1 mb-0.5">
-              <div className="h-[1px] w-1 mt-[2px] bg-[#C19A6B] shrink-0" /><div className="h-[2px] w-full bg-gray-300" />
-            </div>
-            <div className="flex gap-1">
-              <div className="h-[1px] w-1 mt-[2px] bg-[#C19A6B] shrink-0" /><div className="h-[2px] w-[80%] bg-gray-300" />
-            </div>
-          </div>
-          <div>
-            <div className="h-1 w-10 bg-[#C19A6B] border-b-[0.5px] border-[#E5DFD5] pb-1 mb-1" />
-            <div className="h-1.5 w-12 bg-[#2C2C2C] mb-0.5" />
-            <div className="flex justify-between">
-              <div className="h-1 w-16 bg-gray-400" />
-              <div className="h-1 w-8 bg-[#C19A6B]" />
-            </div>
-          </div>
+          ))}
         </div>
-        <div className="flex-1 flex flex-col gap-3">
-          <div>
-            <div className="h-1 w-12 bg-[#C19A6B] border-b-[0.5px] border-[#E5DFD5] pb-1 mb-1.5" />
-            <div className="h-[2px] w-10 bg-gray-400 mb-0.5" />
-            <div className="h-0.5 w-full bg-gray-300 mb-[1px]" />
-            <div className="h-0.5 w-[90%] bg-gray-300 mb-1" />
-            <div className="h-[2px] w-8 bg-gray-400 mb-0.5" />
-            <div className="h-0.5 w-[80%] bg-gray-300" />
-          </div>
-          <div>
-            <div className="h-1 w-8 bg-[#C19A6B] border-b-[0.5px] border-[#E5DFD5] pb-1 mb-1.5" />
-            <div className="h-[2px] w-8 bg-[#2C2C2C] mb-0.5" />
-            <div className="h-[1.5px] w-6 bg-[#C19A6B]" />
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
   )
 }

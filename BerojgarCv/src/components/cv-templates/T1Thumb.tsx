@@ -1,46 +1,43 @@
+// T1 Dhaka Heritage — single column, dark navy header, photo placeholder top-right
 export function T1Thumb() {
   return (
-    <div className="w-full h-[168px] bg-white overflow-hidden shadow-sm flex flex-col pointer-events-none border border-gray-100 relative">
-      <div className="w-full h-[32px] bg-[#C0392B] border-t-[1.5px] border-b-[1.5px] border-[#D4AF37] px-3 py-2 flex justify-between items-center z-10">
-        <div className="flex flex-col gap-1 w-1/2">
-          <div className="h-2 w-full bg-white/10" />
-          <div className="h-1.5 w-2/3 bg-[#D4AF37] opacity-80" />
-          <div className="flex gap-1 mt-1">
-            <div className="h-1 w-4 bg-white/20" /><div className="h-1 w-4 bg-white/20" /><div className="h-1 w-4 bg-white/20" />
+    <div className="w-[119px] h-[168px] overflow-hidden pointer-events-none bg-white border border-gray-200 shadow-sm" style={{ fontFamily: 'Georgia, serif' }}>
+      {/* Header */}
+      <div className="bg-white px-[6px] pt-[6px] pb-[4px] flex justify-between items-start border-b-[1.5px] border-[#1A2744]">
+        <div>
+          <div className="h-[5px] w-[52px] bg-[#1A2744] mb-[2px] font-bold" />
+          <div className="h-[3px] w-[36px] bg-[#444] mb-[3px]" />
+          <div className="flex gap-[2px]">
+            <div className="h-[2px] w-[18px] bg-[#666]" />
+            <div className="h-[2px] w-[2px] bg-[#999]" />
+            <div className="h-[2px] w-[22px] bg-[#666]" />
           </div>
         </div>
-        <div className="w-[20px] h-[24px] border border-dashed border-white/40 bg-white/5" />
+        {/* Photo placeholder */}
+        <div className="w-[14px] h-[18px] border border-dashed border-[#1A2744] bg-gray-50 shrink-0" />
       </div>
 
-      <div className="p-3 flex flex-col gap-3">
-        <div className="h-[2px] w-full bg-gray-100" />
-        <div className="h-[2px] w-[90%] bg-gray-100" />
-        
-        <div>
-          <div className="flex items-center gap-1 mb-1.5">
-            <div className="w-1.5 h-1.5 bg-[#D4AF37] rotate-45" />
-            <div className="h-1.5 w-8 bg-[#C0392B]" />
-            <div className="flex-1 h-[1px] bg-gradient-to-r from-[#C0392B] to-transparent opacity-50" />
+      {/* Body */}
+      <div className="px-[6px] py-[4px] flex flex-col gap-[5px]">
+        {/* Section */}
+        {[
+          { label: 28, lines: [[40, 20], [36, 16], [44, 12], [38, 12]] },
+          { label: 24, lines: [[38, 20], [32, 16], [40, 12]] },
+          { label: 20, lines: [[44, 12], [36, 12]] },
+        ].map((sec, i) => (
+          <div key={i}>
+            <div className="flex items-center gap-[2px] mb-[2px]">
+              <div className="w-[1.5px] h-[5px] bg-[#1A2744]" />
+              <div className="h-[3px] bg-[#1A2744] font-bold" style={{ width: sec.label }} />
+            </div>
+            {sec.lines.map(([w, gap], j) => (
+              <div key={j} className="flex justify-between items-center mb-[1px]">
+                <div className="h-[2px] bg-gray-400" style={{ width: w }} />
+                {j === 0 && <div className="h-[2px] w-[16px] bg-gray-300" />}
+              </div>
+            ))}
           </div>
-          <div className="flex flex-col gap-1.5 pl-2 border-l border-gray-50">
-            <div className="h-1.5 w-1/3 bg-gray-300" />
-            <div className="h-1 w-1/4 bg-[#C0392B] opacity-50" />
-            <div className="h-1 w-full bg-gray-100" />
-            <div className="h-1 w-5/6 bg-gray-100" />
-          </div>
-        </div>
-
-        <div>
-          <div className="flex items-center gap-1 mb-1.5">
-            <div className="w-1.5 h-1.5 bg-[#D4AF37] rotate-45" />
-            <div className="h-1.5 w-8 bg-[#C0392B]" />
-            <div className="flex-1 h-[1px] bg-gradient-to-r from-[#C0392B] to-transparent opacity-50" />
-          </div>
-          <div className="flex flex-col gap-1.5 pl-2 border-l border-gray-50">
-            <div className="h-1.5 w-1/3 bg-gray-300" />
-            <div className="h-1 w-1/4 bg-[#C0392B] opacity-50" />
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   )
