@@ -1,5 +1,203 @@
 import { CVData } from '@/types/cv'
-import { MapPin, Phone, Mail, Linkedin, Globe } from 'lucide-react'
+
+export function T4ZurichExecutive({ cvData }: { cvData: CVData }) {
+  const { personal, experience, education, skills, languages, certifications, projects } = cvData
+
+  const contacts = [
+    personal.email,
+    personal.phone,
+    personal.address,
+    personal.linkedin?.replace(/https?:\/\/(www\.)?/, ''),
+    personal.website?.replace(/https?:\/\/(www\.)?/, ''),
+  ].filter(Boolean) as string[]
+
+  function Section({ title, children }: { title: string; children: React.ReactNode }) {
+    return (
+      <section style={{ marginBottom: 22 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+          <h2 style={{
+            color: '#0A192F',
+            fontWeight: 700,
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+            fontSize: 11,
+            whiteSpace: 'nowrap',
+            margin: 0,
+          }}>{title}</h2>
+          <div style={{ flex: 1, height: 1, background: '#E5E7EB', position: 'relative' }}>
+            <div style={{ position: 'absolute', left: 0, top: 0, height: '100%', width: 40, background: '#0A192F' }} />
+          </div>
+        </div>
+        {children}
+      </section>
+    )
+  }
+
+  return (
+    <div
+      id="cv-preview-root"
+      style={{
+        fontFamily: '"Inter", Arial, sans-serif',
+        fontSize: 11,
+        color: '#1a1a1a',
+        background: '#fff',
+        width: 794,
+        minHeight: 1123,
+        boxSizing: 'border-box',
+        borderTop: '4px solid #0A192F',
+      }}
+    >
+      {/* Header */}
+      <div style={{ padding: '36px 48px 24px', borderBottom: '1px solid #F3F4F6', textAlign: 'center' }}>
+        {personal.fullName && (
+          <h1 style={{ fontSize: 24, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#0A192F', margin: '0 0 6px' }}>
+            {personal.fullName}
+          </h1>
+        )}
+        {personal.jobTitle && (
+          <p style={{ fontSize: 11, color: '#6B7280', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', margin: '0 0 14px' }}>
+            {personal.jobTitle}
+          </p>
+        )}
+        {contacts.length > 0 && (
+          <div style={{ fontSize: 10, color: '#4B5563', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '4px 16px' }}>
+            {contacts.map((c, i) => <span key={i}>{c}</span>)}
+          </div>
+        )}
+      </div>
+
+      <div style={{ padding: '28px 48px', display: 'flex', flexDirection: 'column', gap: 0 }}>
+
+        {/* Summary */}
+        {personal.summary?.trim() && (
+          <p style={{ fontSize: 10.5, textAlign: 'justify', color: '#374151', lineHeight: 1.6, marginBottom: 22 }}>
+            {personal.summary}
+          </p>
+        )}
+
+        {/* Experience */}
+        {experience.length > 0 && (
+          <Section title="Professional Experience">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              {experience.map((exp, i) => (
+                <div key={i}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 3 }}>
+                    <strong style={{ fontSize: 11, color: '#0A192F' }}>{exp.title}</strong>
+                    <span style={{ fontSize: 9.5, color: '#0A192F', background: '#F3F4F6', padding: '2px 8px', borderRadius: 3, marginLeft: 8, whiteSpace: 'nowrap' }}>
+                      {exp.startDate}{exp.startDate ? ' – ' : ''}{exp.currentJob ? 'Present' : exp.endDate}
+                    </span>
+                  </div>
+                  <div style={{ fontSize: 10.5, color: '#374151', fontWeight: 500, marginBottom: 6 }}>
+                    {exp.company}{exp.company && exp.location ? <span style={{ color: '#9CA3AF', fontWeight: 400 }}> · {exp.location}</span> : null}
+                  </div>
+                  {exp.bullets.filter(b => b.trim()).length > 0 && (
+                    <ul style={{ margin: '0 0 0 16px', padding: 0, fontSize: 10.5, color: '#4B5563' }}>
+                      {exp.bullets.filter(b => b.trim()).map((bullet, j) => (
+                        <li key={j} style={{ marginBottom: 4, lineHeight: 1.5 }}>
+                          {bullet.replace(/^[\—\-\•\.\s]+/, '')}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              ))}
+            </div>
+          </Section>
+        )}
+
+        {/* Education */}
+        {education.length > 0 && (
+          <Section title="Education">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {education.map((edu, i) => (
+                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <div>
+                    <strong style={{ fontSize: 11, color: '#0A192F', display: 'block' }}>{edu.degree}</strong>
+                    <span style={{ fontSize: 10.5, color: '#374151' }}>
+                      {edu.institution}{edu.institution && edu.location ? <span style={{ color: '#9CA3AF' }}> · {edu.location}</span> : null}
+                    </span>
+                    {edu.grade && <div style={{ fontSize: 9.5, color: '#6B7280', marginTop: 2 }}>Grade: {edu.grade}</div>}
+                  </div>
+                  <span style={{ fontSize: 9.5, color: '#0A192F', background: '#F3F4F6', padding: '2px 8px', borderRadius: 3, whiteSpace: 'nowrap', marginLeft: 12 }}>
+                    {edu.startYear}{edu.startYear ? ' – ' : ''}{edu.endYear}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </Section>
+        )}
+
+        {/* Projects */}
+        {projects && projects.length > 0 && (
+          <Section title="Projects">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {projects.map((proj, i) => (
+                <div key={i}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: '#0A192F', marginBottom: 4 }}>
+                    {proj.name}
+                    {proj.technologies.length > 0 && (
+                      <span style={{ fontWeight: 400, fontStyle: 'italic', fontSize: 10.5, color: '#6B7280' }}> · {proj.technologies.join(', ')}</span>
+                    )}
+                  </div>
+                  {proj.description && (
+                    <div style={{ fontSize: 10.5, color: '#4B5563', lineHeight: 1.5 }}>▸ {proj.description}</div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </Section>
+        )}
+
+        {/* Skills */}
+        {skills.technical.length > 0 && (
+          <Section title="Technical Skills">
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+              {skills.technical.map((s, i) => (
+                <span key={i} style={{ background: '#0A192F', color: '#fff', padding: '3px 10px', borderRadius: 3, fontSize: 9.5 }}>{s}</span>
+              ))}
+            </div>
+          </Section>
+        )}
+
+        {skills.soft.length > 0 && (
+          <Section title="Soft Skills">
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+              {skills.soft.map((s, i) => (
+                <span key={i} style={{ background: '#F3F4F6', color: '#0A192F', border: '1px solid #E5E7EB', padding: '3px 10px', borderRadius: 3, fontSize: 9.5 }}>{s}</span>
+              ))}
+            </div>
+          </Section>
+        )}
+
+        {/* Languages */}
+        {languages.length > 0 && (
+          <Section title="Languages">
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+              {languages.map((l, i) => (
+                <span key={i} style={{ background: '#F3F4F6', color: '#0A192F', border: '1px solid #E5E7EB', padding: '3px 10px', borderRadius: 3, fontSize: 9.5 }}>
+                  {l.language}{l.proficiency ? ` · ${l.proficiency}` : ''}
+                </span>
+              ))}
+            </div>
+          </Section>
+        )}
+
+        {/* Certifications */}
+        {certifications.length > 0 && (
+          <Section title="Certifications">
+            <ul style={{ margin: '0 0 0 16px', padding: 0, fontSize: 10.5, color: '#4B5563' }}>
+              {certifications.map((c, i) => <li key={i} style={{ marginBottom: 4 }}>{c}</li>)}
+            </ul>
+          </Section>
+        )}
+
+        <div style={{ marginTop: 16, fontSize: 10, color: '#9CA3AF', textAlign: 'center' }}>
+          References available on request
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export function T4ZurichExecutive({ cvData }: { cvData: CVData }) {
   const { personal, experience, education, skills, languages, certifications, projects } = cvData

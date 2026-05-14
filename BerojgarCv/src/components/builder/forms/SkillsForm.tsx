@@ -5,63 +5,55 @@ import { useCVStore } from '@/store/cvStore'
 import { TagInput } from '@/components/ui/TagInput'
 
 export function SkillsForm() {
-  const { cvData, addSkill, removeSkill } = useCVStore()
+  const { cvData, addSkill, removeSkill, setActiveSection } = useCVStore()
   const { technical, soft } = cvData.skills
 
   return (
-    <div className="p-6 space-y-8 pb-24">
+    <div className="px-8 py-6 space-y-6 pb-10">
+
       {/* Technical Skills */}
-      <div className="space-y-3">
-        <div>
-          <h3 className="text-xs font-bold text-slate-800 uppercase tracking-widest flex items-center gap-2">
-            Technical Skills
-          </h3>
-          <p className="text-[11px] text-slate-500 mt-0.5">
-            Programming languages, frameworks, tools, and technical concepts.
-          </p>
+      <div>
+        <div className="mb-2">
+          <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">Technical Skills</p>
+          <p className="text-xs text-gray-400 mt-0.5">Languages, frameworks, tools. Press Enter to add.</p>
         </div>
-        
-        <TagInput 
+        <TagInput
           tags={technical}
           onChange={(newTags) => {
-            // Find added
             const added = newTags.find(t => !technical.includes(t))
             if (added) addSkill('technical', added)
-            // Find removed
             const removed = technical.find(t => !newTags.includes(t))
             if (removed) removeSkill('technical', removed)
           }}
-          placeholder="e.g. React, Docker, Python + Enter"
-          className="bg-slate-50 border-slate-200 py-3"
+          placeholder="e.g. React, Node.js, Docker..."
+          className="bg-white border-gray-300"
         />
       </div>
 
-      <div className="h-[1px] bg-slate-100 w-full" />
+      <div className="h-px bg-gray-100" />
 
       {/* Soft Skills */}
-      <div className="space-y-3">
-        <div>
-          <h3 className="text-xs font-bold text-slate-800 uppercase tracking-widest flex items-center gap-2">
-            Soft Skills
-          </h3>
-          <p className="text-[11px] text-slate-500 mt-0.5">
-            Interpersonal skills, leadership, communication, and work habits.
-          </p>
+      <div>
+        <div className="mb-2">
+          <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">Soft Skills</p>
+          <p className="text-xs text-gray-400 mt-0.5">Leadership, communication, teamwork. Press Enter to add.</p>
         </div>
-        
-        <TagInput 
+        <TagInput
           tags={soft}
           onChange={(newTags) => {
-            // Find added
             const added = newTags.find(t => !soft.includes(t))
             if (added) addSkill('soft', added)
-            // Find removed
             const removed = soft.find(t => !newTags.includes(t))
             if (removed) removeSkill('soft', removed)
           }}
-          placeholder="e.g. Team Leadership, Agile/Scrum + Enter"
-          className="bg-slate-50 border-slate-200 py-3"
+          placeholder="e.g. Team Leadership, Agile..."
+          className="bg-white border-gray-300"
         />
+      </div>
+
+      <div className="flex justify-between pt-3 border-t border-gray-100">
+        <button onClick={() => setActiveSection('experience')} className="px-5 py-2 rounded-md border border-gray-300 text-sm font-semibold text-gray-600 bg-white hover:bg-gray-50 transition-colors">← Back</button>
+        <button onClick={() => setActiveSection('languages')} className="px-5 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold transition-colors">Continue →</button>
       </div>
     </div>
   )

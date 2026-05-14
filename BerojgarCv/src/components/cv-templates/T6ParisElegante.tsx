@@ -2,78 +2,44 @@ import { CVData } from '@/types/cv'
 
 export function T6ParisElegante({ cvData }: { cvData: CVData }) {
   const { personal, experience, education, skills, languages, certifications, projects } = cvData
-
-  const hasExperience = experience.length > 0
-  const hasEducation = education.length > 0
-  const hasTechSkills = skills.technical.length > 0
-  const hasSoftSkills = skills.soft.length > 0
-  const hasLanguages = languages.length > 0
-  const hasCerts = certifications.length > 0
-  const hasProjects = projects && projects.length > 0
+  const GOLD = '#C19A6B'
+  const BG = '#FAF7F4'
 
   const contacts = [
-    personal.email,
-    personal.phone,
-    personal.address,
-    personal.linkedin && personal.linkedin.replace(/https?:\/\/(www\.)?/, ''),
-    personal.website && personal.website.replace(/https?:\/\/(www\.)?/, ''),
+    personal.email, personal.phone, personal.address,
+    personal.linkedin?.replace(/https?:\/\/(www\.)?/, ''),
+    personal.website?.replace(/https?:\/\/(www\.)?/, ''),
   ].filter(Boolean) as string[]
 
-  const Ornament = () => (
-    <div className="flex items-center justify-center gap-2 opacity-50 my-4">
-      <div className="w-14 h-[1px] bg-[#C19A6B]" />
-      <div className="w-2 h-2 rotate-45 border border-[#C19A6B]" />
-      <div className="w-14 h-[1px] bg-[#C19A6B]" />
-    </div>
-  )
-
-  function LeftSection({ title, children }: { title: string; children: React.ReactNode }) {
+  function Section({ title, children, small }: { title: string; children: React.ReactNode; small?: boolean }) {
     return (
-      <section>
-        <h2 className="text-[#C19A6B] font-bold uppercase tracking-[0.12em] text-[10.5pt] border-b border-[#E5DFD5] pb-1.5 mb-3.5">
-          {title}
-        </h2>
+      <div style={{ marginBottom: 20 }}>
+        <h2 style={{ fontSize: small ? 10 : 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', color: GOLD, borderBottom: `1px solid #E5DFD5`, paddingBottom: 5, marginBottom: 12 }}>{title}</h2>
         {children}
-      </section>
-    )
-  }
-
-  function RightSection({ title, children }: { title: string; children: React.ReactNode }) {
-    return (
-      <section>
-        <h2 className="text-[#C19A6B] font-bold uppercase tracking-[0.12em] text-[9.5pt] border-b border-[#E5DFD5] pb-1.5 mb-3">
-          {title}
-        </h2>
-        {children}
-      </section>
+      </div>
     )
   }
 
   return (
-    <div
-      className="bg-[#FAF7F4] w-[794px] min-h-[1123px] text-[10pt] font-serif text-[#333333] flex flex-col mx-auto shrink-0 px-[56px] py-[48px] relative"
-      style={{ fontFamily: '"Georgia", "Noto Serif", serif', wordBreak: 'break-word', overflowWrap: 'break-word' }}
-    >
-      {/* Thin gold top border */}
-      <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-transparent via-[#C19A6B] to-transparent" />
-      <div className="absolute bottom-0 left-0 w-full h-[3px] bg-gradient-to-r from-transparent via-[#C19A6B] to-transparent" />
+    <div id="cv-preview-root" style={{ fontFamily: '"Georgia", "Times New Roman", serif', fontSize: 13, color: '#333', background: BG, width: 794, minHeight: 1123, padding: '48px 56px', boxSizing: 'border-box' as const, position: 'relative' }}>
+      {/* Gold top/bottom borders */}
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: `linear-gradient(to right, transparent, ${GOLD}, transparent)` }} />
+      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 3, background: `linear-gradient(to right, transparent, ${GOLD}, transparent)` }} />
 
       {/* Header */}
-      <div className="text-center mb-2">
-        {personal.fullName && (
-          <h1 className="text-[24pt] font-bold text-[#2C2C2C] tracking-wide mb-1 leading-tight">{personal.fullName}</h1>
-        )}
-        {personal.jobTitle && (
-          <p className="text-justify text-[11pt] text-[#C19A6B] font-medium tracking-[0.2em] uppercase">{personal.jobTitle}</p>
-        )}
-        <Ornament />
+      <div style={{ textAlign: 'center', marginBottom: 8 }}>
+        {personal.fullName && <h1 style={{ fontSize: 26, fontWeight: 700, color: '#2C2C2C', margin: '0 0 6px', lineHeight: 1.2, letterSpacing: '0.05em' }}>{personal.fullName}</h1>}
+        {personal.jobTitle && <p style={{ fontSize: 12, color: GOLD, fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', margin: '0 0 12px' }}>{personal.jobTitle}</p>}
+        {/* Ornament */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, opacity: 0.5, margin: '12px 0' }}>
+          <div style={{ width: 56, height: 1, background: GOLD }} />
+          <div style={{ width: 8, height: 8, transform: 'rotate(45deg)', border: `1px solid ${GOLD}` }} />
+          <div style={{ width: 56, height: 1, background: GOLD }} />
+        </div>
         {contacts.length > 0 && (
-          <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 text-[9pt] text-[#555] tracking-wider uppercase">
+          <div style={{ fontSize: 10.5, color: '#666', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '4px 0' }}>
             {contacts.map((c, i) => (
-              <span key={i} className="flex items-center">
-                {i > 0 && <span className="mr-3 text-[#C19A6B]">·</span>}
-                {c}
-              </span>
+              <span key={i}>{i > 0 && <span style={{ color: GOLD, margin: '0 10px' }}>·</span>}{c}</span>
             ))}
           </div>
         )}
@@ -81,131 +47,87 @@ export function T6ParisElegante({ cvData }: { cvData: CVData }) {
 
       {/* Summary */}
       {personal.summary?.trim() && (
-        <div className="text-justify leading-relaxed text-[10.5pt] text-[#444] my-5 italic px-4">
-          <p>{personal.summary}</p>
-        </div>
+        <p style={{ fontSize: 12.5, color: '#555', lineHeight: 1.7, textAlign: 'justify', fontStyle: 'italic', padding: '12px 16px', margin: '16px 0' }}>{personal.summary}</p>
       )}
 
-      <div className="absolute left-[40px] right-[240px] top-0 bottom-0 pointer-events-none" />
-
       {/* Two-column body */}
-      <div className="flex gap-10 flex-1">
-
-        {/* Left — main content */}
-        <div className="flex-1 flex flex-col gap-[20px] min-w-0">
-
-          {hasExperience && (
-            <LeftSection title="Expérience Professionnelle">
-              <div className="flex flex-col gap-[16px]">
-                {experience.map(exp => (
-                  <div key={exp.id}>
-                    <div className="mb-1.5">
-                      <h3 className="font-bold text-[12pt] text-[#2C2C2C]">{exp.title}</h3>
-                      <div className="flex justify-between items-baseline text-[10pt] italic text-[#666]">
-                        <span>{exp.company}{exp.company && exp.location ? `, ${exp.location}` : ''}</span>
-                        <span className="text-[#C19A6B] font-medium not-italic shrink-0 ml-2">
-                          {exp.startDate}{exp.startDate ? ' – ' : ''}{exp.currentJob ? 'Present' : exp.endDate}
-                        </span>
-                      </div>
-                    </div>
-                    {exp.bullets.filter(b => b.trim()).length > 0 && (
-                      <ul className="list-disc list-outside pl-4 space-y-1.5 mt-2">
-                        {exp.bullets.filter(b => b.trim()).map((bullet, i) => (
-                          <li key={i} className="text-justify text-[#444] leading-relaxed pl-1 marker:text-[#C19A6B]">
-                            {bullet.replace(/^[—\-\•\.\s]+/, '')}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+      <div style={{ display: 'flex', gap: 40, marginTop: 8 }}>
+        {/* Left — main */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          {experience.length > 0 && (
+            <Section title="Professional Experience">
+              {experience.map((exp, i) => (
+                <div key={i} style={{ marginBottom: 16 }}>
+                  <h3 style={{ fontSize: 13.5, fontWeight: 700, color: '#2C2C2C', margin: '0 0 3px' }}>{exp.title}</h3>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, fontStyle: 'italic', color: '#666', marginBottom: 6 }}>
+                    <span>{exp.company}{exp.location ? `, ${exp.location}` : ''}</span>
+                    <span style={{ color: GOLD, fontStyle: 'normal', fontWeight: 500, marginLeft: 8, whiteSpace: 'nowrap' }}>{exp.startDate}{exp.startDate ? ' – ' : ''}{exp.currentJob ? 'Present' : exp.endDate}</span>
                   </div>
-                ))}
-              </div>
-            </LeftSection>
+                  {exp.bullets.filter(b => b.trim()).length > 0 && (
+                    <ul style={{ margin: '0 0 0 16px', padding: 0, fontSize: 12.5, color: '#444' }}>
+                      {exp.bullets.filter(b => b.trim()).map((b, j) => <li key={j} style={{ marginBottom: 4, lineHeight: 1.6, textAlign: 'justify' }}>{b.replace(/^[\—\-\•\.\s]+/, '')}</li>)}
+                    </ul>
+                  )}
+                </div>
+              ))}
+            </Section>
           )}
 
-          {hasEducation && (
-            <LeftSection title="Formation">
-              <div className="flex flex-col gap-[14px]">
-                {education.map(edu => (
-                  <div key={edu.id}>
-                    <h3 className="font-bold text-[11pt] text-[#2C2C2C]">{edu.degree}</h3>
-                    <div className="flex justify-between items-baseline text-[10pt] italic text-[#666]">
-                      <span>{edu.institution}{edu.institution && edu.location ? `, ${edu.location}` : ''}</span>
-                      <span className="text-[#C19A6B] font-medium not-italic shrink-0 ml-2">{edu.startYear}{edu.startYear ? ' – ' : ''}{edu.endYear}</span>
-                    </div>
-                    {edu.grade && <div className="text-[#555] mt-0.5 text-[9.5pt]">Grade: {edu.grade}</div>}
+          {education.length > 0 && (
+            <Section title="Education">
+              {education.map((edu, i) => (
+                <div key={i} style={{ marginBottom: 12 }}>
+                  <h3 style={{ fontSize: 13, fontWeight: 700, color: '#2C2C2C', margin: '0 0 2px' }}>{edu.degree}</h3>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, fontStyle: 'italic', color: '#666' }}>
+                    <span>{edu.institution}{edu.location ? `, ${edu.location}` : ''}</span>
+                    <span style={{ color: GOLD, fontStyle: 'normal', fontWeight: 500, marginLeft: 8, whiteSpace: 'nowrap' }}>{edu.startYear}{edu.startYear ? ' – ' : ''}{edu.endYear}</span>
                   </div>
-                ))}
-              </div>
-            </LeftSection>
+                  {edu.grade && <div style={{ fontSize: 11, color: '#777', marginTop: 2 }}>Grade: {edu.grade}</div>}
+                </div>
+              ))}
+            </Section>
           )}
 
-          {hasProjects && (
-            <LeftSection title="Projets">
-              <div className="flex flex-col gap-[14px]">
-                {projects!.map(proj => (
-                  <div key={proj.id}>
-                    <div className="flex items-baseline gap-2 mb-1">
-                      <h3 className="font-bold text-[11pt] text-[#2C2C2C]">{proj.name}</h3>
-                      {proj.technologies.length > 0 && (
-                        <span className="text-[#666] italic text-[9.5pt]">{proj.technologies.join(', ')}</span>
-                      )}
-                    </div>
-                    {proj.description && (
-                      <p className="text-justify text-[#444] leading-relaxed mt-1">
-                        {proj.description.replace(/^[—\-\•\.\s]+/, '')}
-                      </p>
-                    )}
-                    {proj.link && <div className="text-[#C19A6B] text-[9pt] mt-0.5 ml-4">{proj.link}</div>}
-                  </div>
-                ))}
-              </div>
-            </LeftSection>
+          {projects && projects.length > 0 && (
+            <Section title="Projects">
+              {projects.map((proj, i) => (
+                <div key={i} style={{ marginBottom: 12 }}>
+                  <strong style={{ fontSize: 13, color: '#2C2C2C' }}>{proj.name}</strong>
+                  {proj.technologies.length > 0 && <span style={{ fontSize: 11.5, color: '#888', fontStyle: 'italic' }}> · {proj.technologies.join(', ')}</span>}
+                  {proj.description && <p style={{ fontSize: 12.5, color: '#444', lineHeight: 1.6, margin: '4px 0 0', textAlign: 'justify' }}>{proj.description}</p>}
+                </div>
+              ))}
+            </Section>
           )}
         </div>
 
-        {/* Right — secondary: ~200px */}
-        <div className="w-[190px] shrink-0 flex flex-col gap-[18px]">
-
-          {hasTechSkills && (
-            <RightSection title="Compétences Techniques">
-              <ul className="space-y-1">
-                {skills.technical.map(s => <li key={s} className="text-justify text-[#444] text-[9.5pt]">{s}</li>)}
-              </ul>
-            </RightSection>
+        {/* Right — secondary */}
+        <div style={{ width: 185, flexShrink: 0 }}>
+          {skills.technical.length > 0 && (
+            <Section title="Technical Skills" small>
+              {skills.technical.map((s, i) => <div key={i} style={{ fontSize: 12, color: '#444', marginBottom: 4 }}>{s}</div>)}
+            </Section>
           )}
-
-          {hasSoftSkills && (
-            <RightSection title="Soft Skills">
-              <ul className="space-y-1">
-                {skills.soft.map(s => <li key={s} className="text-justify text-[#444] text-[9.5pt]">{s}</li>)}
-              </ul>
-            </RightSection>
+          {skills.soft.length > 0 && (
+            <Section title="Soft Skills" small>
+              {skills.soft.map((s, i) => <div key={i} style={{ fontSize: 12, color: '#444', marginBottom: 4 }}>{s}</div>)}
+            </Section>
           )}
-
-          {hasLanguages && (
-            <RightSection title="Langues">
-              <ul className="space-y-2.5">
-                {languages.map(l => (
-                  <li key={l.language}>
-                    <div className="text-[#2C2C2C] font-bold text-[10pt]">{l.language}</div>
-                    {l.proficiency && <div className="text-[#C19A6B] italic text-[9pt]">{l.proficiency}</div>}
-                  </li>
-                ))}
-              </ul>
-            </RightSection>
+          {languages.length > 0 && (
+            <Section title="Languages" small>
+              {languages.map((l, i) => (
+                <div key={i} style={{ marginBottom: 8 }}>
+                  <div style={{ fontSize: 12.5, fontWeight: 700, color: '#2C2C2C' }}>{l.language}</div>
+                  {l.proficiency && <div style={{ fontSize: 11, color: GOLD, fontStyle: 'italic' }}>{l.proficiency}</div>}
+                </div>
+              ))}
+            </Section>
           )}
-
-          {hasCerts && (
-            <RightSection title="Certifications">
-              <ul className="list-disc list-outside pl-3 space-y-1.5 marker:text-[#C19A6B]">
-                {certifications.map(c => (
-                  <li key={c} className="text-justify text-[#444] leading-snug text-[9.5pt] pl-1">{c}</li>
-                ))}
-              </ul>
-            </RightSection>
+          {certifications.length > 0 && (
+            <Section title="Certifications" small>
+              {certifications.map((c, i) => <div key={i} style={{ fontSize: 12, color: '#444', marginBottom: 5, lineHeight: 1.5 }}>· {c}</div>)}
+            </Section>
           )}
-
         </div>
       </div>
     </div>

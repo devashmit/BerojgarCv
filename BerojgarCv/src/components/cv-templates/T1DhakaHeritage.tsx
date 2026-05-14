@@ -1,209 +1,150 @@
 import { CVData } from '@/types/cv'
-import { MapPin, Phone, Mail, Linkedin, Github, Globe } from 'lucide-react'
 import Image from 'next/image'
 
 export function T1DhakaHeritage({ cvData }: { cvData: CVData }) {
   const { personal, experience, education, skills, languages, certifications, projects, references } = cvData
 
-  const hasExperience = experience.length > 0
-  const hasEducation = education.length > 0
-  const hasTechSkills = skills.technical.length > 0
-  const hasSoftSkills = skills.soft.length > 0
-  const hasLanguages = languages.length > 0
-  const hasCerts = certifications.length > 0
-  const hasProjects = projects && projects.length > 0
-  const hasRefs = references.length > 0
-
-  const Diamond = () => (
-    <svg width="10" height="10" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
-      <path d="M6 0L12 6L6 12L0 6L6 0Z" fill="#D4AF37"/>
-    </svg>
-  )
+  const s = {
+    wrap: { fontFamily: '"Georgia", "Times New Roman", serif', fontSize: 14, color: '#1a1a1a', background: '#fff', width: 794, minHeight: 1123, boxSizing: 'border-box' as const },
+    header: { background: '#fff', borderBottom: '3px solid #1A2744', padding: '36px 56px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 24 },
+    name: { fontSize: 22, fontWeight: 700, color: '#1A2744', margin: '0 0 4px', lineHeight: 1.2 },
+    jobTitle: { fontSize: 13, color: '#444', margin: '0 0 10px', fontWeight: 400 },
+    contactLine: { fontSize: 11, color: '#555', lineHeight: 1.8 },
+    photoBox: { width: 80, height: 96, border: '1px dashed #1A2744', background: '#f8f8f8', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' as const, position: 'relative' as const },
+    body: { padding: '32px 56px 40px' },
+    sectionHead: { display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10, borderBottom: '1.5px solid #1A2744', paddingBottom: 4 },
+    sectionTitle: { fontSize: 12, fontWeight: 700, textTransform: 'uppercase' as const, letterSpacing: '0.08em', color: '#1A2744', margin: 0 },
+    section: { marginBottom: 22 },
+    entryTitle: { fontSize: 13, fontWeight: 700, color: '#111' },
+    entryMeta: { fontSize: 11.5, color: '#C0392B', fontWeight: 600 },
+    entryDate: { fontSize: 11, color: '#666' },
+    bullet: { fontSize: 12, color: '#333', lineHeight: 1.6, marginBottom: 3 },
+    body2: { fontSize: 12, color: '#333', lineHeight: 1.6 },
+  }
 
   function Section({ title, children }: { title: string; children: React.ReactNode }) {
     return (
-      <section>
-        <div className="flex items-center gap-2 mb-3">
-          <Diamond />
-          <h2 className="text-[#C0392B] font-bold uppercase tracking-widest text-[11pt]">{title}</h2>
-          <div className="flex-1 h-[1.5px] bg-gradient-to-r from-[#C0392B] to-transparent ml-1 opacity-40" />
+      <div style={s.section}>
+        <div style={s.sectionHead}>
+          <h2 style={s.sectionTitle}>{title}</h2>
         </div>
         {children}
-      </section>
+      </div>
     )
   }
 
   return (
-    <div
-      className="bg-white w-[794px] min-h-[1123px] text-[10.5pt] leading-[1.5] font-sans text-neutral-800 flex flex-col mx-auto shrink-0"
-      style={{ fontFamily: '"Inter", "Roboto", system-ui, sans-serif', wordBreak: 'break-word', overflowWrap: 'break-word' }}
-    >
-      {/* ── Header ─────────────────────────────────────────── */}
-      <div className="w-full bg-[#C0392B] text-white pt-[40px] pb-[32px] px-[56px] border-t-[3px] border-b-[3px] border-[#D4AF37] flex justify-between items-center gap-6">
-        <div className="flex-1 min-w-0">
-          {personal.fullName && (
-            <h1 className="text-[22pt] font-bold tracking-wide uppercase mb-1 leading-tight">{personal.fullName}</h1>
-          )}
-          {personal.jobTitle && (
-            <p className="text-justify text-[#FFD580] text-[12pt] font-medium mb-3">{personal.jobTitle}</p>
-          )}
-          <div className="flex flex-wrap gap-x-4 gap-y-1 text-[9pt] font-light text-white/90">
-            {personal.email && <span className="flex items-center gap-1.5"><Mail size={12}/> {personal.email}</span>}
-            {personal.phone && <span className="flex items-center gap-1.5"><Phone size={12}/> {personal.phone}</span>}
-            {personal.address && <span className="flex items-center gap-1.5"><MapPin size={12}/> {personal.address}</span>}
-            {personal.linkedin && <span className="flex items-center gap-1.5"><Linkedin size={12}/> {personal.linkedin.replace(/https?:\/\/(www\.)?/, '')}</span>}
-            {personal.github && <span className="flex items-center gap-1.5"><Github size={12}/> {personal.github.replace(/https?:\/\/(www\.)?/, '')}</span>}
-            {personal.website && <span className="flex items-center gap-1.5"><Globe size={12}/> {personal.website.replace(/https?:\/\/(www\.)?/, '')}</span>}
+    <div id="cv-preview-root" style={s.wrap}>
+      {/* Header */}
+      <div style={s.header}>
+        <div style={{ flex: 1 }}>
+          {personal.fullName && <h1 style={s.name}>{personal.fullName}</h1>}
+          {personal.jobTitle && <p style={s.jobTitle}>{personal.jobTitle}</p>}
+          <div style={s.contactLine}>
+            {[personal.email, personal.phone, personal.address, personal.linkedin?.replace(/https?:\/\/(www\.)?/, ''), personal.github?.replace(/https?:\/\/(www\.)?/, '')].filter(Boolean).join('  ·  ')}
           </div>
         </div>
-
-        <div className="w-[80px] h-[96px] bg-white/10 shrink-0 flex items-center justify-center border border-white/30 overflow-hidden relative">
-          {personal.photo ? (
-            <Image src={personal.photo} alt="Profile" fill className="object-cover" />
-          ) : (
-            <div className="w-[68px] h-[84px] border border-dashed border-white/40" />
-          )}
+        <div style={s.photoBox}>
+          {personal.photo
+            ? <Image src={personal.photo} alt="Profile" fill style={{ objectFit: 'cover' }} />
+            : <span style={{ fontSize: 10, color: '#aaa' }}>Photo</span>}
         </div>
       </div>
 
-      {/* ── Body ───────────────────────────────────────────── */}
-      <div className="px-[56px] py-[40px] flex-1 flex flex-col gap-[24px]">
-
-        {/* Summary */}
+      {/* Body */}
+      <div style={s.body}>
         {personal.summary?.trim() && (
           <Section title="Professional Summary">
-            <p className="text-justify leading-relaxed text-[10.5pt] text-gray-700">{personal.summary}</p>
+            <p style={{ ...s.body2, textAlign: 'justify' }}>{personal.summary}</p>
           </Section>
         )}
 
-        {/* Experience */}
-        {hasExperience && (
+        {experience.length > 0 && (
           <Section title="Work Experience">
-            <div className="flex flex-col gap-[16px]">
-              {experience.map(exp => (
-                <div key={exp.id}>
-                  <div className="flex justify-between items-baseline mb-1">
-                    <h3 className="font-bold text-[11pt] text-gray-900">{exp.title}</h3>
-                    <span className="text-gray-500 text-[9pt] font-medium shrink-0 ml-2">
-                      {exp.startDate}{exp.startDate ? ' – ' : ''}{exp.currentJob ? 'Present' : exp.endDate}
-                    </span>
-                  </div>
-                  <div className="text-[#C0392B] font-semibold text-[10pt] mb-1.5">
-                    {exp.company}{exp.company && exp.location ? <span className="text-gray-500 font-normal"> · {exp.location}</span> : null}
-                  </div>
-                  {exp.bullets.filter(b => b.trim()).length > 0 && (
-                    <ul className="list-disc list-outside ml-[18px] space-y-1.5 text-gray-700">
-                      {exp.bullets.filter(b => b.trim()).map((bullet, i) => (
-                        <li key={i} className="text-justify pl-1">{bullet.replace(/^[—\-\•\.\s]+/, '')}</li>
-                      ))}
-                    </ul>
-                  )}
+            {experience.map((exp, i) => (
+              <div key={i} style={{ marginBottom: 16 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                  <span style={s.entryTitle}>{exp.title}</span>
+                  <span style={s.entryDate}>{exp.startDate}{exp.startDate ? ' – ' : ''}{exp.currentJob ? 'Present' : exp.endDate}</span>
                 </div>
-              ))}
-            </div>
+                <div style={{ ...s.entryMeta, marginBottom: 6 }}>{exp.company}{exp.location ? ` · ${exp.location}` : ''}</div>
+                {exp.bullets.filter(b => b.trim()).length > 0 && (
+                  <ul style={{ margin: '0 0 0 18px', padding: 0 }}>
+                    {exp.bullets.filter(b => b.trim()).map((b, j) => (
+                      <li key={j} style={s.bullet}>{b.replace(/^[\—\-\•\.\s]+/, '')}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
           </Section>
         )}
 
-        {/* Education */}
-        {hasEducation && (
+        {education.length > 0 && (
           <Section title="Education">
-            <div className="flex flex-col gap-[14px]">
-              {education.map(edu => (
-                <div key={edu.id}>
-                  <div className="flex justify-between items-baseline mb-0.5">
-                    <h3 className="font-bold text-[11pt] text-gray-900">{edu.degree}</h3>
-                    <span className="text-gray-500 text-[9pt] font-medium shrink-0 ml-2">{edu.startYear}{edu.startYear ? ' – ' : ''}{edu.endYear}</span>
-                  </div>
-                  <div className="text-[#C0392B] font-semibold text-[10pt]">
-                    {edu.institution}{edu.institution && edu.location ? <span className="text-gray-500 font-normal"> · {edu.location}</span> : null}
-                  </div>
-                  {edu.grade && <div className="text-gray-600 mt-0.5 text-[9.5pt]">Grade: {edu.grade}</div>}
+            {education.map((edu, i) => (
+              <div key={i} style={{ marginBottom: 12 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                  <span style={s.entryTitle}>{edu.degree}</span>
+                  <span style={s.entryDate}>{edu.startYear}{edu.startYear ? ' – ' : ''}{edu.endYear}</span>
                 </div>
-              ))}
-            </div>
+                <div style={s.entryMeta}>{edu.institution}{edu.location ? ` · ${edu.location}` : ''}</div>
+                {edu.grade && <div style={{ fontSize: 11, color: '#666', marginTop: 2 }}>Grade: {edu.grade}</div>}
+              </div>
+            ))}
           </Section>
         )}
 
-        {/* Skills */}
-        {(hasTechSkills || hasSoftSkills) && (
-          <Section title="Skills">
-            <div className="flex flex-col gap-2">
-              {hasTechSkills && (
-                <div>
-                  <span className="font-semibold text-gray-800">Technical: </span>
-                  <span className="text-gray-700">{skills.technical.join(' · ')}</span>
-                </div>
-              )}
-              {hasSoftSkills && (
-                <div>
-                  <span className="font-semibold text-gray-800">Soft Skills: </span>
-                  <span className="text-gray-700">{skills.soft.join(' · ')}</span>
-                </div>
-              )}
-            </div>
-          </Section>
-        )}
-
-        {/* Projects */}
-        {hasProjects && (
+        {projects && projects.length > 0 && (
           <Section title="Projects">
-            <div className="flex flex-col gap-[14px]">
-              {projects!.map(proj => (
-                <div key={proj.id}>
-                  <div className="flex items-baseline gap-2 mb-1">
-                    <h3 className="font-bold text-[11pt] text-gray-900">{proj.name}</h3>
-                    {proj.technologies.length > 0 && (
-                      <span className="text-gray-500 font-normal text-[9.5pt] italic">{proj.technologies.join(', ')}</span>
-                    )}
-                  </div>
-                  {proj.description && <p className="text-justify text-gray-700 text-[10pt]">{proj.description}</p>}
-                  {proj.link && <div className="text-[#C0392B] text-[9pt] mt-0.5">{proj.link}</div>}
+            {projects.map((proj, i) => (
+              <div key={i} style={{ marginBottom: 12 }}>
+                <div style={{ ...s.entryTitle, marginBottom: 4 }}>
+                  {proj.name}{proj.technologies.length > 0 ? <span style={{ fontWeight: 400, fontStyle: 'italic', fontSize: 12, color: '#555' }}> · {proj.technologies.join(', ')}</span> : null}
                 </div>
-              ))}
-            </div>
+                {proj.description && <p style={{ ...s.body2, textAlign: 'justify' }}>{proj.description}</p>}
+              </div>
+            ))}
           </Section>
         )}
 
-        {/* Certifications */}
-        {hasCerts && (
+        {(skills.technical.length > 0 || skills.soft.length > 0) && (
+          <Section title="Skills">
+            {skills.technical.length > 0 && <div style={s.body2}><strong>Technical:</strong> {skills.technical.join(' · ')}</div>}
+            {skills.soft.length > 0 && <div style={s.body2}><strong>Soft Skills:</strong> {skills.soft.join(' · ')}</div>}
+          </Section>
+        )}
+
+        {languages.length > 0 && (
+          <Section title="Languages">
+            <div style={s.body2}>{languages.map(l => `${l.language}${l.proficiency ? ` (${l.proficiency})` : ''}`).join('  ·  ')}</div>
+          </Section>
+        )}
+
+        {certifications.length > 0 && (
           <Section title="Certifications">
-            <ul className="list-disc list-outside ml-4 space-y-1 text-gray-700">
-              {certifications.map((cert, i) => <li key={i} className="text-justify">{cert}</li>)}
+            <ul style={{ margin: '0 0 0 18px', padding: 0 }}>
+              {certifications.map((c, i) => <li key={i} style={s.bullet}>{c}</li>)}
             </ul>
           </Section>
         )}
 
-        {/* Languages */}
-        {hasLanguages && (
-          <Section title="Languages">
-            <div className="flex flex-wrap gap-x-8 gap-y-1">
-              {languages.map((lang, i) => (
-                <span key={i} className="text-gray-700">
-                  <span className="font-medium text-gray-800">{lang.language}</span>
-                  {lang.proficiency ? ` ${lang.proficiency}` : ''}
-                </span>
-              ))}
-            </div>
-          </Section>
-        )}
-
-        {/* References */}
-        {hasRefs && (
+        {references.length > 0 && (
           <Section title="References">
-            <div className="flex flex-wrap gap-6">
-              {references.map(ref => (
-                <div key={ref.id}>
-                  <div className="font-semibold text-gray-800">{ref.name}</div>
-                  {ref.title && <div className="text-gray-600 text-[9.5pt]">{ref.title}</div>}
-                  {ref.contact && <div className="text-gray-500 text-[9.5pt]">{ref.contact}</div>}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24 }}>
+              {references.map((ref, i) => (
+                <div key={i}>
+                  <div style={{ fontWeight: 700, fontSize: 13 }}>{ref.name}</div>
+                  {ref.title && <div style={{ fontSize: 11.5, color: '#555' }}>{ref.title}</div>}
+                  {ref.contact && <div style={{ fontSize: 11, color: '#777' }}>{ref.contact}</div>}
                 </div>
               ))}
             </div>
           </Section>
         )}
 
-        {cvData.referencesOnRequest && !hasRefs && (
-          <p className="text-justify text-gray-400 text-[9.5pt] italic mt-2">References available upon request.</p>
+        {cvData.referencesOnRequest && references.length === 0 && (
+          <p style={{ fontSize: 11, color: '#999', fontStyle: 'italic', marginTop: 8 }}>References available upon request.</p>
         )}
       </div>
     </div>
