@@ -46,7 +46,7 @@ export default function BuilderLayout({
     if (!currentId) {
       toast.info('Saving your CV before download...')
       await saveToDB()
-      currentId = useCVStore.getState().cvId
+      currentId = useCVStore.getState().cvId ?? undefined
     }
     if (!currentId) { toast.error('Could not save CV. Please try again.'); return }
 
