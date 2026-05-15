@@ -1,49 +1,100 @@
-// T6 Paris Élégante — single column, off-white bg, centered serif name, gold separator lines
+// T6 Paris Élégante — single-column, off-white bg, centered serif name, gold separator lines
+// Hand-crafted 119 × 168 px miniature. No props, no CVData dependency.
 export function T6Thumb() {
+  const GOLD = '#C9B99A'
+  const DARK = '#2C2C2C'
+  const MID  = '#6B6B6B'
+  const LIGHT = '#9CA3AF'
+
   return (
-    <div className="w-[119px] h-[168px] overflow-hidden pointer-events-none border border-gray-200 shadow-sm px-[8px] py-[6px] flex flex-col" style={{ background: '#FAFAF8', fontFamily: 'Georgia, serif' }}>
-      {/* Centered name */}
-      <div className="flex flex-col items-center mb-[3px]">
-        <div className="h-[5px] w-[52px] bg-[#2C2C2C] mb-[2px]" />
-        <div className="h-[2px] w-[36px] bg-[#888] mb-[2px]" />
-        {/* Contact */}
-        <div className="flex items-center gap-[2px] mb-[2px]">
-          <div className="h-[1.5px] w-[14px] bg-[#666]" />
-          <div className="h-[1.5px] w-[1px] bg-[#C9B99A]" />
-          <div className="h-[1.5px] w-[18px] bg-[#666]" />
-          <div className="h-[1.5px] w-[1px] bg-[#C9B99A]" />
-          <div className="h-[1.5px] w-[14px] bg-[#666]" />
+    <div
+      className="overflow-hidden pointer-events-none border border-gray-200 shadow-sm"
+      style={{ width: 119, height: 168, background: '#FAFAF8', fontFamily: 'Georgia, serif' }}
+    >
+      {/* ── Header: centered name + title + ornament + contact ── */}
+      <div
+        className="flex flex-col items-center"
+        style={{ paddingTop: 8, paddingBottom: 4, paddingLeft: 8, paddingRight: 8 }}
+      >
+        {/* Name bar — centered, bold serif */}
+        <div style={{ height: 5, width: 56, background: DARK, marginBottom: 2 }} />
+        {/* Title / subtitle */}
+        <div style={{ height: 2, width: 38, background: MID, marginBottom: 3 }} />
+
+        {/* Gold ornament separator — thin line with center dot */}
+        <div className="flex items-center" style={{ width: '100%', marginBottom: 3 }}>
+          <div style={{ flex: 1, height: 0.5, background: GOLD }} />
+          <div style={{ width: 3, height: 3, borderRadius: '50%', background: GOLD, margin: '0 3px' }} />
+          <div style={{ flex: 1, height: 0.5, background: GOLD }} />
         </div>
-        {/* Gold separator */}
-        <div className="h-[0.5px] w-full bg-[#C9B99A]" />
+
+        {/* Contact row — pipe-separated */}
+        <div className="flex items-center" style={{ gap: 2, marginBottom: 1 }}>
+          <div style={{ height: 1.5, width: 14, background: LIGHT }} />
+          <div style={{ height: 2.5, width: 0.5, background: GOLD }} />
+          <div style={{ height: 1.5, width: 18, background: LIGHT }} />
+          <div style={{ height: 2.5, width: 0.5, background: GOLD }} />
+          <div style={{ height: 1.5, width: 14, background: LIGHT }} />
+        </div>
       </div>
 
-      {/* Sections */}
-      {[
-        { label: 36, entries: [{ title: 44, sub: 32, date: true, lines: [48, 40] }] },
-        { label: 28, entries: [{ title: 40, sub: 30, date: true, lines: [44, 36] }] },
-        { label: 20, entries: [{ title: 72, sub: 0, date: false, lines: [] }] },
-        { label: 24, entries: [{ title: 60, sub: 0, date: false, lines: [] }] },
-      ].map((sec, i) => (
-        <div key={i} className="mb-[3px]">
-          {/* Small caps heading */}
-          <div className="h-[2.5px] bg-[#2C2C2C] mb-[1.5px]" style={{ width: sec.label }} />
+      {/* ── Sections ── */}
+      <div style={{ paddingLeft: 8, paddingRight: 8 }}>
+
+        {/* Section 1 — Experience */}
+        <div style={{ marginBottom: 5 }}>
+          {/* Small-caps heading bar */}
+          <div style={{ height: 2.5, width: 36, background: DARK, marginBottom: 1.5 }} />
           {/* Gold separator */}
-          <div className="h-[0.5px] w-full bg-[#C9B99A] mb-[1.5px]" />
-          {sec.entries.map((entry, j) => (
-            <div key={j} className="mb-[1.5px]">
-              <div className="flex justify-between">
-                <div className="h-[2.5px] bg-[#2C2C2C]" style={{ width: entry.title }} />
-                {entry.date && <div className="h-[2px] w-[14px] bg-[#C9B99A]" />}
-              </div>
-              {entry.sub > 0 && <div className="h-[2px] bg-[#666] mb-[1px]" style={{ width: entry.sub }} />}
-              {entry.lines.map((lw, k) => (
-                <div key={k} className="h-[1.5px] bg-[#999] mb-[0.5px]" style={{ width: lw }} />
-              ))}
+          <div style={{ height: 0.5, background: GOLD, marginBottom: 3 }} />
+
+          {/* Entry 1 */}
+          <div style={{ marginBottom: 3 }}>
+            <div className="flex justify-between items-center" style={{ marginBottom: 1 }}>
+              <div style={{ height: 2.5, width: 44, background: DARK }} />
+              <div style={{ height: 2, width: 14, background: GOLD }} />
             </div>
-          ))}
+            <div style={{ height: 2, width: 32, background: MID, marginBottom: 1 }} />
+            <div style={{ height: 1.5, background: LIGHT, marginBottom: 0.5 }} />
+            <div style={{ height: 1.5, width: '80%', background: LIGHT }} />
+          </div>
+
+          {/* Entry 2 */}
+          <div>
+            <div className="flex justify-between items-center" style={{ marginBottom: 1 }}>
+              <div style={{ height: 2.5, width: 38, background: DARK }} />
+              <div style={{ height: 2, width: 14, background: GOLD }} />
+            </div>
+            <div style={{ height: 2, width: 28, background: MID, marginBottom: 1 }} />
+            <div style={{ height: 1.5, background: LIGHT }} />
+          </div>
         </div>
-      ))}
+
+        {/* Section 2 — Education */}
+        <div style={{ marginBottom: 5 }}>
+          {/* Small-caps heading bar */}
+          <div style={{ height: 2.5, width: 28, background: DARK, marginBottom: 1.5 }} />
+          {/* Gold separator */}
+          <div style={{ height: 0.5, background: GOLD, marginBottom: 3 }} />
+
+          <div className="flex justify-between items-center" style={{ marginBottom: 1 }}>
+            <div style={{ height: 2.5, width: 42, background: DARK }} />
+            <div style={{ height: 2, width: 14, background: GOLD }} />
+          </div>
+          <div style={{ height: 2, width: 30, background: MID }} />
+        </div>
+
+        {/* Section 3 — Skills */}
+        <div>
+          {/* Small-caps heading bar */}
+          <div style={{ height: 2.5, width: 22, background: DARK, marginBottom: 1.5 }} />
+          {/* Gold separator */}
+          <div style={{ height: 0.5, background: GOLD, marginBottom: 3 }} />
+
+          <div style={{ height: 1.5, width: 86, background: LIGHT }} />
+        </div>
+
+      </div>
     </div>
   )
 }

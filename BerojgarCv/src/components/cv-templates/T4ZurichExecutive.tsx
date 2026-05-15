@@ -1,8 +1,10 @@
 import { CVData } from '@/types/cv'
 
+// Req 4: Zürich Executive — single-column, sans-serif, thin separators, no colored fills
 export function T4ZurichExecutive({ cvData }: { cvData: CVData }) {
   const { personal, experience, education, skills, languages, certifications, projects } = cvData
 
+  // Req 4.3: contact details on a single line, plain text, no icon elements
   const contacts = [
     personal.email,
     personal.phone,
@@ -11,382 +13,226 @@ export function T4ZurichExecutive({ cvData }: { cvData: CVData }) {
     personal.website?.replace(/https?:\/\/(www\.)?/, ''),
   ].filter(Boolean) as string[]
 
+  const s = {
+    // Req 4.6: Helvetica/Arial/Inter at 11pt; Req 4.10: 0.5–0.75 inch margins
+    wrap: {
+      fontFamily: '"Inter", "Helvetica Neue", Arial, sans-serif',
+      fontSize: 11,
+      color: '#000000',
+      background: '#ffffff',
+      width: 794,
+      minHeight: 1123,
+      boxSizing: 'border-box' as const,
+      padding: '48px 54px',
+      lineHeight: 1.5,
+    },
+    // Req 4.2: name bold ~16pt at top
+    name: {
+      fontSize: 22,
+      fontWeight: 700,
+      color: '#000000',
+      margin: '0 0 4px',
+      lineHeight: 1.2,
+    },
+    // Req 4.2: job title in lighter weight on next line
+    jobTitle: {
+      fontSize: 13,
+      fontWeight: 400,
+      color: '#333333',
+      margin: '0 0 8px',
+    },
+    // Req 4.3: contact line plain text
+    contactLine: {
+      fontSize: 10.5,
+      color: '#333333',
+      margin: '0 0 16px',
+    },
+    // Req 4.4: thin horizontal separator lines (0.5pt) between sections
+    separator: {
+      borderTop: '0.5px solid #cccccc',
+      margin: '0 0 16px',
+    },
+    section: {
+      marginBottom: 20,
+    },
+    // Req 4.5: section headings ~12pt bold, min 12px spacing above
+    sectionTitle: {
+      fontSize: 12,
+      fontWeight: 700,
+      color: '#000000',
+      margin: '0 0 8px',
+      paddingTop: 12,
+    },
+    // Req 4.7: primary content (names, titles) in black
+    entryTitle: {
+      fontSize: 11,
+      fontWeight: 700,
+      color: '#000000',
+    },
+    // Req 4.7: secondary info (dates, locations) in dark gray #333333
+    entryMeta: {
+      fontSize: 10.5,
+      color: '#333333',
+      fontWeight: 400,
+    },
+    entryDate: {
+      fontSize: 10.5,
+      color: '#333333',
+      fontWeight: 400,
+    },
+    bullet: {
+      fontSize: 10.5,
+      color: '#000000',
+      lineHeight: 1.5,
+      marginBottom: 3,
+    },
+    body: {
+      fontSize: 10.5,
+      color: '#333333',
+      lineHeight: 1.6,
+    },
+  }
+
   function Section({ title, children }: { title: string; children: React.ReactNode }) {
     return (
-      <section style={{ marginBottom: 22 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-          <h2 style={{
-            color: '#0A192F',
-            fontWeight: 700,
-            textTransform: 'uppercase',
-            letterSpacing: '0.1em',
-            fontSize: 11,
-            whiteSpace: 'nowrap',
-            margin: 0,
-          }}>{title}</h2>
-          <div style={{ flex: 1, height: 1, background: '#E5E7EB', position: 'relative' }}>
-            <div style={{ position: 'absolute', left: 0, top: 0, height: '100%', width: 40, background: '#0A192F' }} />
-          </div>
-        </div>
+      <div style={s.section}>
+        {/* Req 4.4: thin separator above section */}
+        <div style={s.separator} />
+        {/* Req 4.5: section heading ~12pt bold */}
+        <h2 style={s.sectionTitle}>{title}</h2>
         {children}
-      </section>
+      </div>
     )
   }
 
   return (
-    <div
-      id="cv-preview-root"
-      style={{
-        fontFamily: '"Inter", Arial, sans-serif',
-        fontSize: 11,
-        color: '#1a1a1a',
-        background: '#fff',
-        width: 794,
-        minHeight: 1123,
-        boxSizing: 'border-box',
-        borderTop: '4px solid #0A192F',
-      }}
-    >
-      {/* Header */}
-      <div style={{ padding: '36px 48px 24px', borderBottom: '1px solid #F3F4F6', textAlign: 'center' }}>
-        {personal.fullName && (
-          <h1 style={{ fontSize: 24, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#0A192F', margin: '0 0 6px' }}>
-            {personal.fullName}
-          </h1>
-        )}
-        {personal.jobTitle && (
-          <p style={{ fontSize: 11, color: '#6B7280', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', margin: '0 0 14px' }}>
-            {personal.jobTitle}
-          </p>
-        )}
-        {contacts.length > 0 && (
-          <div style={{ fontSize: 10, color: '#4B5563', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '4px 16px' }}>
-            {contacts.map((c, i) => <span key={i}>{c}</span>)}
-          </div>
-        )}
-      </div>
+    <div id="cv-preview-root" style={s.wrap}>
+      {/* Req 4.2: name bold ~16pt, job title lighter weight on next line */}
+      {personal.fullName && <h1 style={s.name}>{personal.fullName}</h1>}
+      {personal.jobTitle && <p style={s.jobTitle}>{personal.jobTitle}</p>}
 
-      <div style={{ padding: '28px 48px', display: 'flex', flexDirection: 'column', gap: 0 }}>
+      {/* Req 4.3: contact details single line, plain text, no icons */}
+      {contacts.length > 0 && (
+        <div style={s.contactLine}>{contacts.join('  ·  ')}</div>
+      )}
 
-        {/* Summary */}
-        {personal.summary?.trim() && (
-          <p style={{ fontSize: 10.5, textAlign: 'justify', color: '#374151', lineHeight: 1.6, marginBottom: 22 }}>
-            {personal.summary}
-          </p>
-        )}
+      {/* Req 4.8: personal summary */}
+      {personal.summary?.trim() && (
+        <Section title="Professional Summary">
+          <p style={{ ...s.body, textAlign: 'justify', margin: 0 }}>{personal.summary}</p>
+        </Section>
+      )}
 
-        {/* Experience */}
-        {experience.length > 0 && (
-          <Section title="Professional Experience">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              {experience.map((exp, i) => (
-                <div key={i}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 3 }}>
-                    <strong style={{ fontSize: 11, color: '#0A192F' }}>{exp.title}</strong>
-                    <span style={{ fontSize: 9.5, color: '#0A192F', background: '#F3F4F6', padding: '2px 8px', borderRadius: 3, marginLeft: 8, whiteSpace: 'nowrap' }}>
-                      {exp.startDate}{exp.startDate ? ' – ' : ''}{exp.currentJob ? 'Present' : exp.endDate}
-                    </span>
-                  </div>
-                  <div style={{ fontSize: 10.5, color: '#374151', fontWeight: 500, marginBottom: 6 }}>
-                    {exp.company}{exp.company && exp.location ? <span style={{ color: '#9CA3AF', fontWeight: 400 }}> · {exp.location}</span> : null}
-                  </div>
-                  {exp.bullets.filter(b => b.trim()).length > 0 && (
-                    <ul style={{ margin: '0 0 0 16px', padding: 0, fontSize: 10.5, color: '#4B5563' }}>
-                      {exp.bullets.filter(b => b.trim()).map((bullet, j) => (
-                        <li key={j} style={{ marginBottom: 4, lineHeight: 1.5 }}>
-                          {bullet.replace(/^[\—\-\•\.\s]+/, '')}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              ))}
-            </div>
-          </Section>
-        )}
-
-        {/* Education */}
-        {education.length > 0 && (
-          <Section title="Education">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {education.map((edu, i) => (
-                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                  <div>
-                    <strong style={{ fontSize: 11, color: '#0A192F', display: 'block' }}>{edu.degree}</strong>
-                    <span style={{ fontSize: 10.5, color: '#374151' }}>
-                      {edu.institution}{edu.institution && edu.location ? <span style={{ color: '#9CA3AF' }}> · {edu.location}</span> : null}
-                    </span>
-                    {edu.grade && <div style={{ fontSize: 9.5, color: '#6B7280', marginTop: 2 }}>Grade: {edu.grade}</div>}
-                  </div>
-                  <span style={{ fontSize: 9.5, color: '#0A192F', background: '#F3F4F6', padding: '2px 8px', borderRadius: 3, whiteSpace: 'nowrap', marginLeft: 12 }}>
-                    {edu.startYear}{edu.startYear ? ' – ' : ''}{edu.endYear}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </Section>
-        )}
-
-        {/* Projects */}
-        {projects && projects.length > 0 && (
-          <Section title="Projects">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {projects.map((proj, i) => (
-                <div key={i}>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: '#0A192F', marginBottom: 4 }}>
-                    {proj.name}
-                    {proj.technologies.length > 0 && (
-                      <span style={{ fontWeight: 400, fontStyle: 'italic', fontSize: 10.5, color: '#6B7280' }}> · {proj.technologies.join(', ')}</span>
-                    )}
-                  </div>
-                  {proj.description && (
-                    <div style={{ fontSize: 10.5, color: '#4B5563', lineHeight: 1.5 }}>▸ {proj.description}</div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </Section>
-        )}
-
-        {/* Skills */}
-        {skills.technical.length > 0 && (
-          <Section title="Technical Skills">
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-              {skills.technical.map((s, i) => (
-                <span key={i} style={{ background: '#0A192F', color: '#fff', padding: '3px 10px', borderRadius: 3, fontSize: 9.5 }}>{s}</span>
-              ))}
-            </div>
-          </Section>
-        )}
-
-        {skills.soft.length > 0 && (
-          <Section title="Soft Skills">
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-              {skills.soft.map((s, i) => (
-                <span key={i} style={{ background: '#F3F4F6', color: '#0A192F', border: '1px solid #E5E7EB', padding: '3px 10px', borderRadius: 3, fontSize: 9.5 }}>{s}</span>
-              ))}
-            </div>
-          </Section>
-        )}
-
-        {/* Languages */}
-        {languages.length > 0 && (
-          <Section title="Languages">
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-              {languages.map((l, i) => (
-                <span key={i} style={{ background: '#F3F4F6', color: '#0A192F', border: '1px solid #E5E7EB', padding: '3px 10px', borderRadius: 3, fontSize: 9.5 }}>
-                  {l.language}{l.proficiency ? ` · ${l.proficiency}` : ''}
+      {/* Req 4.8: experience */}
+      {experience.length > 0 && (
+        <Section title="Experience">
+          {experience.map((exp, i) => (
+            <div key={i} style={{ marginBottom: 14 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                <span style={s.entryTitle}>{exp.title}</span>
+                {/* Req 4.7: dates in dark gray #333333 — NO chip backgrounds */}
+                <span style={s.entryDate}>
+                  {exp.startDate}{exp.startDate ? ' – ' : ''}{exp.currentJob ? 'Present' : exp.endDate}
                 </span>
-              ))}
-            </div>
-          </Section>
-        )}
-
-        {/* Certifications */}
-        {certifications.length > 0 && (
-          <Section title="Certifications">
-            <ul style={{ margin: '0 0 0 16px', padding: 0, fontSize: 10.5, color: '#4B5563' }}>
-              {certifications.map((c, i) => <li key={i} style={{ marginBottom: 4 }}>{c}</li>)}
-            </ul>
-          </Section>
-        )}
-
-        <div style={{ marginTop: 16, fontSize: 10, color: '#9CA3AF', textAlign: 'center' }}>
-          References available on request
-        </div>
-      </div>
-    </div>
-  )
-}
-
-export function T4ZurichExecutive({ cvData }: { cvData: CVData }) {
-  const { personal, experience, education, skills, languages, certifications, projects } = cvData
-
-  const hasExperience = experience.length > 0
-  const hasEducation = education.length > 0
-  const hasTechSkills = skills.technical.length > 0
-  const hasSoftSkills = skills.soft.length > 0
-  const hasLanguages = languages.length > 0
-  const hasCerts = certifications.length > 0
-  const hasProjects = projects && projects.length > 0
-
-  const contacts = [
-    { icon: <Mail size={11} />, text: personal.email },
-    { icon: <Phone size={11} />, text: personal.phone },
-    { icon: <MapPin size={11} />, text: personal.address },
-    { icon: <Linkedin size={11} />, text: personal.linkedin?.replace(/https?:\/\/(www\.)?/, '') },
-    { icon: <Globe size={11} />, text: personal.website?.replace(/https?:\/\/(www\.)?/, '') },
-  ].filter(c => c.text)
-
-  function Section({ title, children }: { title: string; children: React.ReactNode }) {
-    return (
-      <section>
-        <div className="flex items-center gap-4 mb-4">
-          <h2 className="text-[#0A192F] font-bold uppercase tracking-[0.1em] text-[11pt] shrink-0">{title}</h2>
-          <div className="flex-1 h-[1px] bg-gray-200 relative">
-            <div className="absolute left-0 top-0 h-full w-10 bg-[#0A192F]" />
-          </div>
-        </div>
-        {children}
-      </section>
-    )
-  }
-
-  return (
-    <div
-      className="bg-white w-[794px] min-h-[1123px] text-[10pt] font-sans text-neutral-800 flex flex-col mx-auto shrink-0 border-t-[4px] border-[#0A192F]"
-      style={{ fontFamily: '"Inter", "Roboto", system-ui, sans-serif', wordBreak: 'break-word', overflowWrap: 'break-word' }}
-    >
-      {/* Header */}
-      <div className="py-10 px-[40px] flex flex-col items-center border-b border-gray-100">
-        {personal.fullName && (
-          <h1 className="text-[24pt] font-bold tracking-[0.15em] uppercase text-[#0A192F] mb-2">{personal.fullName}</h1>
-        )}
-        {personal.jobTitle && (
-          <p className="text-justify text-[11pt] text-gray-500 font-medium tracking-widest uppercase mb-4">{personal.jobTitle}</p>
-        )}
-        {contacts.length > 0 && (
-          <div className="flex flex-wrap justify-center gap-x-5 gap-y-1.5 text-[9.5pt] text-gray-600">
-            {contacts.map((c, i) => (
-              <div key={i} className="flex items-center gap-1.5">
-                <span className="text-[#0A192F]">{c.icon}</span>
-                <span>{c.text}</span>
               </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <div className="px-[40px] py-[32px] flex-1 flex flex-col gap-[22px]">
-
-        {/* Summary */}
-        {personal.summary?.trim() && (
-          <p className="text-justify leading-relaxed text-gray-700 text-[10.5pt]">{personal.summary}</p>
-        )}
-
-        {/* Experience */}
-        {hasExperience && (
-          <Section title="Professional Experience">
-            <div className="flex flex-col gap-[18px]">
-              {experience.map(exp => (
-                <div key={exp.id}>
-                  <div className="flex justify-between items-baseline mb-1">
-                    <h3 className="font-bold text-[11pt] text-[#0A192F]">{exp.title}</h3>
-                    <span className="text-[#0A192F] font-bold text-[9pt] bg-gray-100 px-2 py-0.5 rounded-sm shrink-0 ml-2">
-                      {exp.startDate}{exp.startDate ? ' – ' : ''}{exp.currentJob ? 'Present' : exp.endDate}
-                    </span>
-                  </div>
-                  <div className="text-gray-700 font-medium text-[10pt] mb-2">
-                    {exp.company}{exp.company && exp.location ? <span className="text-gray-400 font-normal"> · {exp.location}</span> : null}
-                  </div>
-                  {exp.bullets.filter(b => b.trim()).length > 0 && (
-                    <ul className="space-y-1.5 ml-2">
-                      {exp.bullets.filter(b => b.trim()).map((bullet, i) => (
-                        <li key={i} className="flex items-start gap-2 text-gray-600 leading-relaxed text-[10pt]">
-                          <span className="text-[#0A192F] text-[13px] leading-tight shrink-0 mt-[1px]">▸</span>
-                          <span>{bullet.replace(/^[\—\-\•\.\s]+/, "")}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              ))}
+              <div style={{ ...s.entryMeta, marginBottom: 5 }}>
+                {exp.company}{exp.location ? ` · ${exp.location}` : ''}
+              </div>
+              {exp.bullets.filter(b => b.trim()).length > 0 && (
+                <ul style={{ margin: '0 0 0 16px', padding: 0 }}>
+                  {exp.bullets.filter(b => b.trim()).map((b, j) => (
+                    <li key={j} style={s.bullet}>{b.replace(/^[\u2014\u2013\-\u2022\.\s]+/, '')}</li>
+                  ))}
+                </ul>
+              )}
             </div>
-          </Section>
-        )}
+          ))}
+        </Section>
+      )}
 
-        {/* Education */}
-        {hasEducation && (
-          <Section title="Education">
-            <div className="flex flex-col gap-[14px]">
-              {education.map(edu => (
-                <div key={edu.id} className="grid grid-cols-[1fr_auto] gap-x-4 items-baseline">
-                  <div>
-                    <h3 className="font-bold text-[11pt] text-[#0A192F]">{edu.degree}</h3>
-                    <div className="text-gray-700 font-medium text-[10pt] mt-0.5">
-                      {edu.institution}{edu.institution && edu.location ? <span className="text-gray-400 font-normal"> · {edu.location}</span> : null}
-                    </div>
-                    {edu.grade && <div className="text-gray-500 text-[9pt] mt-0.5">Grade: {edu.grade}</div>}
-                  </div>
-                  <div className="text-[#0A192F] font-bold text-[9pt] bg-gray-100 px-2 py-0.5 rounded-sm self-start">
-                    {edu.startYear}{edu.startYear ? ' – ' : ''}{edu.endYear}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Section>
-        )}
-
-        {/* Projects */}
-        {hasProjects && (
-          <Section title="Projects">
-            <div className="flex flex-col gap-[14px]">
-              {projects!.map(proj => (
-                <div key={proj.id}>
-                  <div className="flex items-baseline gap-2 mb-1">
-                    <h3 className="font-bold text-[11pt] text-[#0A192F]">{proj.name}</h3>
-                    {proj.technologies.length > 0 && (
-                      <span className="text-gray-500 font-normal text-[9.5pt] italic">{proj.technologies.join(', ')}</span>
-                    )}
-                  </div>
-                  {proj.description && (
-                    <div className="flex items-start gap-2 text-gray-600 text-[10pt]">
-                      <span className="text-[#0A192F] text-[13px] shrink-0 mt-[1px]">▸</span>
-                      <span>{proj.description}</span>
-                    </div>
-                  )}
-                  {proj.link && <div className="text-gray-400 text-[9pt] mt-0.5 ml-5">{proj.link}</div>}
-                </div>
-              ))}
-            </div>
-          </Section>
-        )}
-
-        {/* Technical Skills */}
-        {hasTechSkills && (
-          <Section title="Technical Skills">
-            <div className="flex flex-wrap gap-2">
-              {skills.technical.map((skill, i) => (
-                <span key={i} className="bg-[#0A192F] text-white px-3 py-1 rounded-sm text-[9.5pt] shadow-sm">{skill}</span>
-              ))}
-            </div>
-          </Section>
-        )}
-
-        {/* Soft Skills */}
-        {hasSoftSkills && (
-          <Section title="Soft Skills">
-            <div className="flex flex-wrap gap-2">
-              {skills.soft.map((skill, i) => (
-                <span key={i} className="bg-gray-100 text-[#0A192F] border border-gray-200 px-3 py-1 rounded-sm text-[9.5pt] shadow-sm">{skill}</span>
-              ))}
-            </div>
-          </Section>
-        )}
-
-        {/* Certifications */}
-        {hasCerts && (
-          <Section title="Certifications">
-            <ul className="list-disc list-outside ml-4 space-y-1 text-gray-700">
-              {certifications.map((cert, i) => <li key={i} className="text-justify">{cert}</li>)}
-            </ul>
-          </Section>
-        )}
-
-        {/* Languages */}
-        {hasLanguages && (
-          <Section title="Languages">
-            <div className="flex flex-wrap gap-2">
-              {languages.map((lang, i) => (
-                <span key={i} className="bg-gray-100 text-[#0A192F] border border-gray-200 px-3 py-1 rounded-sm text-[9.5pt]">
-                  {lang.language}{lang.proficiency ? ` · ${lang.proficiency}` : ''}
+      {/* Req 4.8: education */}
+      {education.length > 0 && (
+        <Section title="Education">
+          {education.map((edu, i) => (
+            <div key={i} style={{ marginBottom: 10 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                <span style={s.entryTitle}>{edu.degree}</span>
+                <span style={s.entryDate}>
+                  {edu.startYear}{edu.startYear ? ' – ' : ''}{edu.endYear}
                 </span>
-              ))}
+              </div>
+              <div style={s.entryMeta}>
+                {edu.institution}{edu.location ? ` · ${edu.location}` : ''}
+              </div>
+              {edu.grade && <div style={{ fontSize: 10.5, color: '#333333', marginTop: 2 }}>Grade: {edu.grade}</div>}
+              {edu.description?.trim() && <p style={{ ...s.body, margin: '4px 0 0' }}>{edu.description}</p>}
             </div>
-          </Section>
-        )}
+          ))}
+        </Section>
+      )}
 
-      </div>
+      {/* Projects */}
+      {projects && projects.length > 0 && (
+        <Section title="Projects">
+          {projects.map((proj, i) => (
+            <div key={i} style={{ marginBottom: 10 }}>
+              <div style={{ ...s.entryTitle, marginBottom: 3 }}>
+                {proj.name}
+                {proj.technologies.length > 0 && (
+                  <span style={{ fontWeight: 400, fontStyle: 'italic', fontSize: 10.5, color: '#333333' }}>
+                    {' '}· {proj.technologies.join(', ')}
+                  </span>
+                )}
+              </div>
+              {proj.description?.trim() && (
+                <p style={{ ...s.body, margin: 0 }}>{proj.description}</p>
+              )}
+            </div>
+          ))}
+        </Section>
+      )}
+
+      {/* Req 4.8: skills — plain text, NO colored chip backgrounds */}
+      {(skills.technical.length > 0 || skills.soft.length > 0) && (
+        <Section title="Skills">
+          {skills.technical.length > 0 && (
+            <div style={{ ...s.body, marginBottom: 4 }}>
+              <strong>Technical:</strong> {skills.technical.join(', ')}
+            </div>
+          )}
+          {skills.soft.length > 0 && (
+            <div style={s.body}>
+              <strong>Soft Skills:</strong> {skills.soft.join(', ')}
+            </div>
+          )}
+        </Section>
+      )}
+
+      {/* Req 4.8: languages */}
+      {languages.length > 0 && (
+        <Section title="Languages">
+          <div style={s.body}>
+            {languages.map(l => `${l.language}${l.proficiency ? ` (${l.proficiency})` : ''}`).join('  ·  ')}
+          </div>
+        </Section>
+      )}
+
+      {/* Certifications */}
+      {certifications.length > 0 && (
+        <Section title="Certifications">
+          <ul style={{ margin: '0 0 0 16px', padding: 0 }}>
+            {certifications.map((c, i) => (
+              <li key={i} style={s.bullet}>{c}</li>
+            ))}
+          </ul>
+        </Section>
+      )}
+
+      {/* Req 4.8: "References available on request" note */}
+      <div style={{ ...s.separator, marginTop: 8 }} />
+      <p style={{ fontSize: 10, color: '#666666', fontStyle: 'italic', textAlign: 'center', margin: 0 }}>
+        References available on request
+      </p>
     </div>
   )
 }

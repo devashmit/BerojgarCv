@@ -141,3 +141,33 @@ select:focus-visible {
 html {
   scrollbar-gutter: stable;
 }
+
+/* ── Print & PDF Export ── */
+@media print {
+  /* Hide all builder UI chrome */
+  body > *:not(#cv-print-root) {
+    display: none !important;
+  }
+
+  /* The CV preview div that gets passed to html2pdf */
+  #cv-preview-root {
+    display: block !important;
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0;
+    padding: 0;
+    box-shadow: none !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  * {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

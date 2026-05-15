@@ -10,8 +10,8 @@ export function T5NovaSidebar({ cvData }: { cvData: CVData }) {
 
   function SideSection({ title, children }: { title: string; children: React.ReactNode }) {
     return (
-      <div style={{ marginBottom: 20 }}>
-        <h3 style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', color: '#A5C9B3', marginBottom: 8, borderBottom: '1px solid rgba(255,255,255,0.12)', paddingBottom: 4 }}>{title}</h3>
+      <div style={{ marginBottom: 18 }}>
+        <h3 style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', color: ACCENT, marginBottom: 7, borderBottom: `1px solid #D1E8DC`, paddingBottom: 4 }}>{title}</h3>
         {children}
       </div>
     )
@@ -32,19 +32,16 @@ export function T5NovaSidebar({ cvData }: { cvData: CVData }) {
   return (
     <div id="cv-preview-root" style={{ fontFamily: '"Inter", Arial, sans-serif', fontSize: 13, color: '#1a1a1a', background: '#fff', width: 794, minHeight: 1123, display: 'flex', boxSizing: 'border-box' as const }}>
 
-      {/* Sidebar */}
-      <div style={{ width: 200, background: '#2D4739', color: '#fff', flexShrink: 0, padding: '36px 20px', display: 'flex', flexDirection: 'column' }}>
-        {/* Avatar */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 24 }}>
-          <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'rgba(255,255,255,0.12)', border: '2px solid rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
-            <span style={{ fontSize: 20, fontWeight: 700 }}>{initials}</span>
-          </div>
-          {personal.fullName && <h2 style={{ fontSize: 14, fontWeight: 700, textAlign: 'center', lineHeight: 1.3, margin: '0 0 4px', textTransform: 'uppercase' }}>{personal.fullName}</h2>}
-          {personal.jobTitle && <p style={{ fontSize: 10, color: '#A5C9B3', textAlign: 'center', margin: '0 0 16px', paddingBottom: 16, borderBottom: '1px solid rgba(255,255,255,0.1)', width: '100%' }}>{personal.jobTitle}</p>}
+      {/* Req 7.5: sidebar background white/very light neutral — NO dark fill */}
+      <div style={{ width: 200, background: '#F8FAF9', color: '#1a1a1a', flexShrink: 0, padding: '36px 20px', display: 'flex', flexDirection: 'column', borderRight: '1px solid #E5EDE9' }}>
+        {/* Req 7.2: NO geometric avatar — plain name + title text only */}
+        <div style={{ display: 'flex', flexDirection: 'column', marginBottom: 20 }}>
+          {personal.fullName && <h2 style={{ fontSize: 13, fontWeight: 700, lineHeight: 1.3, margin: '0 0 3px', color: '#1a1a1a' }}>{personal.fullName}</h2>}
+          {personal.jobTitle && <p style={{ fontSize: 10, color: '#6B7280', margin: '0 0 12px', paddingBottom: 12, borderBottom: `1px solid #D1E8DC`, width: '100%' }}>{personal.jobTitle}</p>}
         </div>
 
         <SideSection title="Contact">
-          <div style={{ fontSize: 10.5, color: 'rgba(255,255,255,0.85)', lineHeight: 1.9 }}>
+          <div style={{ fontSize: 10.5, color: '#374151', lineHeight: 1.9 }}>
             {personal.email && <div>✉ {personal.email}</div>}
             {personal.phone && <div>☎ {personal.phone}</div>}
             {personal.address && <div>⌂ {personal.address}</div>}
@@ -55,16 +52,16 @@ export function T5NovaSidebar({ cvData }: { cvData: CVData }) {
 
         {skills.technical.length > 0 && (
           <SideSection title="Technical Skills">
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-              {skills.technical.map((s, i) => <span key={i} style={{ background: 'rgba(255,255,255,0.1)', fontSize: 10, padding: '2px 8px', borderRadius: 12, border: '1px solid rgba(255,255,255,0.12)' }}>{s}</span>)}
+            <div style={{ fontSize: 10.5, color: '#374151', lineHeight: 1.8 }}>
+              {skills.technical.join(', ')}
             </div>
           </SideSection>
         )}
 
         {skills.soft.length > 0 && (
           <SideSection title="Soft Skills">
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-              {skills.soft.map((s, i) => <span key={i} style={{ background: 'rgba(165,201,179,0.2)', color: '#A5C9B3', fontSize: 10, padding: '2px 8px', borderRadius: 12 }}>{s}</span>)}
+            <div style={{ fontSize: 10.5, color: '#374151', lineHeight: 1.8 }}>
+              {skills.soft.join(', ')}
             </div>
           </SideSection>
         )}
@@ -72,9 +69,9 @@ export function T5NovaSidebar({ cvData }: { cvData: CVData }) {
         {languages.length > 0 && (
           <SideSection title="Languages">
             {languages.map((l, i) => (
-              <div key={i} style={{ fontSize: 10.5, marginBottom: 6 }}>
-                <div style={{ fontWeight: 500 }}>{l.language}</div>
-                {l.proficiency && <div style={{ fontSize: 10, color: '#A5C9B3' }}>{l.proficiency}</div>}
+              <div key={i} style={{ fontSize: 10.5, marginBottom: 5, color: '#374151' }}>
+                <span style={{ fontWeight: 600 }}>{l.language}</span>
+                {l.proficiency && <span style={{ color: '#6B7280' }}> — {l.proficiency}</span>}
               </div>
             ))}
           </SideSection>
@@ -82,7 +79,7 @@ export function T5NovaSidebar({ cvData }: { cvData: CVData }) {
 
         {certifications.length > 0 && (
           <SideSection title="Certifications">
-            {certifications.map((c, i) => <div key={i} style={{ fontSize: 10.5, color: 'rgba(255,255,255,0.8)', marginBottom: 5, lineHeight: 1.5 }}>▸ {c}</div>)}
+            {certifications.map((c, i) => <div key={i} style={{ fontSize: 10.5, color: '#374151', marginBottom: 5, lineHeight: 1.5 }}>▸ {c}</div>)}
           </SideSection>
         )}
       </div>

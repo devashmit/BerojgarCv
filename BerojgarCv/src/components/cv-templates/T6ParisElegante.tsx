@@ -2,7 +2,7 @@ import { CVData } from '@/types/cv'
 
 export function T6ParisElegante({ cvData }: { cvData: CVData }) {
   const { personal, experience, education, skills, languages, certifications, projects } = cvData
-  const GOLD = '#C19A6B'
+  const GOLD = '#C9B99A'
   const BG = '#FAF7F4'
 
   const contacts = [
@@ -21,7 +21,7 @@ export function T6ParisElegante({ cvData }: { cvData: CVData }) {
   }
 
   return (
-    <div id="cv-preview-root" style={{ fontFamily: '"Georgia", "Times New Roman", serif', fontSize: 13, color: '#333', background: BG, width: 794, minHeight: 1123, padding: '48px 56px', boxSizing: 'border-box' as const, position: 'relative' }}>
+    <div id="cv-preview-root" style={{ fontFamily: '"Georgia", "Times New Roman", serif', fontSize: 13, color: '#333', background: BG, width: 794, minHeight: 1123, padding: '72px 72px', boxSizing: 'border-box' as const, position: 'relative', lineHeight: 1.5 }}>
       {/* Gold top/bottom borders */}
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: `linear-gradient(to right, transparent, ${GOLD}, transparent)` }} />
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 3, background: `linear-gradient(to right, transparent, ${GOLD}, transparent)` }} />

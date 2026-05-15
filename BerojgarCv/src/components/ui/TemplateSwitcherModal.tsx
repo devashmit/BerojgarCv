@@ -11,6 +11,9 @@ import { T4Thumb } from '../cv-templates/T4Thumb'
 import { T5Thumb } from '../cv-templates/T5Thumb'
 import { T6Thumb } from '../cv-templates/T6Thumb'
 import { T7Thumb } from '../cv-templates/T7Thumb'
+import { T8Thumb } from '../cv-templates/T8Thumb'
+import { T9Thumb } from '../cv-templates/T9Thumb'
+import { T10Thumb } from '../cv-templates/T10Thumb'
 import { useState, useEffect } from 'react'
 
 interface TemplateSwitcherModalProps {
@@ -19,13 +22,16 @@ interface TemplateSwitcherModalProps {
 }
 
 const ALL_TEMPLATES = [
-  { id: 't1', thumb: T1Thumb, name: 'Dhaka Heritage' },
-  { id: 't2', thumb: T2Thumb, name: 'Himalaya Modern' },
-  { id: 't3', thumb: T3Thumb, name: "Jake's Resume" },
-  { id: 't4', thumb: T4Thumb, name: 'Zürich Executive' },
-  { id: 't5', thumb: T5Thumb, name: 'Nova Sidebar' },
-  { id: 't6', thumb: T6Thumb, name: 'Paris Élégante' },
-  { id: 't7', thumb: T7Thumb, name: 'Rirekisho (JIS)' },
+  { id: 't1', thumb: T1Thumb, name: 'Dhaka Heritage', ats: 72 },
+  { id: 't2', thumb: T2Thumb, name: 'Himalaya Modern', ats: 65 },
+  { id: 't3', thumb: T3Thumb, name: "Jake's Resume", ats: 98 },
+  { id: 't4', thumb: T4Thumb, name: 'Zürich Executive', ats: 92 },
+  { id: 't5', thumb: T5Thumb, name: 'Nova Sidebar', ats: 58, warning: 'May face issues with older corporate ATS' },
+  { id: 't6', thumb: T6Thumb, name: 'Paris Élégante', ats: 55 },
+  { id: 't7', thumb: T7Thumb, name: 'Rirekisho (JIS)', ats: 100 },
+  { id: 't8', thumb: T8Thumb, name: 'Classic' },
+  { id: 't9', thumb: T9Thumb, name: 'Modern' },
+  { id: 't10', thumb: T10Thumb, name: 'Minimal' },
 ]
 
 export function TemplateSwitcherModal({ isOpen, onClose }: TemplateSwitcherModalProps) {
@@ -70,6 +76,12 @@ export function TemplateSwitcherModal({ isOpen, onClose }: TemplateSwitcherModal
                 {templates.map((tpl) => {
                   const Thumb = tpl.thumb
                   const isSelected = templateId === tpl.id
+
+                  let atsColor = 'bg-red-100 text-red-700 border-red-200'
+                  if (tpl.ats !== undefined) {
+                    if (tpl.ats >= 85) atsColor = 'bg-green-100 text-green-700 border-green-200'
+                    else if (tpl.ats >= 60) atsColor = 'bg-amber-100 text-amber-700 border-amber-200'
+                  }
                   
                   return (
                     <div 
@@ -86,8 +98,20 @@ export function TemplateSwitcherModal({ isOpen, onClose }: TemplateSwitcherModal
                           <span className={`font-medium font-inter text-sm ${isSelected ? 'text-[var(--dhaka-crimson)]' : 'text-gray-700'}`}>
                             {tpl.name}
                           </span>
-                          {isSelected && <span className="text-[10px] uppercase font-bold text-[var(--dhaka-crimson)] bg-red-50 px-1.5 py-0.5 rounded">Active</span>}
+                          <div className="flex items-center gap-1.5">
+                            {tpl.ats !== undefined && (
+                              <span className={`px-1.5 py-0.5 rounded text-[10px] font-mono tracking-wide font-bold border ${atsColor}`}>
+                                ATS {tpl.ats}
+                              </span>
+                            )}
+                            {isSelected && <span className="text-[10px] uppercase font-bold text-[var(--dhaka-crimson)] bg-red-50 px-1.5 py-0.5 rounded">Active</span>}
+                          </div>
                         </div>
+                        {'warning' in tpl && tpl.warning && (
+                          <p className="mt-1.5 text-[10px] text-amber-600 font-inter leading-tight">
+                            ⚠ {tpl.warning}
+                          </p>
+                        )}
                       </div>
                     </div>
                   )

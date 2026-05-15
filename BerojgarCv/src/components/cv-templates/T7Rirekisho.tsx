@@ -21,11 +21,11 @@ export function T7Rirekisho({ cvData }: { cvData: CVData }) {
     return m ? `${parseInt(m[1])}月` : ''
   }
 
-  const border = '0.5px solid #999'
+  const border = '0.5px solid #000'
   const cellBg = '#F9F9F9'
   const labelStyle: React.CSSProperties = { fontSize: 11, background: cellBg, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRight: border, padding: '4px 6px', textAlign: 'center', lineHeight: 1.4, flexShrink: 0 }
   const cellStyle: React.CSSProperties = { fontSize: 12, display: 'flex', alignItems: 'center', padding: '4px 10px', flex: 1 }
-  const sectionHead: React.CSSProperties = { fontSize: 12, fontWeight: 700, color: '#DC143C', background: '#FFF5F5', padding: '5px 12px', borderLeft: '4px solid #DC143C', marginBottom: 6, letterSpacing: '0.1em' }
+  const sectionHead: React.CSSProperties = { fontSize: 12, fontWeight: 700, color: '#1a1a1a', background: '#F5F5F5', padding: '5px 12px', borderLeft: '2px solid #1a1a1a', marginBottom: 6, letterSpacing: '0.1em' }
 
   const certText = certifications.length > 0 ? certifications.join(' / ') : '特になし'
   const langText = languages.length > 0

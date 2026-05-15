@@ -5,8 +5,9 @@ export function T2HimalayaModern({ cvData }: { cvData: CVData }) {
   const { personal, experience, education, skills, languages, certifications, projects } = cvData
 
   const SIDEBAR_W = 210
-  const ACCENT = '#1A3A5C'
-  const ACCENT2 = '#3A7CA5'
+  // Req 6.4: single accent color #2B6CB0 (soft blue) for section heading text only
+  const ACCENT = '#2B6CB0'
+  const SIDEBAR_BG = '#1A3A5C'
 
   function SideSection({ title, children }: { title: string; children: React.ReactNode }) {
     return (
@@ -30,7 +31,7 @@ export function T2HimalayaModern({ cvData }: { cvData: CVData }) {
     <div id="cv-preview-root" style={{ fontFamily: '"Inter", Arial, sans-serif', fontSize: 13, color: '#1a1a1a', background: '#fff', width: 794, minHeight: 1123, display: 'flex', boxSizing: 'border-box' as const }}>
 
       {/* Sidebar */}
-      <div style={{ width: SIDEBAR_W, background: ACCENT, color: '#fff', flexShrink: 0, padding: '36px 20px 36px', display: 'flex', flexDirection: 'column', gap: 0 }}>
+      <div style={{ width: SIDEBAR_W, background: SIDEBAR_BG, color: '#fff', flexShrink: 0, padding: '36px 20px 36px', display: 'flex', flexDirection: 'column', gap: 0 }}>
         {/* Photo */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 24 }}>
           <div style={{ width: 90, height: 90, borderRadius: '50%', overflow: 'hidden', border: '3px solid rgba(255,255,255,0.25)', marginBottom: 12, background: 'rgba(255,255,255,0.1)', position: 'relative', flexShrink: 0 }}>
@@ -94,7 +95,7 @@ export function T2HimalayaModern({ cvData }: { cvData: CVData }) {
       </div>
 
       {/* Main */}
-      <div style={{ flex: 1, padding: '36px 40px', background: '#FAFBFC', borderTop: `3px solid ${ACCENT}` }}>
+      <div style={{ flex: 1, padding: '36px 40px', background: '#FAFBFC', borderTop: `3px solid ${SIDEBAR_BG}` }}>
         {personal.summary?.trim() && (
           <p style={{ fontSize: 12.5, color: '#374151', lineHeight: 1.65, textAlign: 'justify', marginBottom: 22 }}>{personal.summary}</p>
         )}
@@ -103,12 +104,12 @@ export function T2HimalayaModern({ cvData }: { cvData: CVData }) {
           <MainSection title="Work Experience">
             {experience.map((exp, i) => (
               <div key={i} style={{ marginBottom: 16, paddingLeft: 14, borderLeft: `2px solid #E5E7EB`, position: 'relative' }}>
-                <div style={{ position: 'absolute', width: 9, height: 9, borderRadius: '50%', background: ACCENT, left: -5, top: 5, border: '2px solid #fff' }} />
+                <div style={{ position: 'absolute', width: 9, height: 9, borderRadius: '50%', background: SIDEBAR_BG, left: -5, top: 5, border: '2px solid #fff' }} />
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 2 }}>
                   <strong style={{ fontSize: 13, color: '#111' }}>{exp.title}</strong>
                   <span style={{ fontSize: 11, color: '#6B7280', marginLeft: 8, whiteSpace: 'nowrap' }}>{exp.startDate}{exp.startDate ? ' – ' : ''}{exp.currentJob ? 'Present' : exp.endDate}</span>
                 </div>
-                <div style={{ fontSize: 12, color: ACCENT2, fontWeight: 600, marginBottom: 6 }}>{exp.company}{exp.location ? <span style={{ color: '#9CA3AF', fontWeight: 400 }}> · {exp.location}</span> : null}</div>
+                <div style={{ fontSize: 12, color: '#374151', fontWeight: 600, marginBottom: 6 }}>{exp.company}{exp.location ? <span style={{ color: '#9CA3AF', fontWeight: 400 }}> · {exp.location}</span> : null}</div>
                 {exp.bullets.filter(b => b.trim()).length > 0 && (
                   <ul style={{ margin: '0 0 0 16px', padding: 0, fontSize: 12, color: '#4B5563' }}>
                     {exp.bullets.filter(b => b.trim()).map((b, j) => <li key={j} style={{ marginBottom: 3, lineHeight: 1.55 }}>{b.replace(/^[\—\-\•\.\s]+/, '')}</li>)}
@@ -123,12 +124,12 @@ export function T2HimalayaModern({ cvData }: { cvData: CVData }) {
           <MainSection title="Education">
             {education.map((edu, i) => (
               <div key={i} style={{ marginBottom: 14, paddingLeft: 14, borderLeft: `2px solid #E5E7EB`, position: 'relative' }}>
-                <div style={{ position: 'absolute', width: 9, height: 9, borderRadius: '50%', background: ACCENT, left: -5, top: 5, border: '2px solid #fff' }} />
+                <div style={{ position: 'absolute', width: 9, height: 9, borderRadius: '50%', background: SIDEBAR_BG, left: -5, top: 5, border: '2px solid #fff' }} />
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 2 }}>
                   <strong style={{ fontSize: 13, color: '#111' }}>{edu.degree}</strong>
                   <span style={{ fontSize: 11, color: '#6B7280', marginLeft: 8, whiteSpace: 'nowrap' }}>{edu.startYear}{edu.startYear ? ' – ' : ''}{edu.endYear}</span>
                 </div>
-                <div style={{ fontSize: 12, color: ACCENT2, fontWeight: 600 }}>{edu.institution}{edu.location ? <span style={{ color: '#9CA3AF', fontWeight: 400 }}> · {edu.location}</span> : null}</div>
+                <div style={{ fontSize: 12, color: '#374151', fontWeight: 600 }}>{edu.institution}{edu.location ? <span style={{ color: '#9CA3AF', fontWeight: 400 }}> · {edu.location}</span> : null}</div>
                 {edu.grade && <div style={{ fontSize: 11, color: '#6B7280', marginTop: 2 }}>Grade: {edu.grade}</div>}
               </div>
             ))}

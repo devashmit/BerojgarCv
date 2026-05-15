@@ -25,22 +25,17 @@ export function PreviewPanel({ isMobile }: { isMobile?: boolean }) {
   useEffect(() => {
     const updateScale = () => {
       if (!containerRef.current) return
-      
-      if (zoomLevel !== 1 && zoomLevel !== 0) { // Using 0 internally for auto
-         setScale(zoomLevel)
-         return
-      }
 
-      // Safe boundary calculation
+      // Always derive scale from container dimensions
       const containerWidth = containerRef.current.clientWidth
       const containerHeight = containerRef.current.clientHeight
-      
-      // Calculate scale factoring in generous padding
-      const scaleByWidth = (containerWidth - 64) / A4_WIDTH_PX
+
       const scaleByHeight = (containerHeight - 64) / A4_HEIGHT_PX
-      
-      // Min scale 0.2, Max scale 1.1 
-      setScale(Math.max(0.2, Math.min(scaleByWidth, scaleByHeight, 1.1)))
+      const scaleByWidth = (containerWidth - 64) / A4_WIDTH_PX
+
+      // Auto-fit scale capped at 1 to avoid upscaling, then apply zoom multiplier
+      const autoScale = Math.min(scaleByHeight, scaleByWidth, 1)
+      setScale(Math.max(0.2, autoScale * zoomLevel))
     }
 
     updateScale()

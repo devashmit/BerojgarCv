@@ -1,51 +1,108 @@
-// T5 Nova Sidebar — two-column, narrow left sidebar (28%), green accent headings only
+// T5 Nova Sidebar — two-column, narrow light sidebar (~28%), green accent headings
+// Hand-crafted 119 × 168 px miniature. No props, no CVData dependency.
 export function T5Thumb() {
-  return (
-    <div className="w-[119px] h-[168px] overflow-hidden pointer-events-none bg-white border border-gray-200 shadow-sm flex flex-col">
-      {/* Thin green top border */}
-      <div className="h-[2px] w-full bg-[#2D6A4F]" />
+  const GREEN = '#2D6A4F'
 
-      <div className="flex flex-1">
-        {/* Narrow sidebar ~28% */}
-        <div className="w-[33px] bg-[#F8FAF9] border-r border-gray-100 px-[4px] py-[5px] flex flex-col gap-[3px] shrink-0">
-          {/* Name */}
-          <div className="h-[3px] w-[24px] bg-[#1a1a1a] mb-[1px]" />
-          <div className="h-[2px] w-[18px] bg-gray-400 mb-[3px]" />
-          {/* Contact */}
-          <div className="h-[2px] w-[20px] bg-[#2D6A4F] mb-[1px]" />
+  return (
+    <div
+      className="overflow-hidden pointer-events-none bg-white border border-gray-200 shadow-sm flex flex-col"
+      style={{ width: 119, height: 168 }}
+    >
+      {/* ── Thin green top border ── */}
+      <div style={{ height: 2, background: GREEN, flexShrink: 0 }} />
+
+      {/* ── Two-column body ── */}
+      <div className="flex flex-1 overflow-hidden">
+
+        {/* ── Left sidebar (~28% = ~33px), very light neutral background ── */}
+        <div
+          className="flex flex-col shrink-0"
+          style={{ width: 33, background: '#F8FAF9', borderRight: '1px solid #E5EDE9', padding: '5px 4px 4px' }}
+        >
+          {/* Name lines */}
+          <div style={{ height: 3, width: 24, background: '#1a1a1a', marginBottom: 1.5 }} />
+          <div style={{ height: 2, width: 18, background: '#6B7280', marginBottom: 5 }} />
+
+          {/* Contact section label */}
+          <div style={{ height: 2, width: 20, background: GREEN, marginBottom: 2 }} />
+
+          {/* Contact lines */}
           {[22, 20, 18].map((w, i) => (
-            <div key={i} className="h-[1.5px] bg-gray-400 mb-[1px]" style={{ width: w }} />
+            <div
+              key={i}
+              style={{ height: 1.5, width: w, background: '#9CA3AF', marginBottom: 1.5 }}
+            />
           ))}
-          {/* Skills */}
-          <div className="h-[2px] w-[16px] bg-[#2D6A4F] mt-[2px] mb-[1px]" />
+
+          {/* Gap */}
+          <div style={{ height: 4 }} />
+
+          {/* Skills section label */}
+          <div style={{ height: 2, width: 16, background: GREEN, marginBottom: 2 }} />
+
+          {/* Skill text lines */}
           {[20, 16, 18, 14, 20].map((w, i) => (
-            <div key={i} className="h-[1.5px] bg-gray-400 mb-[1px]" style={{ width: w }} />
+            <div
+              key={i}
+              style={{ height: 1.5, width: w, background: '#9CA3AF', marginBottom: 1.5 }}
+            />
           ))}
         </div>
 
-        {/* Main content */}
-        <div className="flex-1 px-[5px] py-[5px] flex flex-col gap-[4px]">
-          {[
-            { label: 36, entries: [{ title: 44, sub: 32, date: true, lines: [48, 40] }, { title: 38, sub: 28, date: true, lines: [44] }] },
-            { label: 28, entries: [{ title: 40, sub: 30, date: true, lines: [] }] },
-            { label: 28, entries: [{ title: 44, sub: 0, date: false, lines: [48, 36] }] },
-          ].map((sec, i) => (
-            <div key={i}>
-              <div className="h-[2.5px] bg-[#2D6A4F] mb-[1.5px]" style={{ width: sec.label }} />
-              {sec.entries.map((entry, j) => (
-                <div key={j} className="mb-[2px]">
-                  <div className="flex justify-between">
-                    <div className="h-[2.5px] bg-gray-800" style={{ width: entry.title }} />
-                    {entry.date && <div className="h-[2px] w-[14px] bg-gray-400" />}
-                  </div>
-                  {entry.sub > 0 && <div className="h-[2px] bg-gray-500 mb-[1px]" style={{ width: entry.sub }} />}
-                  {entry.lines.map((lw, k) => (
-                    <div key={k} className="h-[1.5px] bg-gray-300 mb-[0.5px]" style={{ width: lw }} />
-                  ))}
-                </div>
-              ))}
+        {/* ── Right main column ── */}
+        <div className="flex flex-col flex-1" style={{ padding: '5px 5px 4px' }}>
+
+          {/* Section 1 — Experience */}
+          <div style={{ marginBottom: 5 }}>
+            {/* Green section heading bar */}
+            <div style={{ height: 2.5, width: 36, background: GREEN, marginBottom: 2 }} />
+
+            {/* Entry 1 */}
+            <div style={{ marginBottom: 3 }}>
+              <div className="flex justify-between items-center" style={{ marginBottom: 1 }}>
+                <div style={{ height: 2.5, width: 44, background: '#1F2937' }} />
+                <div style={{ height: 2, width: 14, background: '#D1D5DB' }} />
+              </div>
+              <div style={{ height: 2, width: 32, background: '#6B7280', marginBottom: 1 }} />
+              <div style={{ height: 1.5, background: '#E5E7EB', marginBottom: 0.5 }} />
+              <div style={{ height: 1.5, width: '85%', background: '#E5E7EB' }} />
             </div>
-          ))}
+
+            {/* Entry 2 */}
+            <div>
+              <div className="flex justify-between items-center" style={{ marginBottom: 1 }}>
+                <div style={{ height: 2.5, width: 38, background: '#1F2937' }} />
+                <div style={{ height: 2, width: 14, background: '#D1D5DB' }} />
+              </div>
+              <div style={{ height: 2, width: 28, background: '#6B7280', marginBottom: 1 }} />
+              <div style={{ height: 1.5, background: '#E5E7EB' }} />
+            </div>
+          </div>
+
+          {/* Section 2 — Education */}
+          <div style={{ marginBottom: 5 }}>
+            {/* Green section heading bar */}
+            <div style={{ height: 2.5, width: 28, background: GREEN, marginBottom: 2 }} />
+
+            <div className="flex justify-between items-center" style={{ marginBottom: 1 }}>
+              <div style={{ height: 2.5, width: 40, background: '#1F2937' }} />
+              <div style={{ height: 2, width: 14, background: '#D1D5DB' }} />
+            </div>
+            <div style={{ height: 2, width: 30, background: '#6B7280' }} />
+          </div>
+
+          {/* Section 3 — Projects */}
+          <div>
+            {/* Green section heading bar */}
+            <div style={{ height: 2.5, width: 28, background: GREEN, marginBottom: 2 }} />
+
+            <div style={{ marginBottom: 1 }}>
+              <div style={{ height: 2.5, width: 44, background: '#1F2937', marginBottom: 1 }} />
+              <div style={{ height: 1.5, background: '#E5E7EB', marginBottom: 0.5 }} />
+              <div style={{ height: 1.5, width: '75%', background: '#E5E7EB' }} />
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

@@ -17,7 +17,7 @@ const ALL_TEMPLATES = [
   { id: 't2', thumb: T2Thumb, name: 'Himalaya Modern', region: 'Nepal & Creative', ats: 65, icon: Sparkles, desc: 'A modern two-column sidebar layout featuring graphical skill bars and contact icons.' },
   { id: 't3', thumb: T3Thumb, name: "Jake's Resume", region: 'International ATS', ats: 98, icon: Globe, desc: 'The gold standard. Zero color, zero tables. Parses flawlessly into every major Application Tracking System globally.' },
   { id: 't4', thumb: T4Thumb, name: 'Zürich Executive', region: 'International ATS', ats: 92, icon: Globe, desc: 'Extremely clean, highly legible font sizes with subtle horizontal separating lines. Professional and parser-friendly.' },
-  { id: 't5', thumb: T5Thumb, name: 'Nova Sidebar', region: 'Creative & Startups', ats: 58, icon: Sparkles, desc: 'Design-centric with a distinct geometric avatar. May face issues parsing in older rigid corporate systems.' },
+  { id: 't5', thumb: T5Thumb, name: 'Nova Sidebar', region: 'Creative & Startups', ats: 58, icon: Sparkles, desc: 'May face issues with older corporate ATS — recommended for startups and agencies.' },
   { id: 't6', thumb: T6Thumb, name: 'Paris Élégante', region: 'Creative & Design', ats: 55, icon: Sparkles, desc: 'Sophisticated typography on an off-white canvas. Favored by the design, fashion, and hospitality industries.' },
   { id: 't7', thumb: T7Thumb, name: 'Rirekisho (JIS)', region: 'Japan', ats: 100, icon: Building2, desc: 'A flawless digital reproduction of the JIS S 5504 standard Japanese resume format. Perfect grid alignment.' },
 ]

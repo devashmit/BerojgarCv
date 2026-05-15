@@ -184,14 +184,14 @@ export default function BuilderLayout({
 
           {/* Form panel */}
           {(!isMobile || mobileTab === 'edit') && (
-            <div className={`${isMobile ? 'w-full' : 'w-[44%] shrink-0'} h-full flex flex-col bg-white border-r border-gray-200 overflow-hidden`}>
+            <div className={`${isMobile ? 'w-full' : 'min-w-[360px] max-w-[480px] w-[40%] shrink-0'} h-full flex flex-col bg-white border-r border-gray-200 overflow-hidden`}>
               <FormPanel />
             </div>
           )}
 
           {/* Preview panel */}
           {(!isMobile || mobileTab === 'preview') && (
-            <div className="flex-1 h-full flex flex-col bg-gray-100">
+            <div className="flex-1 h-full flex flex-col bg-[#161616]">
               {/* Preview toolbar */}
               <div className="h-12 shrink-0 bg-white border-b border-gray-200 flex items-center justify-between px-4">
                 <button

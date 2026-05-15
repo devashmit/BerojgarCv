@@ -1,49 +1,95 @@
-// T3 Jake's Resume — strict single column, black/white, section heading + HR
+// T3 Jake's Resume — strict single-column, black/white, section heading + HR, bullet rows
+// Hand-crafted 119 × 168 px miniature. No props, no CVData dependency.
 export function T3Thumb() {
   return (
-    <div className="w-[119px] h-[168px] overflow-hidden pointer-events-none bg-white border border-gray-200 shadow-sm px-[8px] py-[6px]" style={{ fontFamily: 'Georgia, serif' }}>
-      {/* Name centered */}
-      <div className="flex flex-col items-center mb-[3px]">
-        <div className="h-[5px] w-[56px] bg-black mb-[2px]" />
-        {/* Contact pipe-separated */}
-        <div className="flex items-center gap-[2px]">
-          <div className="h-[1.5px] w-[14px] bg-gray-500" />
-          <div className="h-[2px] w-[1px] bg-gray-400" />
-          <div className="h-[1.5px] w-[18px] bg-gray-500" />
-          <div className="h-[2px] w-[1px] bg-gray-400" />
-          <div className="h-[1.5px] w-[14px] bg-gray-500" />
+    <div
+      className="overflow-hidden pointer-events-none bg-white border border-gray-200 shadow-sm"
+      style={{ width: 119, height: 168, fontFamily: 'Georgia, serif' }}
+    >
+      {/* ── Header: centered bold name bar + pipe-separated contact row ── */}
+      <div
+        className="flex flex-col items-center"
+        style={{ paddingTop: 7, paddingBottom: 4, paddingLeft: 8, paddingRight: 8 }}
+      >
+        {/* Name bar — centered, bold/thick */}
+        <div style={{ height: 5, width: 58, background: '#000', marginBottom: 3 }} />
+
+        {/* Contact row — pipe-separated: item | item | item */}
+        <div className="flex items-center" style={{ gap: 2 }}>
+          <div style={{ height: 1.5, width: 16, background: '#555' }} />
+          <div style={{ height: 3, width: 1, background: '#888' }} />
+          <div style={{ height: 1.5, width: 20, background: '#555' }} />
+          <div style={{ height: 3, width: 1, background: '#888' }} />
+          <div style={{ height: 1.5, width: 16, background: '#555' }} />
+          <div style={{ height: 3, width: 1, background: '#888' }} />
+          <div style={{ height: 1.5, width: 14, background: '#555' }} />
         </div>
       </div>
 
-      {/* Sections */}
-      {[
-        { label: 'EDUCATION', w: 32, entries: [{ title: 44, sub: 36, bullets: [] }] },
-        { label: 'EXPERIENCE', w: 40, entries: [{ title: 44, sub: 32, bullets: [48, 40] }, { title: 38, sub: 28, bullets: [44] }] },
-        { label: 'SKILLS', w: 24, entries: [{ title: 80, sub: 0, bullets: [] }] },
-      ].map((sec, i) => (
-        <div key={i} className="mb-[4px]">
-          {/* Heading + HR */}
-          <div className="mb-[1.5px]">
-            <div className="h-[2.5px] bg-black mb-[0.5px]" style={{ width: sec.w }} />
-            <div className="h-[0.5px] w-full bg-black" />
+      {/* ── Sections ── */}
+      <div style={{ paddingLeft: 8, paddingRight: 8 }}>
+
+        {/* Section 1 — EDUCATION */}
+        <div style={{ marginBottom: 5 }}>
+          {/* Heading bar + full-width 0.5px HR */}
+          <div style={{ height: 3, width: 34, background: '#000', marginBottom: 1 }} />
+          <div style={{ height: 0.5, background: '#000', marginBottom: 3 }} />
+          {/* Entry: title + date on same line, subtitle below */}
+          <div className="flex justify-between items-center" style={{ marginBottom: 1 }}>
+            <div style={{ height: 2.5, width: 46, background: '#222' }} />
+            <div style={{ height: 2, width: 16, background: '#888' }} />
           </div>
-          {sec.entries.map((entry, j) => (
-            <div key={j} className="mb-[2px]">
-              <div className="flex justify-between items-baseline">
-                <div className="h-[2.5px] bg-gray-800" style={{ width: entry.title }} />
-                <div className="h-[2px] w-[14px] bg-gray-400" />
-              </div>
-              {entry.sub > 0 && <div className="h-[2px] bg-gray-500 mb-[1px]" style={{ width: entry.sub }} />}
-              {entry.bullets.map((bw, k) => (
-                <div key={k} className="flex items-center gap-[2px] mb-[0.5px]">
-                  <div className="text-[4px] text-black leading-none">▸</div>
-                  <div className="h-[1.5px] bg-gray-300" style={{ width: bw }} />
-                </div>
-              ))}
-            </div>
-          ))}
+          <div style={{ height: 2, width: 36, background: '#666', marginBottom: 1 }} />
         </div>
-      ))}
+
+        {/* Section 2 — EXPERIENCE */}
+        <div style={{ marginBottom: 5 }}>
+          {/* Heading bar + full-width 0.5px HR */}
+          <div style={{ height: 3, width: 42, background: '#000', marginBottom: 1 }} />
+          <div style={{ height: 0.5, background: '#000', marginBottom: 3 }} />
+
+          {/* Entry 1 */}
+          <div style={{ marginBottom: 3 }}>
+            <div className="flex justify-between items-center" style={{ marginBottom: 1 }}>
+              <div style={{ height: 2.5, width: 44, background: '#222' }} />
+              <div style={{ height: 2, width: 16, background: '#888' }} />
+            </div>
+            <div style={{ height: 2, width: 32, background: '#666', marginBottom: 1.5 }} />
+            {/* Bullet rows */}
+            {[48, 40].map((w, i) => (
+              <div key={i} className="flex items-center" style={{ gap: 2, marginBottom: 1 }}>
+                <span style={{ fontSize: 4, color: '#000', lineHeight: 1, flexShrink: 0 }}>▸</span>
+                <div style={{ height: 1.5, width: w, background: '#9CA3AF' }} />
+              </div>
+            ))}
+          </div>
+
+          {/* Entry 2 */}
+          <div>
+            <div className="flex justify-between items-center" style={{ marginBottom: 1 }}>
+              <div style={{ height: 2.5, width: 38, background: '#222' }} />
+              <div style={{ height: 2, width: 16, background: '#888' }} />
+            </div>
+            <div style={{ height: 2, width: 28, background: '#666', marginBottom: 1.5 }} />
+            {[44].map((w, i) => (
+              <div key={i} className="flex items-center" style={{ gap: 2, marginBottom: 1 }}>
+                <span style={{ fontSize: 4, color: '#000', lineHeight: 1, flexShrink: 0 }}>▸</span>
+                <div style={{ height: 1.5, width: w, background: '#9CA3AF' }} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Section 3 — SKILLS */}
+        <div>
+          {/* Heading bar + full-width 0.5px HR */}
+          <div style={{ height: 3, width: 26, background: '#000', marginBottom: 1 }} />
+          <div style={{ height: 0.5, background: '#000', marginBottom: 3 }} />
+          {/* Skills as a single wide line */}
+          <div style={{ height: 1.5, width: 86, background: '#9CA3AF' }} />
+        </div>
+
+      </div>
     </div>
   )
 }
